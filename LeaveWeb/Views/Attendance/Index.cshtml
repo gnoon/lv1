@@ -1,0 +1,116 @@
+﻿@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$("#Attendance-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListDashBoard", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: "auto"
+				,caption: "<em>พนักงาน { @ViewBag.PersonName }</em>"
+				,colNames: ["ID","เดือน","ลาป่วย","ลากิจ","ลาพักผ่อน","ลาอื่นๆ","ชม. : นาที","ครั้ง"]
+				,colModel: [
+					{name:"Year",index:"Year",hidden:true,search:false},
+					{name:"Month",index:"Month",width:100,sortable:false,resizable:false,
+					 stype:"select",searchoptions:{value:"@Html.Raw(ViewBag.YearOptions)"}},
+					{name:"LeaveSick",index:"LeaveSick",width:100,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveBusiness",index:"LeaveBusiness",width:100,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveVocation",index:"LeaveVocation",width:100,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveOther",index:"LeaveOther",width:100,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LateHours",index:"LateHours",width:100,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LateAmount",index:"LateAmount",width:100,align:"right",sortable:false,resizable:false,search:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Attendance-Grid-nav"
+				,rowNum: 100
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						setFilterValues();
+
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							var t = this;
+							var arr = ["LeaveSick", "LeaveBusiness", "LeaveVocation", "LeaveOther", "LateHours"];
+							$.each(arr, function(key, value) {
+								elem = $(t).children("td[aria-describedby*='"+value+"']");
+								res = DisplayDHMformatText($(elem).text(), "#d #h #m");
+								if(res) $(elem).prop("title", res);
+							});
+							$(this).children("td[aria-describedby*='Month']").css({ "padding-left": "6px" });
+							$(this).children("td[aria-describedby*='LateAmount']").css({ "padding-right": "10px" });
+						});
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+
+					} catch(e) {}
+				}
+				//,grouping: true
+   			//,groupingView: {
+   			//	groupField : ['name'],
+   			//	groupSummary : [true],
+   			//	groupColumnShow : [true],
+   			//	groupText : ['<b>{0}</b>'],
+   			//	groupCollapse : false,
+				//	groupOrder: ['asc']
+   			//}
+			}).navGrid("#Attendance-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"LeaveSick", numberOfColumns:4, titleText: "ลา (วัน . ชม. : นาที)"},
+					{startColumnName:"LateHours", numberOfColumns:2, titleText: "สาย"}
+				]
+			}).filterToolbar({ stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+
+		});
+
+		function setFilterValues() {
+			var objGrid = "#Attendance-Grid";
+			var rec = $(objGrid).getRowData(1);
+			var hDiv = $(objGrid)[0].grid.hDiv;
+			var sDiv = $(hDiv).find(".ui-jqgrid-htable .ui-search-toolbar .ui-search-input");
+			var eValue = $(sDiv).find("#gs_Month").val();
+			if(eValue != rec.Year) {
+				$(sDiv).find("#gs_Month").val(rec.Year);
+			}
+		}
+
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>สถิติการขาด ลา มาสาย</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div>
+					<table id="Attendance-Grid"></table>
+					<div id="Attendance-Grid-nav"></div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

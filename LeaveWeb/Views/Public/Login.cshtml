@@ -1,0 +1,213 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<!--[if IE 7 ]> <html class="no-js ie ie7 lte7 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 8 ]> <html class="no-js ie ie8 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 9 ]> <html class="no-js ie ie9 lte9>" lang="en-US">     <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en-US">   <!--<![endif]-->
+<head>
+  <title>Leave Online</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta charset="utf-8">
+	<meta name="author" content="">
+	<meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+	<!--link rel="shortcut icon" href="../favicon.ico"-->
+	@{
+		var ContentsRequired = new ViewDataDictionary {
+				{"jquery",true},{"jquery.ui.core",true},{"jquery.qtip",true},{"my.fonts",true}};
+		Html.RenderPartial("~/Views/Shared/_Core.cshtml", ContentsRequired);
+	}
+	<style type="text/css">
+		body { background: #f2f2f2; }
+		#login-box {
+			width: 370px; height: 248px;
+			position: relative; margin: 150px auto 0; padding: 8px 0 0 8px; box-sizing: content-box;
+			border-radius: 9px; -moz-border-radius: 9px;/* Firefox */ -webkit-border-radius: 9px;/* Safari, Chrome */
+			-moz-box-shadow: 0px 0px 20px #999;/* Firefox */ -webkit-box-shadow: 0px 0px 20px #999;/* Safari, Chrome */
+			box-shadow: 0px 0px 20px #999; background: url(@Url.Content("~/Content/images/form_bg.jpg")) top left;
+		}
+		form {
+			width: 360px; height: 239px; margin-top: 0px; padding-top: 0px;
+			border-radius: 4px; -moz-border-radius: 4px;/* Firefox */ -webkit-border-radius: 4px;/* Safari, Chrome */
+			box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.1);
+			-moz-box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.1);/* Firefox */
+			-webkit-box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.1);/* Safari, Chrome */
+			background: #fff url(@Url.Content("~/Content/images/form_header.jpg")) repeat-x top left;
+		}
+		form p {
+			padding: 0px; margin: 0 0 12px; border-width: 0px; border-style: none; vertical-align: baseline;
+		}
+		form h2 {
+			padding: 0px !important; margin: 0px 0px 10px 0px !important; color: #555555 !important;
+			font-size: 14px !important; font-weight: bold !important; line-height: 45px !important;
+			text-align: center; font-family: MainMenu !important; letter-spacing: 1.5px;
+			text-shadow: 0 1px 0 #fff !important;
+			-moz-text-shadow: 0 1px 0 #fff !important;/* Firefox */
+			-webkit-text-shadow: 0 1px 0 #fff !important;/* Safari, Chrome */
+			/*filter: dropshadow(color=#fff, offx=0, offy=1) !important;*/
+			-moz-filter: dropshadow(color=#fff, offx=0, offy=1) !important;/* Firefox */
+			-webkit-filter: dropshadow(color=#fff, offx=0, offy=1) !important;/* Safari, Chrome */
+		}
+		input[type="text"], input[type="password"] {
+			width: 290px; height: 33px; display: block; margin: 0 auto; color: #aeaeae;
+			font-size: 14px; font-style: italic; font-family: Menlo,Monaco,monospace !important;
+			min-width: 50%; max-width: 100%; padding: 0 10px 0 10px; border: 1px solid #bec2c4;
+			border-radius: 2px; -moz-border-radius: 2px;/* Firefox */ -webkit-border-radius: 2px;/* Safari, Chrome */
+			box-sizing: content-box;
+			-moz-box-sizing: content-box;/* Firefox */ -webkit-box-sizing: content-box;/* Safari, Chrome */
+			box-shadow: 0px 0px 0px 4px #f2f5f7;
+			-moz-box-shadow: 0px 0px 0px 4px #f2f5f7;/* Firefox */
+			-webkit-box-shadow: 0px 0px 0px 4px #f2f5f7;/* Safari, Chrome */
+		}
+		input[type="text"]:focus, input[type="password"]:focus {
+			border: 1px solid #7dc6dd;
+			box-shadow: 0px 0px 0px 4px #e0f1fc;
+			-moz-box-shadow: 0px 0px 0px 4px #e0f1fc;/* Firefox */
+			-webkit-box-shadow: 0px 0px 0px 4px #e0f1fc;/* Safari, Chrome */
+		}
+		button {
+			border: 0px; width: 82px; height: 32px;
+			float: right; margin-right: 24px; background: url(@Url.Content("~/Content/images/login.png")) no-repeat;
+		}
+		button:hover {
+			border: 0px; width: 82px; height: 32px;
+			cursor: pointer; background: url(@Url.Content("~/Content/images/login_hover.png")) no-repeat;
+		}
+		button:active {
+			border: 0px; width: 82px; height: 32px; background: url(@Url.Content("~/Content/images/login_active.png")) no-repeat;
+		}
+		label { display: inline; margin-left: 24px; vertical-align: middle; }
+		label span {
+			color: #bbb; font-size: 12px; line-height: 20px;
+			font-style: italic; font-family: SmallContent;
+		}
+		p.forgot {
+			font-size: 12px; font-family: Arial,sans-serif;
+			margin-top: 15px; font-weight: bold; text-align: center;
+			text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+			-moz-text-shadow: 0 1px 0 rgba(0,0,0,0.3);/* Firefox */
+			-webkit-text-shadow: 0 1px 0 rgba(0,0,0,0.3);/* Safari, Chrome */
+		}	
+		p.forgot a {
+			color: #68838B; padding-left: 5px; text-decoration: underline;
+			transition: color 0.5s linear; -moz-transition: color 0.5s linear;/* Firefox */
+			-webkit-transition: color 0.5s linear;/* Safari, Chrome */
+			-o-transition: color 0.5s linear;/* Opera */
+		}
+		p.forgot a:hover { color: #f39814; }
+		p.err { color: Red; text-align: center; }
+		
+		.qtip-ch { padding: 10px 50px 10px 50px; font-size: 13px; font-family: SmoothContent; }
+		.qtip-title-id { font-size:12px; font-family: SmoothContent; letter-spacing: 1.5px; }
+		.qtip-content-id-l { font-size:12px; font-family: SmoothContent; letter-spacing: 1px; }
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".forgot a").click(function() {
+				$(this).qtip({
+					content: "<p class=\"qtip-ch\">กรุณาติดต่อ HR เท่านั้น</p>",
+					position: {
+						my: "top left",
+						at: "bottom right",
+						target: "mouse",
+						adjust: { mouse: false },
+						viewport: $(window)
+					},
+					show: { ready: true },
+					style: { classes: "qtip-blue qtip-shadow qtip-rounded" },
+					events: {
+						hide: function(event, api) { return $(this).qtip("destroy"); }
+					}
+				});
+			});
+
+			$("input[name=Username]").keyup(function() { getIdentity(this); }).dblclick(function() { getIdentity(this); });
+		});
+
+		function getIdentity(elem) {
+			var len = 5;
+			var val = $(elem).val();
+			if(val.indexOf("-") > -1) len = 6;
+			if(val.length == len) {
+				$.ajax({
+					 url: '@Url.Action("AjaxCheckIdentity", "Public")'
+					,type: "POST"
+					,async: true
+					,data: { EmployeeNo: val }
+					,dataType: "json"
+					,success: function(data, textStatus, jqXHR) {
+						if(data.records.length > 1) {
+							var html = "";
+							for(i=0; i<data.records.length; i++) {
+								html = html+
+								"<p class=\"qtip-content-id-l\"><a href=\"javascript:void(0);\" "+
+									"onclick=\"setIdentity('"+data.records[i].NameFirst+data.records[i].NameLast+"');\">"+
+									data.records[i].Prefix+data.records[i].NameFirst+" "+data.records[i].NameLast+"</a></p>";
+							}
+							displayIdentity(elem, html);
+							$("input[name=Password]").prop("disabled", true);
+						}
+					}
+					,error: function(jqXHR, textStatus, errorThrown) {
+						window.console && console.log("Check Identity (ajax): " + textStatus);
+					}
+				});
+			} else {
+				if("object" === typeof($(elem).data("qtip"))) {
+					$(elem).qtip("destroy");
+				}
+				$("input[name=PersonName]").val("");
+				$("input[name=Password]").prop("disabled", false);
+			}
+		}
+
+		function setIdentity(text) {
+				$("input[name=PersonName]").val(text);
+				$("input[name=Username]").qtip("destroy");
+				$("input[name=Password]").prop("disabled", false);
+		}
+
+		function displayIdentity(elem, text) {
+			$(elem).qtip({
+				content: {
+					text: text,
+					title: "<span class=\"qtip-title-id\">กรุณาเลือกชื่อของคุณ</span>"
+				},
+				position: {
+					my: "top left",
+					at: "bottom left"
+				},
+				hide: false,
+				show: { ready: true },
+				style: { classes: "qtip-blue qtip-shadow qtip-rounded" }
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="content">
+		<div id="login-box">
+			<form method="post" action="@Url.Content("~/Public/Login")">
+				<h2 class="topic">ระบบลาออนไลน์</h2>
+				<label>
+					<span>รหัสพนักงาน หรือ User เข้าใช้เครื่อง</span>
+				</label>
+				<p><input type="text" name="Username" value=""></p>
+				<label>
+					<span>รหัสผ่าน 4 หลัก หรือ รหัสผ่านเข้าใช้เครื่อง</span>
+				</label>
+				<p><input type="password" name="Password" value=""></p>
+				<label for="remember">
+					<input type="checkbox" name="Remember" value="yes">
+					<span>จดจำข้อมูลการเข้าใช้งานระบบ</span>
+				</label>
+				<button type="submit"></button>
+				<input type="hidden" name="ReturnURL" value="@ViewBag.ReturnUrl">
+				<input type="hidden" name="PersonName" value="">
+			</form>
+			<p class="forgot">กรณีลืมรหัสผ่าน <a href="javascript:void(0);">คลิกที่นี่</a></p>
+			<p class="err">@ViewBag.ErrorMessage</p>
+		</div>
+	</div>
+</body>
+</html>

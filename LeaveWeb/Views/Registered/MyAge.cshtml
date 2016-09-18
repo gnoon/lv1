@@ -1,0 +1,14 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "MyAge";
+}
+
+<h2>MyAge</h2>
+
+<form action="/Registered/MyAge" method="post">
+@Html.AntiForgeryToken()
+My Age:<input type="text" name="age" value="@Model" />
+<input type="submit" name="Save" value="Save" />
+</form>
+

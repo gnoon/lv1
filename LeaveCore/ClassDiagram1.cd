@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LeaveCore.BaseDB" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABIAAAAAAAAIgQAAQAAAgAAAAAAAAAACABABAAAAA=</HashCode>
+      <FileName>BaseDB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Const" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACIAABAMAqACAAAAAABIiDCCIAAAAACkggICDBAABg=</HashCode>
+      <FileName>Const.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Employee" Collapsed="true">
+    <Position X="8" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAIACAAAAgBAAAAAUAAAAA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Grantors" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAABAAAAAAgBAAAAAAAAAAA=</HashCode>
+      <FileName>Grantors.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Holidays" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAEAAAAAAAAAAAAAAAAAAAAAgBBAAAAAACAAI=</HashCode>
+      <FileName>Holidays.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Person" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAEAARGAAQAAAABogAAAAAKACCAiBAAAgCIABAQA=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Quota" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIBIpAAAAAAAAAAAAAAAAAAAAAgBAQAACAAAAEA=</HashCode>
+      <FileName>Quota.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.QuotaRecord" Collapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAECAAAAAAgAEAAAAAABABgAAAAAAAAgA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.TypeRecord" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAQABAAAAAAAAAAAAAAAAQCAA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.PersonRecord" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAAAABAgAAAAAIACAACBAAAACAAAAAA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.EmployeeRecord" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAIAAAQA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.HolidayRecord" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAwAEAAAAAAAABAAAAAAAAAQA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.WeekendRecord" Collapsed="true">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAACAAwAEAAAAAAAABAAAEAAAAAQg=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.WorkshiftRecord" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAABAgAEAAAAAAAABAQAAAAAAAQA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.GrantorRecord" Collapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAABAAAAEAAAAwAEgABAgAABBAABEAAAAAAA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.LeaveRecord" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAEUAAACAQAACAAAAAYAAAACAABAAAAAAAQAAA=</HashCode>
+      <FileName>Records.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.HolidaySetting" Collapsed="true">
+    <Position X="24.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAACAAwAEAAAAABAABAAAAAAAAAAA=</HashCode>
+      <FileName>Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.HolidaysSetting" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAgAEAAAAABAAgAAAQAAAAAAA=</HashCode>
+      <FileName>Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.WorkshiftSetting" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAgAAAAAABAgAEAAgAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.WorkshiftsSetting" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAABgAEAAgAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Setting" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAgAAAAABgAAgAAAAEBCgAAAQQAAAAAAAAABAAI=</HashCode>
+      <FileName>Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Tool" Collapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAABAAAAAIAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Weekends" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAIBAgBQAAAAAAAgAA=</HashCode>
+      <FileName>Weekends.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaveCore.Workshifts" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAgAAAAAAAEoDEAAAACAAAAI=</HashCode>
+      <FileName>Workshifts.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

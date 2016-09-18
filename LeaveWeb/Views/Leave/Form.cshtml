@@ -1,0 +1,408 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		.qtip { max-width: 500px; font-size: 13px; }
+		.qtip-content-temp td {
+			padding: 5px; font-size: 11px; font-style: italic;
+			font-weight: bold; font-family: Arial, sans-serif;
+		}
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+
+			$("#BeginDate").mask("99/99/9999")
+			               .datepicker({
+        dateFormat: "dd/mm/yy",
+        autoSize: true,
+        changeYear: true,
+        changeMonth: true,
+        //showButtonPanel: true,
+        //showWeek: true,
+				numberOfMonths: 1,
+        onClose: function(selectedDate) {
+					try {
+						var getDate = $(this).datepicker("getDate");
+						if($.type(getDate) === "date") {
+							//$("#UntilDate").datepicker("option", "minDate", getDate);
+							$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+						}
+						if(!$("#BeginTime").val()) $("#BeginTime").focus();
+					} catch (e) {}
+        }
+      }).keyup(function() {
+				if($(this).val().indexOf("_") == -1) {
+					try {
+						$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+						if(!$("#BeginTime").val()) {
+							$("#BeginTime").focus();
+							$(this).datepicker("hide");
+						}
+					} catch (e) {}
+				}
+			});
+
+			$("#UntilDate").mask("99/99/9999")
+			               .datepicker({
+        dateFormat: "dd/mm/yy",
+        autoSize: true,
+        changeYear: true,
+        changeMonth: true,
+        //showButtonPanel: true,
+        //showWeek: true,
+				numberOfMonths: 1,
+        onClose: function(selectedDate) {
+					try {
+						var getDate = $(this).datepicker("getDate");
+						if($.type(getDate) === "date") {
+							//$("#BeginDate").datepicker("option", "maxDate", getDate);
+							$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+						}
+						if(!$("#UntilTime").val()) $("#UntilTime").focus();
+					} catch (e) {}
+        }
+      }).keyup(function() {
+				if($(this).val().indexOf("_") == -1) {
+					try {
+						$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+						if(!$("#UntilTime").val()) {
+							$("#UntilTime").focus();
+							$(this).datepicker("hide");
+						}
+					} catch (e) {}
+				}
+			});
+
+			$("#BeginTime, #UntilTime").mask("99:99");
+			
+			$(".solid:first").qtip({
+				content: "<table class=\"qtip-content-temp\">" +
+								 "  <tr><td>1. ระบุประเภทการลา</td><td>2. ระบุวันที่ลา</td></tr>" +
+								 "  <tr><td>3. ระบุเหตุผลการลา</td><td>4. คลิกปุ่มยื่นใบลา</td></tr>" +
+								 "</table>",
+				position: {
+					my: "top left",
+					at: "top left",
+					adjust: { x: 9, y: 3, method: "flip flip" }
+				},
+				hide: false,
+				show: { ready: true },
+				style: { classes: "qtip-blue qtip-shadow qtip-rounded" }
+			});
+
+			setInitSelection();
+			setInteractiveUI();
+			$("select[name=TypeSubID]").change(function() { setInteractiveUI(); });
+
+			$("#applyLeave").button({ icons: { primary: "ui-icon-check" }, text: true });
+		});
+
+		function setInitSelection() {
+			var elem = "input[name=TypeCase]";
+			$(elem).each(function() {
+				if ($(this).val() == "@ViewBag.TypeCase") {
+					$(this).prop("checked", true);
+				}
+			});
+		}
+
+		function setInteractiveUI() {
+			var elem = "select[name=TypeSubID]";
+			if ($(elem).val() == "@ViewBag.TypeCaseID") {
+				$("#case-panel").css({"display":"inline"});
+				$(elem).qtip({
+					content: "<table class=\"qtip-content-temp\">" +
+									 "  <tr><td>กรณีลากิจ หากไม่ระบุเงื่อนไขเพิ่มเติม ต้องลาล่วงหน้าอย่างน้อย @LeaveCore.Const.REQUEST_BUSINESS_PREDATE วัน</td></tr>" +
+									 "</table>",
+					position: {
+						my: "bottom left",
+						at: "top right"
+					},
+					hide: false,
+					show: { ready: true },
+					style: { classes: "qtip-blue qtip-shadow qtip-rounded" }
+				});
+			} else {
+				$("#case-panel").css({"display":"none"});
+				$("input[name=TypeCase]").prop("checked", false);
+				if("object" === typeof($(elem).data("qtip"))) {
+					$(elem).qtip("destroy");
+				}
+			}
+		}
+	</script>
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>กรอกแบบฟอร์มใบลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <form id="myForm" method="post" action="@Url.Content("~/Leave/Apply")">
+				<input type="hidden" name="Action" value="Apply">
+        <table class="stall small">
+          <tr>
+            <td><input type="checkbox" id="aVerasuGroup" value="@ViewBag.CompanyCode" disabled checked="checked">@ViewBag.CompanyCode</td>
+            @*<td><input type="checkbox" id="aVerasuGroup" value="VG" disabled @ViewBag.aVerasuGroup>บริษัท วีรสุกรุ๊ป จำกัด</td>
+            <td><input type="checkbox" id="aVerasuRetail" value="VR" disabled @ViewBag.aVerasuRetail>บริษัท วีรสุ รีเทล จำกัด</td>
+            <td><input type="checkbox" id="aVistaCafe" value="VT" disabled @ViewBag.aVistaCafe>บริษัท วิสต้า คาเฟ่ จำกัด</td>
+            <td><input type="checkbox" id="aVerasuLimited" value="VP" disabled @ViewBag.aVerasuLimited>ห้างหุ้นส่วนจำกัด วีรสุ</td>
+            <td><input type="checkbox" id="aCircuitCenter" value="CC" disabled @ViewBag.aCircuitCenter>บริษัท เซอร์กิต เซ็นเตอร์ จำกัด</td>*@
+          </tr>
+        </table>
+        <div class="solid">
+          <div class="apply-form padding">
+            <table class="twelve spacing">
+              <tr>
+                <td colspan="2" class="header" style="text-align:center;">ใบลาหยุดงาน</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="edged">
+                  <div style="float:right;">
+										<table>
+											<tr>
+												<td>วันที่</td>
+												<td><input type="text" id="ApplyDate" value="@DateTime.Now.ToString("dd/MM/yyyy")" class="disabled" readonly="true" style="width:70px;"></td>
+											</tr>
+										</table>
+									</div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="edged">
+                  <table class="six">
+                    <tr>
+                      <td style="width:100px;text-align:right;">เรียน :</td>
+                      <td><input type="text" id="HeadPersonName" value="@ViewBag.HeadPersonName" class="disabled" readonly="true" style="width:50%;"></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="edged six">
+                  <table class="twelve">
+                    <tr>
+                      <td style="width:100px;text-align:right;">ข้าพเจ้า :</td>
+                      <td><input type="text" id="PersonName" value="@ViewBag.PersonName" class="disabled" readonly="true" style="width:100%;"><input type="hidden" name="PersonNo" value="@ViewBag.PersonNo"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="edged six">
+                  <table class="twelve">
+                    <tr>
+                      <td style="width:80px;text-align:right;">ตำแหน่ง :</td>
+                      <td><input type="text" id="PositionName" value="@ViewBag.PositionName" class="disabled" readonly="true" style="width:100%;"></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="edged six">
+                  <table class="twelve">
+                    <tr>
+                      <td style="width:100px;text-align:right;">รหัสพนักงาน :</td>
+                      <td><input type="text" id="EmployeeNo" value="@ViewBag.EmployeeNo" class="disabled" readonly="true" style="width:100%;"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="edged six">
+                  <table class="twelve">
+                    <tr>
+                      <td style="width:80px;text-align:right;">ฝ่าย/แผนก :</td>
+                      <td><input type="text" id="DepartmentName" value="@ViewBag.DepartmentName" class="disabled" readonly="true" style="width:100%;"></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="apply-form padding">
+            <table class="twelve spacing">
+              <tr>
+                <td colspan="2" class="edged">
+                  <table class="six">
+                    <tr>
+                      <td style="width:100px;text-align:right;">&nbsp;</td>
+                      <td><strong>ข้าพเจ้า มีความประสงค์ขอลาหยุดงาน</strong></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="edged">
+                  <table class="six">
+                    <tr>
+                      <td style="width:100px;text-align:right;">โดยขอใช้สิทธิ :</td>
+                      <td>
+												<select name="TypeSubID" class="required" style="width:100%">
+													<option value="0">- เลือก -</option>
+													@Html.Raw(ViewData["LeaveTypeOptions"].ToString())
+												</select></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="edged">
+                  <div id="case-panel">
+										<table class="twelve">
+											<tr>
+												<td style="width:100px;">&nbsp;</td>
+												<td>
+													<table class="ui-state-active twelve">
+														<tr>
+															<td style="width:33.3%;font-weight:normal;">
+																<label for="case-1">
+																	<input type="radio" name="TypeCase" value="1">
+																	<span>เนื่องจากมาสายเกิน 30 นาที</span>
+																</label>
+															</td>
+															<td style="width:33.3%;font-weight:normal;">
+																<label for="case-2">
+																	<input type="radio" name="TypeCase" value="2">
+																	<span>มีความจำเป็นต้องออกก่อนเวลางาน</span>
+																</label>
+															</td>
+															<td style="width:33.3%;font-weight:normal;">
+																<label for="case-3">
+																	<input type="radio" name="TypeCase" value="3">
+																	<span>มีเหตุจำเป็นฉุกเฉิน</span>
+																</label>
+															</td>
+														</tr>
+													</table>
+												</tr>
+										</table>
+									</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="edged six">
+                  <table class="twelve">
+                    <tr>
+                      <td style="width:100px;text-align:right;">เริ่มตั้งแต่วันที่ :</td>
+                      <td class="edged">
+												<table class="twelve">
+													<tr>
+														<td style="width:60%;"><input type="text" id="BeginDate" name="BeginDate" value="@ViewBag.Postback.BeginDate" class="required" style="width:100%;"></td>
+														<td style="width:10%;text-align:center">เวลา</td>
+														<td style="width:30%;"><input type="text" id="BeginTime" name="BeginTime" value="@ViewBag.Postback.BeginTime" class="required" style="width:100%;"></td>
+													</tr>
+												</table>
+											</td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="edged six">
+                  <table class="twelve">
+                    <tr>
+                      <td style="width:80px;text-align:right;">จนถึงวันที่ :</td>
+                      <td class="edged">
+												<table class="twelve">
+													<tr>
+														<td style="width:60%;"><input type="text" id="UntilDate" name="UntilDate" value="@ViewBag.Postback.UntilDate" class="required" style="width:100%;"></td>
+														<td style="width:10%;text-align:center">เวลา</td>
+														<td style="width:30%;"><input type="text" id="UntilTime" name="UntilTime" value="@ViewBag.Postback.UntilTime" class="required" style="width:100%;"></td>
+													</tr>
+												</table>
+											</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="apply-form padding">
+            <table class="twelve spacing">
+              <tr>
+                <td style="width:100px;text-align:right;vertical-align:top;">เหตุผลการลา :</td>
+                <td><textarea id="Reason" name="Reason" class="required" maxlength="255" style="width:100%;height:75px;">@ViewBag.Postback.Reason</textarea></td>
+              </tr>
+            </table>
+          </div>
+          <div class="apply-form fully">
+            <table class="twelve spacing" style="border-top:1px solid #ccc;">
+              <tr>
+                <td class="edged">
+									<p></p>
+                  <table class="ten" style="margin-left:auto;margin-right:auto;">
+                    <tr>
+                      <th>สถิติจำนวนวันลาที่ใช้ไปแล้ว</th>
+                    </tr>
+                    <tr>
+                      <td style="height:10px;"></td>
+                    </tr>
+                    <tr>
+                      <td class="edged">
+                        <table class="twelve">
+                          <tr>
+                            <td class="edged">
+                              <table>
+                                <tr>
+                                  <td><input type="checkbox" id="hasVocation" value="1" disabled @ViewData["hasVocation"]> หยุดพักผ่อนประจำปี</td>
+                                  <td><input type="text" id="VocationTakenAmount" value="@ViewData["VocationTakenAmount"]" class="disabled" readonly="true" style="width:50px;text-align:center;"></td>
+                                  <td>วัน</td>
+                                </tr>
+                                <tr>
+                                  <td><input type="checkbox" id="hasMilitary" value="1" disabled @ViewData["hasMilitary"]> ลารับราชการทางทหาร</td>
+                                  <td><input type="text" id="MilitaryTakenAmount" value="@ViewData["MilitaryTakenAmount"]" class="disabled" readonly="true" style="width:50px;text-align:center;"></td>
+                                  <td>วัน</td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td class="edged">
+                              <table>
+                                <tr>
+                                  <td><input type="checkbox" id="hasBusiness" value="1" disabled @ViewData["hasBusiness"]> ลากิจ</td>
+                                  <td><input type="text" id="BusinessTakenAmount" value="@ViewData["BusinessTakenAmount"]" class="disabled" readonly="true" style="width:50px;text-align:center;"></td>
+                                  <td>วัน</td>
+                                </tr>
+                                <tr>
+                                  <td><input type="checkbox" id="hasMaternity" value="1" disabled @ViewData["hasMaternity"]> ลาคลอดบุตร</td>
+                                  <td><input type="text" id="MaternityTakenAmount" value="@ViewData["MaternityTakenAmount"]" class="disabled" readonly="true" style="width:50px;text-align:center;"></td>
+                                  <td>วัน</td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td class="edged">
+                              <table>
+                                <tr>
+                                  <td><input type="checkbox" id="hasSick" value="1" disabled @ViewData["hasSick"]> ลาป่วย</td>
+                                  <td><input type="text" id="SickTakenAmount" value="@ViewData["SickTakenAmount"]" class="disabled" readonly="true" style="width:50px;text-align:center;"></td>
+                                  <td>วัน</td>
+                                </tr>
+                                <tr>
+                                  <td><input type="checkbox" id="hasOther" value="1" disabled @ViewData["hasOther"]> ลาประเภทอื่นๆ</td>
+                                  <td><input type="text" id="OtherTakenAmount" value="@ViewData["OtherTakenAmount"]" class="disabled" readonly="true" style="width:50px;text-align:center;"></td>
+                                  <td>วัน</td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <p></p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <p></p>
+				<div>
+					<div>
+						<table class="edged small">
+							<tr>
+								<td style="vertical-align:top;"><button type="submit" id="applyLeave" class="ui-state-highlight m-ui-button">ตรวจสอบใบลา</button></td>
+								<td style="padding-left:80px;padding-right:10px;vertical-align:top;"><strong>หมายเหตุ :</strong></td>
+								<td>การลาหยุดงาน พนักงานจะต้องได้รับการอนุมัติจากผู้จัดการฝ่าย ก่อนการหยุดงานทุกครั้ง&nbsp;&nbsp;( ยกเว้น การลาป่วย และในกรณีฉุกเฉิน )<br>หากพนักงานหยุดงานก่อนได้รับอนุมัติจากผู้จัดการฝ่าย ถือว่าเป็นการขาดงาน</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+      </form>
+    </div>  
+  </div>
+</div>

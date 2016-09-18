@@ -1,0 +1,82 @@
+﻿@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$("#Attendance-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListRechecked", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				,width: "auto"
+				,height: 350
+				,caption: "<em>เวลาทำงานของพนักงาน</em>"
+				,colNames: [/*"",*/"รหัส","ชื่อ - สกุล"/*,"สังกัด"*/,"ตามกะ","มาทำงาน","ขาดงาน","ลาป่วย","ลากิจ","ลาพักผ่อน","ลาอื่นๆ","ชม. : นาที","ครั้ง"]
+				,colModel: [
+					//{name:"Seq",index:"Seq",width:30,align:"center",sortable:false,resizable:false},
+					{name:"EmployeeNo",index:"EmployeeNo",width:50,sortable:true,resizable:false},
+					{name:"PersonName",index:"PersonName",width:160,sortable:true,resizable:true},
+					//{name:"SectionName",index:"SectionName",width:130,sortable:true,resizable:true},
+					{name:"WShiftDays",index:"WShiftDays",width:80,align:"right",sortable:true,resizable:false},
+					{name:"WorkedDays",index:"WorkedDays",width:80,align:"right",sortable:true,resizable:false},
+					{name:"AbsenceDays",index:"AbsenceDays",width:80,align:"right",sortable:true,resizable:false},
+					{name:"LeaveSick",index:"LeaveSick",width:80,align:"right",sortable:true,resizable:false},
+					{name:"LeaveBusiness",index:"LeaveBusiness",width:80,align:"right",sortable:true,resizable:false},
+					{name:"LeaveVocation",index:"LeaveVocation",width:80,align:"right",sortable:true,resizable:false},
+					{name:"LeaveOther",index:"LeaveOther",width:80,align:"right",sortable:true,resizable:false},
+					{name:"LateHours",index:"LateHours",width:80,align:"right",sortable:true,resizable:false},
+					{name:"LateAmount",index:"LateAmount",width:80,align:"right",sortable:true,resizable:false},
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Attendance-Grid-nav"
+				,rowNum: 999
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				/*,grouping: true
+				,groupingView: {
+   				 groupField: ["SectionName"]
+					,groupColumnShow: [false]
+   			}*/
+				,loadComplete: function(data) {}
+			}).navGrid("#Attendance-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"WShiftDays", numberOfColumns:3, titleText: "วันทำงาน (วัน)"},
+					{startColumnName:"LeaveSick", numberOfColumns:4, titleText: "วันลา (วัน)"},
+					{startColumnName:"LateHours", numberOfColumns:2, titleText: "มาสาย"}
+				]
+			});
+
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>สรุปเวลาทำงาน</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div>
+					<table id="Attendance-Grid"></table>
+					<div id="Attendance-Grid-nav"></div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

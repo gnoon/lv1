@@ -1,0 +1,3645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Rectangle Name="Rectangle1">
+        <ReportItems>
+          <Image Name="Logo">
+            <Source>Embedded</Source>
+            <Value>logo</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>0.39688cm</Top>
+            <Left>0.635cm</Left>
+            <Height>1.47354cm</Height>
+            <Width>4.96688cm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Textbox Name="Textbox11">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ใบลาหยุดงาน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>20pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>0.39688cm</Top>
+            <Left>6.50198cm</Left>
+            <Height>0.99729cm</Height>
+            <Width>4.96062cm</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox13">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Apply_Date.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>1.46913cm</Top>
+            <Left>13.56636cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.91689cm</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox12">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วันที่</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>1.56438cm</Top>
+            <Left>12.71245cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.82216cm</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox14">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>เรียน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>2.80236cm</Top>
+            <Left>0.635cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.88566cm</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox15">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!TH_Head_Name.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>2.67536cm</Top>
+            <Left>1.64667cm</Left>
+            <Height>0.8cm</Height>
+            <Width>8.04586cm</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox16">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ข้าพเจ้า</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>3.74347cm</Top>
+            <Left>0.635cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.21727cm</Width>
+            <ZIndex>6</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox17">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=iif(IsNothing(Fields!TH_First_Name.Value),"",First(Fields!TH_Prefix.Value, "DataSet1")+First(Fields!TH_First_Name.Value, "DataSet1")+"  "+First(Fields!TH_Last_Name.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>3.64822cm</Top>
+            <Left>1.96163cm</Left>
+            <Height>0.8cm</Height>
+            <Width>7.7309cm</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox18">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ตำแหน่ง</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>3.74347cm</Top>
+            <Left>10.08827cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.37955cm</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox19">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!TH_Position.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>3.64822cm</Top>
+            <Left>11.52955cm</Left>
+            <Height>0.8cm</Height>
+            <Width>5.66186cm</Width>
+            <ZIndex>9</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox20">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ตำแหน่ง</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>2.80236cm</Top>
+            <Left>10.08827cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.37955cm</Width>
+            <ZIndex>10</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox21">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!TH_Head_Position.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>2.67536cm</Top>
+            <Left>11.52954cm</Left>
+            <Height>0.8cm</Height>
+            <Width>5.66185cm</Width>
+            <ZIndex>11</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox22">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ฝ่าย / แผนก</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>4.68458cm</Top>
+            <Left>0.635cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.75702cm</Width>
+            <ZIndex>12</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox23">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Department.Value, "DataSet1")+" / "+First(Fields!Section.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>4.58933cm</Top>
+            <Left>2.46963cm</Left>
+            <Height>0.8cm</Height>
+            <Width>7.2229cm</Width>
+            <ZIndex>13</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox24">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>รหัสพนักงาน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>4.65944cm</Top>
+            <Left>10.08827cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.9828cm</Width>
+            <ZIndex>14</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox25">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Employee_No.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>4.58933cm</Top>
+            <Left>12.13279cm</Left>
+            <Height>0.8cm</Height>
+            <Width>5.0586cm</Width>
+            <ZIndex>15</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox26">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ข้าพเจ้ามีความประสงค์ ขอหยุดงานเป็นเวลา</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>5.62569cm</Top>
+            <Left>0.73208cm</Left>
+            <Height>0.8cm</Height>
+            <Width>5.97977cm</Width>
+            <ZIndex>16</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox27">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Total_Days.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>5.53cm</Top>
+            <Left>6.71644cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.26777cm</Width>
+            <ZIndex>17</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox28">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน  ตั้งแต่วันที่</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>5.62569cm</Top>
+            <Left>7.98421cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.06041cm</Width>
+            <ZIndex>18</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox29">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Since.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                      <Format>dd/MM/yyyy  HH:mm</Format>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>5.53cm</Top>
+            <Left>10.15045cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.88585cm</Width>
+            <ZIndex>19</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox30">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ถึงวันที่</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>5.62569cm</Top>
+            <Left>13.14213cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.12202cm</Width>
+            <ZIndex>20</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox31">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Until.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                      <Format>dd/MM/yyyy  HH:mm</Format>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>5.53cm</Top>
+            <Left>14.4656cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.72581cm</Width>
+            <ZIndex>21</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox32">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>โดยขอใช้สิทธิการลา</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>6.60208cm</Top>
+            <Left>0.73208cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.09581cm</Width>
+            <ZIndex>22</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox34">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>หยุดพักผ่อนประจำปี</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>6.60208cm</Top>
+            <Left>5.63715cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.3703cm</Width>
+            <ZIndex>23</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox36">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลาป่วย</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>7.57847cm</Top>
+            <Left>5.70065cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.3068cm</Width>
+            <ZIndex>24</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox38">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลากิจส่วนตัว ( ให้ระบุรายละเอียด )</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>6.60208cm</Top>
+            <Left>9.95915cm</Left>
+            <Height>0.8cm</Height>
+            <Width>6.27975cm</Width>
+            <ZIndex>25</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox40">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลาประเภทอื่นๆ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>7.57847cm</Top>
+            <Left>9.95915cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.2475cm</Width>
+            <ZIndex>26</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox41">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=iif(Instr("[SICK][BUSINESS][VACATION]", "["+First(Fields!Reference_No.Value, "DataSet1")+"]")&gt;0,"",First(Fields!TH_Name.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>7.48322cm</Top>
+            <Left>12.26313cm</Left>
+            <Height>0.8cm</Height>
+            <Width>4.92826cm</Width>
+            <ZIndex>27</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox43">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>เหตุผล</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>8.55486cm</Top>
+            <Left>0.635cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.09556cm</Width>
+            <ZIndex>28</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox42">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Reason.Value, "DataSet1")</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>8.45961cm</Top>
+            <Left>1.90695cm</Left>
+            <Height>0.8cm</Height>
+            <Width>15.28445cm</Width>
+            <ZIndex>29</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox44">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลายมือชื่อพนักงาน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>10.3885cm</Top>
+            <Left>9.78764cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.00056cm</Width>
+            <ZIndex>30</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox45">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>สำหรับฝ่ายบุคคล</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>12.26785cm</Top>
+            <Left>0.635cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.36597cm</Width>
+            <ZIndex>31</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox46">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>สถิติจำนวนวันลาที่ใช้ไปแล้วทั้งสิ้น</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>12.26785cm</Top>
+            <Left>4.11559cm</Left>
+            <Height>0.8cm</Height>
+            <Width>4.85578cm</Width>
+            <ZIndex>32</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox47">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ในปีนี้มีสิทธิ์พักผ่อนประจำปี รวมทั้งสิ้น</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>12.26785cm</Top>
+            <Left>9.06526cm</Left>
+            <Height>0.8cm</Height>
+            <Width>5.80806cm</Width>
+            <ZIndex>33</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox48">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>12.26785cm</Top>
+            <Left>16.56699cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.77805cm</Width>
+            <ZIndex>34</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox49">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Quota_Vacation.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>12.1091cm</Top>
+            <Left>14.94388cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.51728cm</Width>
+            <ZIndex>35</ZIndex>
+            <Style>
+              <Border />
+              <BottomBorder>
+                <Color>Black</Color>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox51">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>หยุดพักผ่อนประจำปี</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.30774cm</Top>
+            <Left>0.66242cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.9258cm</Width>
+            <ZIndex>36</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox52">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.30774cm</Top>
+            <Left>5.25615cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.77805cm</Width>
+            <ZIndex>37</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox53">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Vacation.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <Color>=iif(Sum(Fields!Taken_Vacation.Value, "DataSet1")=0, "White", "Black")</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.21249cm</Top>
+            <Left>3.65773cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.5cm</Width>
+            <ZIndex>38</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox55">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลากิจธุรกิจส่วนตัว</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.30774cm</Top>
+            <Left>6.94358cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.6083cm</Width>
+            <ZIndex>39</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox56">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.30774cm</Top>
+            <Left>11.25157cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.65105cm</Width>
+            <ZIndex>40</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox57">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Business.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <Color>=iif(Sum(Fields!Taken_Business.Value, "DataSet1")=0, "White", "Black")</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.21249cm</Top>
+            <Left>9.65772cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.46369cm</Width>
+            <ZIndex>41</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox59">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลาป่วย</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.30774cm</Top>
+            <Left>12.9656cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.0843cm</Width>
+            <ZIndex>42</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox60">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.30774cm</Top>
+            <Left>15.71784cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.77805cm</Width>
+            <ZIndex>43</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox61">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Sick.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <Color>=iif(Sum(Fields!Taken_Sick.Value, "DataSet1")=0, "White", "Black")</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>13.18074cm</Top>
+            <Left>14.18066cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.43876cm</Width>
+            <ZIndex>44</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox63">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลารับราชการทางทหาร</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.28413cm</Top>
+            <Left>0.66242cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.1798cm</Width>
+            <ZIndex>45</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox64">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.28413cm</Top>
+            <Left>5.41491cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.71455cm</Width>
+            <ZIndex>46</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox65">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Military.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <Color>=iif(Sum(Fields!Taken_Military.Value, "DataSet1")=0, "White", "Black")</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.18535cm</Top>
+            <Left>3.94806cm</Left>
+            <Height>0.77178cm</Height>
+            <Width>1.36844cm</Width>
+            <ZIndex>47</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox67">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลาคลอดบุตร</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.28413cm</Top>
+            <Left>6.94358cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.7828cm</Width>
+            <ZIndex>48</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox68">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.28413cm</Top>
+            <Left>10.39432cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.77805cm</Width>
+            <ZIndex>49</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox69">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Maternity.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <Color>=iif(Sum(Fields!Taken_Maternity.Value, "DataSet1")=0, "White", "Black")</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.18535cm</Top>
+            <Left>8.7959cm</Left>
+            <Height>0.77178cm</Height>
+            <Width>1.5cm</Width>
+            <ZIndex>50</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox71">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลาประเภทอื่นๆ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.28413cm</Top>
+            <Left>12.93792cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.19555cm</Width>
+            <ZIndex>51</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox72">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วัน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.28413cm</Top>
+            <Left>16.89666cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.71455cm</Width>
+            <ZIndex>52</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox73">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Others.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Style>
+                      <FontFamily>arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <Color>=iif(Sum(Fields!Taken_Others.Value, "DataSet1")=0, "White", "Black")</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>14.18888cm</Top>
+            <Left>15.23931cm</Left>
+            <Height>0.8cm</Height>
+            <Width>1.55152cm</Width>
+            <ZIndex>53</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox74">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลายมือชื่อฝ่ายบุคคล</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>15.74604cm</Top>
+            <Left>9.78764cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.00056cm</Width>
+            <ZIndex>54</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Line Name="Line3">
+            <Top>16.88688cm</Top>
+            <Height>0cm</Height>
+            <Width>17.87051cm</Width>
+            <ZIndex>55</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+                <Width>1.5pt</Width>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line4">
+            <Top>11.83333cm</Top>
+            <Height>0cm</Height>
+            <Width>17.87051cm</Width>
+            <ZIndex>56</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+                <Width>1.5pt</Width>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line5">
+            <Top>16.91863cm</Top>
+            <Left>8.98229cm</Left>
+            <Height>5.0937cm</Height>
+            <Width>0cm</Width>
+            <ZIndex>57</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+                <Width>1.5pt</Width>
+              </Border>
+            </Style>
+          </Line>
+          <Textbox Name="Textbox76">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>เห็นควรอนุมัติ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>18.35716cm</Top>
+            <Left>1.95015cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.68923cm</Width>
+            <ZIndex>58</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox78">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ไม่เห็นควรอนุมัติ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>18.35716cm</Top>
+            <Left>5.63715cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.68923cm</Width>
+            <ZIndex>59</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox79">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ความเห็นชอบของหัวหน้า</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>17.06327cm</Top>
+            <Left>2.63153cm</Left>
+            <Height>0.8cm</Height>
+            <Width>4.07649cm</Width>
+            <ZIndex>60</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox80">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลายเซ็นต์หัวหน้างาน</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>19.66444cm</Top>
+            <Left>1.12889cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.00056cm</Width>
+            <ZIndex>61</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox81">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วันที่</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>20.70433cm</Top>
+            <Left>3.35139cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.77806cm</Width>
+            <ZIndex>62</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox82">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>/</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>20.70433cm</Top>
+            <Left>4.80187cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.32827cm</Width>
+            <ZIndex>63</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox83">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>/</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>20.70433cm</Top>
+            <Left>5.65117cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.32827cm</Width>
+            <ZIndex>64</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Line Name="Line6">
+            <Top>20.33744cm</Top>
+            <Left>4.27438cm</Left>
+            <Height>0cm</Height>
+            <Width>4.18156cm</Width>
+            <ZIndex>65</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line7">
+            <Top>21.36322cm</Top>
+            <Left>4.19748cm</Left>
+            <Height>0cm</Height>
+            <Width>0.5408cm</Width>
+            <ZIndex>66</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line8">
+            <Top>21.36322cm</Top>
+            <Left>5.22335cm</Left>
+            <Height>0cm</Height>
+            <Width>0.4138cm</Width>
+            <ZIndex>67</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line9">
+            <Top>21.36322cm</Top>
+            <Left>6.04022cm</Left>
+            <Height>0cm</Height>
+            <Width>1.39805cm</Width>
+            <ZIndex>68</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Textbox Name="Textbox85">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>อนุมัติ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>18.35716cm</Top>
+            <Left>10.62292cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.68923cm</Width>
+            <ZIndex>69</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox87">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ไม่อนุมัติ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>18.35716cm</Top>
+            <Left>14.30992cm</Left>
+            <Height>0.8cm</Height>
+            <Width>2.68923cm</Width>
+            <ZIndex>70</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox88">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>การอนุมัติ</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>17.06327cm</Top>
+            <Left>11.29028cm</Left>
+            <Height>0.8cm</Height>
+            <Width>4.07649cm</Width>
+            <ZIndex>71</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox89">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>ลายเซ็นต์ผู้จัดการฝ่าย</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>19.66444cm</Top>
+            <Left>9.78764cm</Left>
+            <Height>0.8cm</Height>
+            <Width>3.00056cm</Width>
+            <ZIndex>72</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox90">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>วันที่</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>20.70433cm</Top>
+            <Left>12.01014cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.77806cm</Width>
+            <ZIndex>73</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox91">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>/</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>20.70433cm</Top>
+            <Left>13.46062cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.32827cm</Width>
+            <ZIndex>74</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox92">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>/</Value>
+                    <Style>
+                      <FontFamily>Angsana New</FontFamily>
+                      <FontSize>14pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>20.70433cm</Top>
+            <Left>14.30992cm</Left>
+            <Height>0.8cm</Height>
+            <Width>0.32827cm</Width>
+            <ZIndex>75</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Bottom</VerticalAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+            </Style>
+          </Textbox>
+          <Line Name="Line10">
+            <Top>20.33744cm</Top>
+            <Left>12.90138cm</Left>
+            <Height>0cm</Height>
+            <Width>4.12952cm</Width>
+            <ZIndex>76</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line11">
+            <Top>21.36322cm</Top>
+            <Left>12.82448cm</Left>
+            <Height>0cm</Height>
+            <Width>0.6043cm</Width>
+            <ZIndex>77</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line12">
+            <Top>21.36322cm</Top>
+            <Left>13.8186cm</Left>
+            <Height>0cm</Height>
+            <Width>0.44555cm</Width>
+            <ZIndex>78</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line13">
+            <Top>21.36322cm</Top>
+            <Left>14.66722cm</Left>
+            <Height>0cm</Height>
+            <Width>1.39805cm</Width>
+            <ZIndex>79</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line14">
+            <Top>14.98888cm</Top>
+            <Left>3.88628cm</Left>
+            <Height>0cm</Height>
+            <Width>1.46196cm</Width>
+            <ZIndex>80</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line15">
+            <Top>14.98888cm</Top>
+            <Left>8.79518cm</Left>
+            <Height>0cm</Height>
+            <Width>1.50072cm</Width>
+            <ZIndex>81</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line16">
+            <Top>15.02063cm</Top>
+            <Left>15.2536cm</Left>
+            <Height>0cm</Height>
+            <Width>1.57639cm</Width>
+            <ZIndex>82</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line17">
+            <Top>14.04424cm</Top>
+            <Left>3.65701cm</Left>
+            <Height>0cm</Height>
+            <Width>1.50072cm</Width>
+            <ZIndex>83</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line18">
+            <Top>14.04424cm</Top>
+            <Left>9.61965cm</Left>
+            <Height>0cm</Height>
+            <Width>1.50175cm</Width>
+            <ZIndex>84</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line19">
+            <Top>14.01249cm</Top>
+            <Left>14.11571cm</Left>
+            <Height>0cm</Height>
+            <Width>1.50371cm</Width>
+            <ZIndex>85</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line20">
+            <Top>16.41904cm</Top>
+            <Left>12.90138cm</Left>
+            <Height>0cm</Height>
+            <Width>4.12952cm</Width>
+            <ZIndex>86</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line21">
+            <Top>12.94085cm</Top>
+            <Left>14.95134cm</Left>
+            <Height>0cm</Height>
+            <Width>1.51053cm</Width>
+            <ZIndex>87</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line22">
+            <Top>11.09325cm</Top>
+            <Left>12.90138cm</Left>
+            <Height>0cm</Height>
+            <Width>4.09777cm</Width>
+            <ZIndex>88</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line23">
+            <Top>9.25961cm</Top>
+            <Left>1.90695cm</Left>
+            <Height>0cm</Height>
+            <Width>15.28446cm</Width>
+            <ZIndex>89</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line24">
+            <Top>9.98125cm</Top>
+            <Left>1.90695cm</Left>
+            <Height>0cm</Height>
+            <Width>15.28445cm</Width>
+            <ZIndex>90</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line25">
+            <Top>6.33cm</Top>
+            <Left>6.87766cm</Left>
+            <Height>0cm</Height>
+            <Width>0.9853cm</Width>
+            <ZIndex>91</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line26">
+            <Top>6.33cm</Top>
+            <Left>10.08827cm</Left>
+            <Height>0cm</Height>
+            <Width>2.85855cm</Width>
+            <ZIndex>92</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line27">
+            <Top>6.33cm</Top>
+            <Left>14.4656cm</Left>
+            <Height>0cm</Height>
+            <Width>2.75756cm</Width>
+            <ZIndex>93</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line28">
+            <Top>5.38933cm</Top>
+            <Left>2.40613cm</Left>
+            <Height>0cm</Height>
+            <Width>7.2864cm</Width>
+            <ZIndex>94</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line29">
+            <Top>5.38933cm</Top>
+            <Left>12.13279cm</Left>
+            <Height>0cm</Height>
+            <Width>5.0586cm</Width>
+            <ZIndex>95</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line30">
+            <Top>4.44822cm</Top>
+            <Left>1.90695cm</Left>
+            <Height>0cm</Height>
+            <Width>7.91258cm</Width>
+            <ZIndex>96</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line31">
+            <Top>4.44822cm</Top>
+            <Left>11.51192cm</Left>
+            <Height>0cm</Height>
+            <Width>5.71123cm</Width>
+            <ZIndex>97</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line32">
+            <Top>3.47536cm</Top>
+            <Left>11.51192cm</Left>
+            <Height>0cm</Height>
+            <Width>5.67947cm</Width>
+            <ZIndex>98</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line33">
+            <Top>3.47536cm</Top>
+            <Left>1.58945cm</Left>
+            <Height>0cm</Height>
+            <Width>8.23008cm</Width>
+            <ZIndex>99</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line34">
+            <Top>8.28322cm</Top>
+            <Left>12.26313cm</Left>
+            <Height>0cm</Height>
+            <Width>4.99178cm</Width>
+            <ZIndex>100</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line35">
+            <Top>2.26913cm</Top>
+            <Left>13.56636cm</Left>
+            <Height>0cm</Height>
+            <Width>2.94864cm</Width>
+            <ZIndex>101</ZIndex>
+            <Style>
+              <Border>
+                <Style>Dotted</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Image Name="Checked6">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>6.86558cm</Top>
+            <Left>4.99956cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>102</ZIndex>
+            <Visibility>
+              <Hidden>="VACATION"&lt;&gt;First(Fields!Reference_No.Value, "DataSet1")</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked6">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>6.86558cm</Top>
+            <Left>4.99956cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>103</ZIndex>
+            <Visibility>
+              <Hidden>="VACATION"=First(Fields!Reference_No.Value, "DataSet1")</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked7">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>7.81497cm</Top>
+            <Left>4.99956cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>104</ZIndex>
+            <Visibility>
+              <Hidden>="SICK" &lt;&gt; First(Fields!Reference_No.Value, "DataSet1")</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked7">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>7.81497cm</Top>
+            <Left>4.99956cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>105</ZIndex>
+            <Visibility>
+              <Hidden>="SICK" = First(Fields!Reference_No.Value, "DataSet1")</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked8">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>6.86558cm</Top>
+            <Left>9.38276cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>106</ZIndex>
+            <Visibility>
+              <Hidden>="BUSINESS" &lt;&gt; First(Fields!Reference_No.Value, "DataSet1")</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked8">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>6.86558cm</Top>
+            <Left>9.38276cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>107</ZIndex>
+            <Visibility>
+              <Hidden>="BUSINESS" = First(Fields!Reference_No.Value, "DataSet1")</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked9">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>7.81497cm</Top>
+            <Left>9.38276cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>108</ZIndex>
+            <Visibility>
+              <Hidden>= Instr("[SICK][BUSINESS][VACATION]", "["+First(Fields!Reference_No.Value, "DataSet1")+"]")&gt;0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked9">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>7.81497cm</Top>
+            <Left>9.38276cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>109</ZIndex>
+            <Visibility>
+              <Hidden>= iif(Instr("[SICK][BUSINESS][VACATION]", "["+First(Fields!Reference_No.Value, "DataSet1")+"]")&gt;0,False,True)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked10">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>13.57599cm</Top>
+            <Left>0.14953cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>110</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Vacation.Value, "DataSet1")=0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked10">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>13.57599cm</Top>
+            <Left>0.14953cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>111</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Vacation.Value, "DataSet1")&lt;&gt;0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked11">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>14.52063cm</Top>
+            <Left>0.14953cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>112</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Military.Value, "DataSet1") = 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked11">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>14.52063cm</Top>
+            <Left>0.14953cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>113</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Military.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked12">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>13.57599cm</Top>
+            <Left>6.30369cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>114</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Business.Value, "DataSet1") = 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked12">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>13.57599cm</Top>
+            <Left>6.30369cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>115</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Business.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked13">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>14.52063cm</Top>
+            <Left>6.30369cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>116</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Maternity.Value, "DataSet1") = 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked13">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>14.52063cm</Top>
+            <Left>6.30369cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>117</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Maternity.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked14">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>14.52063cm</Top>
+            <Left>12.30156cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>118</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Others.Value, "DataSet1") = 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked14">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>14.52063cm</Top>
+            <Left>12.30156cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>119</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Others.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Checked15">
+            <Source>Embedded</Source>
+            <Value>checkedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>13.57599cm</Top>
+            <Left>12.30156cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>120</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Sick.Value, "DataSet1") = 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked15">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>13.57599cm</Top>
+            <Left>12.30156cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>121</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Sick.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked16">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>18.56191cm</Top>
+            <Left>1.33056cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>122</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Military.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked17">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>18.56191cm</Top>
+            <Left>4.99956cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>123</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Military.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked18">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>18.56191cm</Top>
+            <Left>10.04653cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>124</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Military.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Unchecked19">
+            <Source>Embedded</Source>
+            <Value>uncheckedcheckboxicon</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>18.56191cm</Top>
+            <Left>13.73353cm</Left>
+            <Height>0.5cm</Height>
+            <Width>0.4cm</Width>
+            <ZIndex>125</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!Taken_Military.Value, "DataSet1") &lt;&gt; 0</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <KeepTogether>true</KeepTogether>
+        <Top>2.1337cm</Top>
+        <Left>0.75265cm</Left>
+        <Height>22.05271cm</Height>
+        <Width>17.87051cm</Width>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+            <Width>2pt</Width>
+          </Border>
+        </Style>
+      </Rectangle>
+      <Textbox Name="Textbox2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>บริษัท มัลติพลัส จำกัด</Value>
+                <Style>
+                  <FontFamily>Angsana New</FontFamily>
+                  <FontSize>16pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>1.10182cm</Top>
+        <Left>2.29348cm</Left>
+        <Height>0.8cm</Height>
+        <Width>4.93787cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox93">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>หมายเหตุ :</Value>
+                <Style>
+                  <FontFamily>Angsana New</FontFamily>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>Underline</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>24.50295cm</Top>
+        <Left>1.01723cm</Left>
+        <Height>0.8cm</Height>
+        <Width>1.66431cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Bottom</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox94">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>การลาหยุดงาน พนักงานจะต้องได้รับการอนุมัติจากผู้จัดการฝ่าย ก่อนการหยุดงานทุกครั้ง (ยกเว้น การลาป่วย และในกรณีฉุกเฉิน)</Value>
+                <Style>
+                  <FontFamily>Angsana New</FontFamily>
+                  <FontSize>13pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>24.50295cm</Top>
+        <Left>2.71428cm</Left>
+        <Height>0.8cm</Height>
+        <Width>16.6115cm</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Bottom</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox95">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>หากพนักงานหยุดงานก่อนได้รับอนุมัติจากผู้จัดการฝ่าย ถือว่าเป็นการขาดงาน</Value>
+                <Style>
+                  <FontFamily>Angsana New</FontFamily>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>25.37351cm</Top>
+        <Left>2.71682cm</Left>
+        <Height>0.8cm</Height>
+        <Width>16.6115cm</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Bottom</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+      </Textbox>
+      <Image Name="Checked2">
+        <Source>Embedded</Source>
+        <Value>checkedcheckboxicon</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>1.27482cm</Top>
+        <Left>1.7441cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.5cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+    </ReportItems>
+    <Height>27.05031cm</Height>
+    <Style />
+  </Body>
+  <Width>19.35478cm</Width>
+  <Page>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>21cm</PageWidth>
+    <LeftMargin>0cm</LeftMargin>
+    <RightMargin>0cm</RightMargin>
+    <TopMargin>0cm</TopMargin>
+    <BottomMargin>0cm</BottomMargin>
+    <ColumnSpacing>1.27cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="LEAVE">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=(local);Initial Catalog=PROJEQTOR-LEAVE</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <rd:DataSourceID>4ebf21e9-5b9f-44f1-a2c8-2489b26779ec</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>LEAVE</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@RequestID">
+            <Value>=Parameters!RequestID.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@QTMonthStart">
+            <Value>=Parameters!QTMonthStart.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>WITH leave AS (
+SELECT emp.[Company Code],
+	CONVERT(VARCHAR(10),head.[Apply Date],103) AS [Apply Date],
+	(SELECT TOP 1 'คุณ'+p.[TH First Name]+'  '+p.[TH Last Name]
+		FROM [LV Profile Grantor] g WITH(READUNCOMMITTED)
+		INNER JOIN [HR Person] p WITH(READUNCOMMITTED) ON g.[Head Person No]=p.[Person No]
+		WHERE g.[Person No]=head.[Person No]
+		ORDER BY g.[Priority]
+	) AS [TH Head Name],
+	(SELECT TOP 1 p.[TH Position]
+		FROM [LV Profile Grantor] g WITH(READUNCOMMITTED)
+		INNER JOIN [HR Employee] p WITH(READUNCOMMITTED) ON g.[Head Person No]=p.[Person No]
+		WHERE g.[Person No]=head.[Person No]
+		ORDER BY g.[Priority],p.[Until Date] DESC
+	) AS [TH Head Position],
+	person.[TH Prefix],
+	person.[TH First Name],
+	person.[TH Last Name],
+	emp.Department,
+	emp.Section,
+	emp.[TH Position],
+	emp.[Employee No],
+	CONVERT(DECIMAL(10,5), SUM(
+		ISNULL(CASE line.[Approve Minutes] WHEN 0 THEN line.[Total Days] ELSE (line.[Approve Minutes]/60.0)
+		/(CASE line.[Hours Per Day] WHEN 0 THEN 8 ELSE line.[Hours Per Day] END) END, 0)
+	)) AS [Total Days],
+	MAX(line.[Hours Per Day]) as [Hours Per Day],
+	head.[Since],
+	head.[Until],
+	typesub.[Reference No],
+	typesub.[TH Name],
+	head.[Reason],
+	stat.Quota_Vacation,
+	stat.Taken_Business,
+	stat.Taken_Maternity,
+	stat.Taken_Military,
+	stat.Taken_Others,
+	stat.Taken_Sick,
+	stat.Taken_Vacation
+FROM [LV Request] AS head WITH(READUNCOMMITTED)
+  INNER JOIN [LV Leave] AS line WITH(READUNCOMMITTED) ON head.[Request ID]=line.[Request ID]
+  INNER JOIN [HR Person] AS person WITH(READUNCOMMITTED) ON head.[Person No]=person.[Person No]
+  INNER JOIN [LV Type Sub] AS typesub WITH(READUNCOMMITTED) ON head.[Type Sub ID] = typesub.[Type Sub ID]
+      LEFT OUTER JOIN [HR Employee] AS emp WITH(READUNCOMMITTED) INNER JOIN (
+               SELECT [Person No], MAX([Starting Date]) AS [Starting Date] 
+               FROM [HR Employee] WITH(READUNCOMMITTED) WHERE [Person No] = ISNULL(NULL, [Person No]) 
+               GROUP BY [Person No] 
+           ) latest ON emp.[Person No]=latest.[Person No] AND emp.[Starting Date]=latest.[Starting Date] 
+       ON person.[Person No] = emp.[Person No]
+  INNER JOIN (
+	  SELECT
+		SUM(CASE WHEN t.[Reference No]='VACATION' THEN (CASE
+				WHEN t.Today&lt;t.[Effective Date] THEN 0
+				WHEN t.Today&gt;=t.[Effective Date] AND YEAR(t.[Effective Date])=YEAR(t.Today) THEN (CASE t.lvt_quota
+					WHEN 0 THEN 0 ELSE CEILING(t.lvt_quota-(datediff(month,
+						DATEADD(second, 0, 
+						DATEADD(minute, 0, 
+						DATEADD(hour, 0,
+						DATEADD(day, 0, 
+						DATEADD(month, @QTMonthStart - 1, 
+						DATEADD(Year, YEAR(t.Today)-1900, 0)))))),t.[Effective Date])/12.0)) END)+t.lvt_quotaex
+				ELSE t.lvt_quota+t.lvt_quotaex END)
+			ELSE 0 END) AS Quota_Vacation,
+		SUM(CASE WHEN t.[Reference No]='VACATION' THEN t.lvt_taken ELSE 0 END) AS Taken_Vacation,
+		SUM(CASE WHEN t.[Reference No]='BUSINESS' THEN t.lvt_taken ELSE 0 END) AS Taken_Business,
+		SUM(CASE WHEN t.[Reference No]='SICK' THEN t.lvt_taken ELSE 0 END) AS Taken_Sick,
+		SUM(CASE WHEN t.[Reference No]='MILITARY' THEN t.lvt_taken ELSE 0 END) AS Taken_Military,
+		SUM(CASE WHEN t.[Reference No]='MATERNITY' THEN t.lvt_taken ELSE 0 END) AS Taken_Maternity,
+		SUM(CASE WHEN t.[Reference No] NOT IN ('VACATION','BUSINESS','SICK','MILITARY','MATERNITY') THEN t.lvt_taken ELSE 0 END) AS Taken_Others
+	FROM (
+		SELECT typesub.[Reference No], pfile.[Starting Date], pfile.[Effective Date],
+			DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE())) AS Today,
+			typesub.[Type Sub ID], 0 AS [Period ID], typesub.[TH Name],
+			CONVERT(DECIMAL(10,5),SUM(typesub.[Max Days Per Year])) AS lvt_quota,
+			CONVERT(DECIMAL(10,5),0) AS lvt_quotaex,
+			CONVERT(DECIMAL(10,5),SUM(ISNULL(lvtk.taken_days, 0))) AS lvt_taken,
+			CONVERT(DECIMAL(10,5),SUM(ISNULL(lvtk.approve_days, 0))) AS lvt_approve
+		FROM      [LV Type] AS lvtype with(readuncommitted)
+		INNER JOIN [LV Type Sub] AS typesub with(readuncommitted) ON lvtype.[Type No] = typesub.[Type No]
+		INNER JOIN (SELECT TOP 1 [Starting Date], DATEADD(YEAR,1,[Starting Date]) AS [Effective Date] FROM [HR Employee] a with(readuncommitted)
+			WHERE EXISTS(SELECT TOP 1 1 FROM [LV Request] with(readuncommitted) WHERE [Request ID]=@RequestID AND [Person No]=a.[Person No])
+			ORDER BY [Starting Date] DESC) AS pfile ON 1=1
+		LEFT OUTER JOIN (
+			SELECT YEAR(MIN([Leave Date])) AS taken_year,[Type Sub ID],
+			SUM([Total Hours] * [Hours Per Day]) AS taken_days,
+			SUM(([Approve Minutes]/60.0)/(CASE ln.[Hours Per Day] WHEN 0 THEN 8 ELSE ln.[Hours Per Day] END)) AS approve_days
+			FROM [LV Leave] AS ln with(readuncommitted)
+				INNER JOIN (SELECT TOP 1 CAST(YEAR([Since]) AS VARCHAR(4)) AS N, [Person No]
+				FROM [LV Request] with(readuncommitted) WHERE [Request ID]=@RequestID) AS y ON ln.[Person No]=y.[Person No]
+			WHERE [Status ID] IN (12,11,17,14,103) AND [Leave Date] BETWEEN y.N+'-01-01' AND y.N+'-12-31'
+			AND ln.[Request ID] &lt;&gt; @RequestID
+			AND NOT EXISTS(SELECT 1 FROM [LV Veto] with(readuncommitted) WHERE [Leave ID]=ln.[Leave ID] AND [Action Status]=1)
+			GROUP BY [Type Sub ID]
+		) lvtk ON typesub.[Type Sub ID] = lvtk.[Type Sub ID]
+		WHERE     (lvtype.Active = 1)
+		GROUP BY  typesub.[Reference No], pfile.[Starting Date],
+			pfile.[Effective Date], typesub.[Type Sub ID], typesub.[TH Name]
+	) t
+  ) stat ON 1=1
+WHERE head.[Request ID]=@RequestID
+GROUP BY emp.[Company Code],
+	CONVERT(VARCHAR(10),head.[Apply Date],103),
+	head.[Person No],
+	person.[TH Prefix],
+	person.[TH First Name],
+	person.[TH Last Name],
+	emp.Department,
+	emp.Section,
+	emp.[TH Position],
+	emp.[Employee No],
+	head.[Since],
+	head.[Until],
+	typesub.[Reference No],
+	typesub.[TH Name],
+	head.[Reason],
+	stat.Quota_Vacation,
+	stat.Taken_Business,
+	stat.Taken_Maternity,
+	stat.Taken_Military,
+	stat.Taken_Others,
+	stat.Taken_Sick,
+	stat.Taken_Vacation
+)
+SELECT * FROM leave</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Company_Code">
+          <DataField>Company Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Apply_Date">
+          <DataField>Apply Date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_Head_Name">
+          <DataField>TH Head Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_Head_Position">
+          <DataField>TH Head Position</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_Prefix">
+          <DataField>TH Prefix</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_First_Name">
+          <DataField>TH First Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_Last_Name">
+          <DataField>TH Last Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Department">
+          <DataField>Department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Section">
+          <DataField>Section</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_Position">
+          <DataField>TH Position</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Employee_No">
+          <DataField>Employee No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Days">
+          <DataField>Total Days</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Hours_Per_Day">
+          <DataField>Hours Per Day</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Since">
+          <DataField>Since</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Until">
+          <DataField>Until</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Reference_No">
+          <DataField>Reference No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TH_Name">
+          <DataField>TH Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Reason">
+          <DataField>Reason</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quota_Vacation">
+          <DataField>Quota_Vacation</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Taken_Business">
+          <DataField>Taken_Business</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Taken_Maternity">
+          <DataField>Taken_Maternity</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Taken_Military">
+          <DataField>Taken_Military</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Taken_Others">
+          <DataField>Taken_Others</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Taken_Sick">
+          <DataField>Taken_Sick</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Taken_Vacation">
+          <DataField>Taken_Vacation</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="RequestID">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>เลขที่ใบลา</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="QTMonthStart">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>QuotaMonthStart</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="QTUnlimited">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>366</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Quota Unlimited</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function ConvertDaysToString(ByVal Days As Double, ByVal QUOTA_UNLIMITED As Integer, ByVal HOURSPERDAY As Double) As String
+  If (Days=0 Or Days = QUOTA_UNLIMITED) Then Return "-"
+
+  Dim ahmins As Integer = 60
+  Dim admins As Double = ahmins * HOURSPERDAY
+  Dim tomins As Double = Days * admins
+  Dim d As Integer = Floor(Days)
+  Dim h As Integer = Floor((tomins Mod admins) / ahmins)
+  Dim m As Integer = Floor((tomins Mod admins) Mod ahmins)
+
+  Dim s As String = CStr(d)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
+  If m=0 Then
+    s = CStr(d)+":"+Right("0"+CStr(h),2)
+  ElseIf h=0 Then
+    s = CStr(d)
+  Else
+    s = CStr(d)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
+  End If
+  Return s
+End Function</Code>
+  <EmbeddedImages>
+    <EmbeddedImage Name="verasu_logo">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="checkedcheckboxicon">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAARCQAAEQkBwOWiGAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAL7SURBVFiFxZdPaFxVFIe/350pBkFwaSOIGw0WhMy78xJw1RTRjXTVXcCWYkuRWltciAuhIBQXKqn9sxCrcRG6asFYusiiZBFcZN59i0gFSUHcJIsuDAQEo/OOi3ljh5c3SRrfq2c1c865830z987jHpkZAJIURdE7ko4CHjhItbEOBDObT9P0a8vBMjOiKBp1zs0BhyuGDovFLMum0zRda0qS934Q/guwAKxVDB0F3gDGgMPOuTlJRxRF0SlJX+VN14HzSZL8VTEcgHa7fQCYAd4FMLPTLt9z6H3z2uAA+Wefz1lIOuroHTiAharh3vtXJiYmniuRWOi3OB6d9kr33Hs/Lel+lmW/xnF8QZIGyn3WQVcltB/j4+PPS7oKCBgxsy+897NlvbUINJvNG8CzhfRrT0TAe38aeLOYN7OLtQu0Wq0XJX1WzEu6HUKYq1VAkhqNxrfAM4XSw263e2bYusoEvPdnKXmUm9mZNE0f1irQarVeAj4tKc2FEG7vtPY/C0hyzrlZ4OlCaW1ra+u93dbvKBDHcWtycvLlnXqiKPpA0ra/mKRTKysrv+9boN1unzOztNvt3o/j+NgQ+CFJn5SUbnQ6nbu7wYcKeO9PAJfzt00zu1mUmJqaajYaje+ApwrLfxsZGbmwF/hQAUnFvdsmsbm5+ZGZtQt9ZmYnl5aWNvcq0CxLmtkVSd/Qe5YXJZD0APi4ZN21EMK9vcJhyC8QQpgFzpYJm9nNLMu+Bw4Uag8kffg48KECAEmSXDezUgnghUIuc84dT5Lkj8oEAEII10rOw7aQ9Pny8vKPjwvfVQCg0+lcBc7t0PLzxsbGtvNQmQBAkiRXgPdLSn+b
+2durq6t/1iqQS3xJ70I5GJdCCGG/8L7Aev56dA8Sl7Mse93MbgEnQggX98nts9blvf8BeIveVfnVOq/l8O9s8BO9AeWOM7P5vDYGzOQNdcJnchZmNi9A3vt7PNnRDGAxhHCkaWYWRdH0wHA6NtBUVyxmWTZtZqb/ezz/B/apNYlEaZeeAAAAAElFTkSuQmCC</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="uncheckedcheckboxicon">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAARCQAAEQkBwOWiGAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAElSURBVFiF7ZexbcMwEEXfHZwh7AXUkxrAcOHSC6hNUqTyKK5SBGm9gEoXgQew1GcBe4gA+ilEI0KQpJKchr87gOB7BFnwmyQAzMxCCPdmtgEiMGfcXIBGUt227asS2CQRQli4+x5Yjgz9Lceu66q2bc8zM7MY4xD+DhyA88jQBbAGCmDp7nszW1kI4cHMXtKiZ2B7Op0+RoYDUJblHbADngAkPXq6c+hPPhkcIO29TSzMbOP0Dw7gMCX8m8QhjdH5eu1j3/lfubLmfkPoj8kCWSALZIEskAWyQBbIAk7fWKD/t98qV9bFgSYN6/RvnzSJsU5j45LqNBTAbkqJQTEpACTVBliM8Y3bVjOAY9M0q5kkhRCqQTktBoumyrHrukqS7L/r+SfHsHkcXtByhgAAAABJRU5ErkJggg==</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="logo">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>d35d0f9f-36ed-4b5e-9b25-52f660082f39</rd:ReportID>
+</Report>

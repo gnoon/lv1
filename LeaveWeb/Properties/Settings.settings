@@ -1,0 +1,102 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Leave.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="dbCommandTimeout" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="enLocale" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">en-US</Value>
+    </Setting>
+    <Setting Name="thLocale" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">th-TH</Value>
+    </Setting>
+    <Setting Name="DbServerEncoding" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">windows-874</Value>
+    </Setting>
+    <Setting Name="WorkingDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\dev\Web\FingerScan\bin\Debug</Value>
+    </Setting>
+    <Setting Name="EnabledTIMEATTMenuSuite" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ADConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ADDomain" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LinkReportExport" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://porar.wingolfcloud.com:88/AdhocReports/Pages/ReportViewer.aspx?%2fmultiplus%2fleave%2fExport&amp;rs:Command=Render</Value>
+    </Setting>
+    <Setting Name="LinkReportWorkday" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://porar.wingolfcloud.com:88/AdhocReports/Pages/ReportViewer.aspx?%2fmultiplus%2fleave%2fWorkday&amp;rs:Command=Render</Value>
+    </Setting>
+    <Setting Name="LinkReportForm" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://porar.wingolfcloud.com:88/AdhocReports?%2fmultiplus%2fleave%2fLeave&amp;rs:Command=Render&amp;rs:Format=HTML4.0&amp;rc:toolbar=false&amp;RequestID=</Value>
+    </Setting>
+    <Setting Name="LinkReportNoEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://porar.wingolfcloud.com:88/AdhocReports/Pages/ReportViewer.aspx?%2fmultiplus%2fleave%2fNoEmail&amp;rs:Command=Render</Value>
+    </Setting>
+    <Setting Name="DefaultEmailDomain" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">multiplus.co.th</Value>
+    </Setting>
+    <Setting Name="AttachFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\multiplus.co.th\www_aspnet\leave_uploadfiles</Value>
+    </Setting>
+    <Setting Name="Policy_Quota_StartingMonth" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Policy_MinWorkYears_Vacation" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Business" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Vacation" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Maternity" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Initiation" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Celebratehullvalley" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Education" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Sterilization" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Wedding" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="Policy_SickHours_MaxContinuous" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">24</Value>
+    </Setting>
+    <Setting Name="Policy_WorkHours_PerDay" Type="System.Decimal" Scope="Application">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="Policy_Bcc_LeaveApproved" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">multiplussmtp@gmail.com</Value>
+    </Setting>
+    <Setting Name="Policy_Default_MorningBeginOClock" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="Policy_Default_MorningUntilOClock" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
+    <Setting Name="Policy_Default_NoonBeginOClock" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
+    <Setting Name="Policy_Default_NoonUntilOClock" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">17</Value>
+    </Setting>
+    <Setting Name="InternetBasedUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.multiplus.co.th:81/leaveonline</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

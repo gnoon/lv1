@@ -1,0 +1,992 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<!--[if IE 7 ]> <html class="no-js ie ie7 lte7 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 8 ]> <html class="no-js ie ie8 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 9 ]> <html class="no-js ie ie9 lte9>" lang="en-US"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
+<head>
+  <title>Leave Online</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta charset="utf-8">
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!--link rel="shortcut icon" href="../favicon.ico"-->
+	@{
+		var ContentsRequired = new ViewDataDictionary {
+		{"base.ui",true},{"jquery",true},{"jquery.ui",true},{"jquery.ui.core",true},
+		{"jquery.ui.widget",true},{"jquery.ui.button",true},{"jquery.ui.tabs",true},
+		{"jquery.ui.dialog",true},{"jquery.ui.position",true},{"jquery.jqgrid",true},
+		{"jquery.alphanum",true},{"jquery.maskedinput",true},{"jquery.ui.datepicker",true},
+		{"jquery.qtip",true},{"jquery.exists",true},{"my.fonts",true},{"my.site",true},
+		{"my.styles",true},{"my.scripts",true}};
+		Html.RenderPartial("~/Views/Shared/_Core.cshtml", ContentsRequired);
+	}
+	<style type="text/css">
+		.ui-inner-panel {
+			min-width: 1124px !important;
+		}
+		.m-ui-tabs-nested .ui-tabs .ui-tabs-nav {
+			background: inherit;
+		}
+		.m-ui-tabs-nested .ui-tabs .ui-tabs-panel {
+			min-height: 250px;
+		}
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#Quota-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListQuota", "Leave")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: 221
+				,caption: "<em>โควต้าวันลาของ { @ViewBag.PersonName }</em>"
+				,colNames: ["ประเภทการลา","สิทธิ์ลา (วัน)","ใช้ไปแล้ว (วัน)","อนุมัติแล้ว (วัน)","คงเหลือ (วัน)"]
+				,colModel: [
+					{name:"NameTH",index:"NameTH",width:150,sortable:true,resizable:false},
+					{name:"QuotaAmount",index:"QuotaAmount",width:90,align:"right",sortable:true,resizable:false},
+					{name:"TakenAmount",index:"TakenAmount",width:90,align:"right",sortable:true,resizable:false},
+					{name:"ApproveAmount",index:"ApproveAmount",width:90,align:"right",sortable:true,resizable:false},
+					{name:"BalanceAmount",index:"BalanceAmount",width:90,align:"right",sortable:true,resizable:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Quota-Grid-nav"
+				,rowNum: 100
+				,rowList: []         // disable page size dropdown [10,20,30]
+				,pgtext: null        // disable pager text like 'Page 0 of 10'
+				,pgbuttons: false    // disable page control like next, back button
+				,viewrecords: true   // display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							var t = this;
+							var arr = ["TakenAmount", "ApproveAmount", "BalanceAmount"];
+							$.each(arr, function(key, value) {
+								elem = $(t).children("td[aria-describedby*='"+value+"']");
+								res = DisplayDHMformatText($(elem).text(), "#d #h #m");
+								if(res) $(elem).prop("title", res);
+							});
+							$(this).children("td[aria-describedby*='Amount']").css({ "padding-right": "10px" });
+						});
+					} catch(e) {}
+				}
+			}).navGrid("#Quota-Grid-nav" ,{edit:false,add:false,del:false,refresh:false,search:false});
+
+			var LocalData = $.parseJSON(JSON.stringify(@Html.Raw(ViewBag.JsonLocalData)));
+			$("#Leave-Grid").jqGrid({
+				 datatype: "local"
+				,editurl: "clientArray"
+				,data: LocalData
+				,width: "auto"
+				,height: 90
+				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
+				,colNames: ["D1","D2","I1","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ชม. ลา","สถานะ","เหตุผลการลา"]
+				,colModel: [
+					{name:"LeaveID",index:"LeaveID",hidden:true},
+					{name:"StatusID",index:"StatusID",hidden:true},
+					{name:"IsCancelled",index:"IsCancelled",hidden:true},
+					{name:"LeaveDays",index:"LeaveDays",hidden:true},
+					{name:"ApplyDate",index:"ApplyDate",width:100,align:"center",sortable:true,resizable:true},
+					{name:"LeaveType",index:"LeaveType",width:220,sortable:true,resizable:true},
+					{name:"LeaveDate",index:"LeaveDate",width:120,align:"center",sortable:true,resizable:true},
+					{name:"LeavePeriod",index:"LeavePeriod",width:120,align:"center",sortable:true,resizable:true},
+					{name:"LeaveAmount",index:"LeaveAmount",width:120,align:"center",sortable:true,resizable:true},
+					{name:"LeaveStatus",index:"LeaveStatus",width:120,align:"center",sortable:true,resizable:true},
+					{name:"LeaveReason",index:"LeaveReason",width:300,sortable:true,resizable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Leave-Grid-nav"
+				,rowNum: 100
+				,rowList: []         // disable page size dropdown [10,20,30]
+				,pgtext: null        // disable pager text like 'Page 0 of 10'
+				,pgbuttons: false    // disable page control like next, back button
+				,viewrecords: true   // display the total number of records
+				,sortname: "LeaveID"
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							elem = $(this).children("td[aria-describedby*='LeaveAmount']");
+							res = DisplayDHMformatText($(elem).text(), "#h #m");
+							if(res) $(elem).prop("title", res);
+						});
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						var IsLeaveOneDay = ids.length == 1;
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							var LeaveID = rec.LeaveID;
+							var aStatusID = rec.StatusID;
+							var aLeaveType = rec.LeaveType;
+							var aLeaveDate = rec.LeaveDate;
+							var aLeavePeriod = rec.LeavePeriod;
+							var aLeaveAmount = rec.LeaveAmount;
+							var aLeaveStatus = rec.LeaveStatus;
+							var IsCancelled = eval(rec.IsCancelled);
+							var IsLeaveZero = parseFloat(rec.LeaveDays) == 0;
+							if(IsLeaveZero) {
+								aLeaveAmount = "<span style=\"color:red;\">"+aLeaveAmount+"</span>";
+								aLeaveStatus = "<span style=\"color:red;\">"+aLeaveStatus+"</span>";
+							} else {
+								aLeaveStatus = DisplayLeaveStatus(aStatusID, aLeaveStatus);
+							}
+							var eicon, vicon;
+							if(aLeaveType.indexOf("m-LeaveType") < 0 && !IsCancelled) {
+								eicon = "";
+								vicon = "<a id=\"change-type\" href=\"javascript:void(0);\" class=\"ui-icon ui-icon-zoomin\""+
+												"   onclick=\"GrantViewer(this,"+LeaveID+")\" title=\"รายละเอียดการอนุมัติ\"></a>";
+								if(!IsLeaveZero) {
+									eicon = "<a id=\"grant-viewer\" href=\"javascript:void(0);\" class=\"ui-icon ui-icon-pencil\""+
+													"   onclick=\"ChangeTypeUI(this,"+rowid+","+LeaveID+")\" title=\"แก้ไขประเภทการลา\"></a>";
+								}
+								aLeaveType = "<table id=\"m-LeaveType\" class=\"twelve\">"+
+														"  <tr>"+
+														"    <td class=\"edged\" style=\"border:none;\">"+aLeaveType+"</td>"+
+														"    <td class=\"edged\" style=\"width:10px;border:none;text-align:right;\">"+eicon+"</td>"+
+														"    <td class=\"edged\" style=\"width:10px;border:none;text-align:right;\">"+vicon+"</td>"+
+														"  </tr>"+
+														"</table>";
+							}
+							if(aLeaveDate.indexOf("m-LeaveDate") < 0 && !IsCancelled) {
+								eicon = "";
+								if(!IsLeaveZero && IsLeaveOneDay) {
+									eicon = "<a id=\"change-date\" href=\"javascript:void(0);\" class=\"ui-icon ui-icon-pencil\""+
+													"   onclick=\"ChangeDateUI(this,"+rowid+","+LeaveID+")\" title=\"แก้ไขวันลา\"></a>";
+									aLeaveDate = "<table id=\"m-LeaveDate\" class=\"twelve\">"+
+															"  <tr>"+
+															"    <td style=\"border:none;text-align:center;padding-left:20px;\">"+aLeaveDate+"</td>"+
+															"    <td class=\"edged\" style=\"width:10px;border:none;text-align:right;\">"+eicon+"</td>"+
+															"  </tr>"+
+															"</table>";
+								}
+							}
+							if(aLeavePeriod.indexOf("m-LeavePeriod") < 0 && !IsCancelled) {
+								eicon = "";
+								if(!IsLeaveZero) {
+									eicon = "<a id=\"change-time\" href=\"javascript:void(0);\" class=\"ui-icon ui-icon-pencil\""+
+													"   onclick=\"ChangeTimeUI(this,"+rowid+","+LeaveID+")\" title=\"แก้ไขเวลา\"></a>";
+									aLeavePeriod = "<table id=\"m-LeavePeriod\" class=\"twelve\">"+
+															"  <tr>"+
+															"    <td style=\"border:none;text-align:center;padding-left:20px;\">"+aLeavePeriod+"</td>"+
+															"    <td class=\"edged\" style=\"width:10px;border:none;text-align:right;\">"+eicon+"</td>"+
+															"  </tr>"+
+															"</table>";
+								}
+							}
+							if(aLeaveAmount.indexOf("m-LeaveAmount") < 0 && !IsCancelled) {
+								eicon = "<a id=\"change-amount\" href=\"javascript:void(0);\" class=\"ui-icon ui-icon-pencil\""+
+												"   onclick=\"ChangeAmountUI(this,"+rowid+","+LeaveID+")\" title=\"แก้ไขชั่วโมงลา\"></a>";
+								aLeaveAmount = "<table id=\"m-LeaveAmount\" class=\"twelve\">"+
+															"  <tr>"+
+															"    <td style=\"border:none;text-align:center;padding-left:20px;\">"+aLeaveAmount+"</td>"+
+															"    <td class=\"edged\" style=\"width:10px;border:none;text-align:right;\">"+eicon+"</td>"+
+															"  </tr>"+
+															"</table>";
+							}
+							if(aLeaveStatus.indexOf("m-LeaveStatus") < 0 && !IsCancelled) {
+								eicon = "";
+								if(!IsLeaveZero) {
+									eicon = "<a id=\"change-status\" href=\"javascript:void(0);\" class=\"ui-icon ui-icon-pencil\""+
+													"   onclick=\"ChangeStatusUI(this,"+rowid+","+LeaveID+")\" title=\"แก้ไขสถานะใบลา\"></a>";
+								}
+								aLeaveStatus = "<table id=\"m-LeaveStatus\" class=\"twelve\">"+
+															"  <tr>"+
+															"    <td style=\"border:none;text-align:center;padding-left:20px;\">"+aLeaveStatus+"</td>"+
+															"    <td class=\"edged\" style=\"width:10px;border:none;text-align:right;\">"+eicon+"</td>"+
+															"  </tr>"+
+															"</table>";
+							}
+
+							$(this).setRowData(rowid, { LeaveType: aLeaveType, LeaveDate: aLeaveDate,
+											LeavePeriod: aLeavePeriod, LeaveAmount: aLeaveAmount, LeaveStatus: aLeaveStatus });
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Leave-Grid-nav" ,{edit:false,add:false,del:false,refresh:false,search:false});
+
+			$("#tabs").tabs({
+				create: function(event, ui) {
+					var a = $(".ui-jqgrid:eq(0)").outerHeight();
+					var b = $(this).children(".ui-tabs-nav").outerHeight();
+					$(this).children(".ui-tabs-panel").css({ "height" : (a - b) });
+				}
+			});
+
+			$("#viewForm").button({ icons: { primary: "ui-icon-contact" }, text: true });
+			$("#prevData").button({ icons: { primary: "ui-icon-circle-arrow-w" }, text: true });
+			$("#nextData").button({ icons: { primary: "ui-icon-circle-arrow-e" }, text: true });
+
+			VerifyRequestCompare();
+		});
+
+		function VerifyRequestCompare() {
+			$("#prevData").button({ disabled: true });
+			$("#nextData").button({ disabled: true });
+			$.ajax({
+				 url: '@Url.Action("AjaxVerifyRequestCompare", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", PersonNo: "@ViewBag.PersonNo" }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if(data.hasPrevRequested) $("#prevData").button({ disabled: false });
+					if(data.hasNextRequested) $("#nextData").button({ disabled: false });
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {}
+			});
+		}
+
+		// Change Leave Type
+		function ChangeType(elem, rowid, LeaveID, NewTypeSubID) {
+			var objGrid = "#Leave-Grid";
+			var eid = $(elem).prop("id");
+			var bDiv = $(objGrid)[0].grid.bDiv;
+
+			var em = "e".concat(new Date().getTime());
+			DisabledPageInteractive(em);
+			//var rec = $(objGrid).jqGrid("getRowData", rowid);
+			$.ajax({
+				 url: '@Url.Action("AjaxChangeType", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", LeaveID: LeaveID, NewTypeSubID: NewTypeSubID }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						if(typeof(data.results) == "object" && data.results != null) {
+							var ids = $(objGrid).jqGrid("getDataIDs");
+							for(var i=0; i<ids.length; i++) {
+								var rowid_i = ids[i];
+								var rec_i = $(objGrid).jqGrid("getRowData", rowid_i);
+								$.each(data.results, function(key, obj) {
+									if(obj.LeaveID.toString() == rec_i.LeaveID) {
+										$(objGrid).jqGrid("setRowData", rowid_i, {
+											StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
+											LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+											LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
+										});
+									}
+								});
+							}
+						}
+						$(objGrid).jqGrid().trigger("reloadGrid");
+						$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						setTimeout(function() {
+							EnabledPageInteractive(em);
+							elem = $(bDiv).find(".ui-jqgrid-btable tr[role=row][id="+rowid+"] a[id="+eid+"]");
+							DisplayqTipResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						}, 1000);
+					} else {
+						EnabledPageInteractive(em);
+						DisplayqTipResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("error.");
+					EnabledPageInteractive(em);
+				}
+			});
+		}
+
+		function ChangeTypeUI(elem, rowid, LeaveID) {
+			if(!$.exist($(elem).children("div"))) {
+				$(elem).append($("<div />"));
+			}
+			if($(elem).children("div").hasClass("ui-dialog-content")) {
+				$(elem).children("div").dialog("open");
+			} else {
+				$(elem).children("div").html(
+					"<div class=\"tab-detail\">"+
+					"  <table class=\"info-panel\">"+
+					"    <tr>"+
+					"      <td style=\"text-align:right;\">ระบุประเภทการลา :</td>"+
+					"      <td>"+
+					"        <select id=\"d-LeaveType\">"+
+					"          <option value=\"\">- เลือก -</option>"+
+					"          @Html.Raw(ViewBag.LeaveTypeChanged)"+
+					"        </select>"+
+					"      </td>"+
+					"    </tr>"+
+					"  </table>"+
+					"</div>"
+				).dialog({
+					 modal: true
+					,autoOpen: true
+					,width: "auto"
+					,height: "auto"
+					,resizable: false
+					,closeOnEscape: true
+					,title: $(elem).prop("title")
+					,buttons: {
+						"Submit": function () {
+							var eValue = $(this).find("#d-LeaveType").val();
+							if(eValue) {
+								if(!confirm("กรณีแก้ไขประเภทการลา จะมีผลทั้งใบลา"))
+								{
+									$(this).dialog("close");
+									return;
+								}
+								$(this).dialog("close");
+								ChangeType(elem, rowid, LeaveID, eValue);
+							} else {
+								alert("กรุณาเลือกรายการ");
+							}
+						},
+						"Cancel": function () { $(this).dialog("close"); }
+					}
+					//,open: function (event, ui) {}
+					,close: function(event, ui) { $(this).dialog("destroy").remove(); }
+				});
+			}
+		}
+
+		// Change Leave Date
+		function ChangeDate(elem, rowid, LeaveID, NewLeaveDate) {
+			var objGrid = "#Leave-Grid";
+			var eid = $(elem).prop("id");
+			var bDiv = $(objGrid)[0].grid.bDiv;
+
+			var em = "e".concat(new Date().getTime());
+			DisabledPageInteractive(em);
+			//var rec = $(objGrid).jqGrid("getRowData", rowid);
+			$.ajax({
+				 url: '@Url.Action("AjaxChangeDate", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", LeaveID: LeaveID, NewLeaveDate: NewLeaveDate }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						if(typeof(data.results) == "object" && data.results != null) {
+							var obj = data.results;
+							$(objGrid).jqGrid("setRowData", rowid, {
+								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
+								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
+							});
+						}
+						$(objGrid).jqGrid().trigger("reloadGrid");
+						$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						setTimeout(function() {
+							EnabledPageInteractive(em);
+							elem = $(bDiv).find(".ui-jqgrid-btable tr[role=row][id="+rowid+"] a[id="+eid+"]");
+							DisplayqTipResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						}, 1000);
+					} else {
+						EnabledPageInteractive(em);
+						DisplayqTipResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("error.");
+					EnabledPageInteractive(em);
+				}
+			});
+		}
+
+		function ChangeDateUI(elem, rowid, LeaveID) {
+			if(!$.exist($(elem).children("div"))) {
+				$(elem).append($("<div />"));
+			}
+			if($(elem).children("div").hasClass("ui-dialog-content")) {
+				$(elem).children("div").dialog("open");
+			} else {
+				$(elem).children("div").html(
+					"<div class=\"tab-detail\">"+
+					"  <table class=\"info-panel\">"+
+					"    <tr>"+
+					"      <td style=\"text-align:right;\">ระบุวันลา :</td>"+
+					"      <td><input type=\"text\" id=\"d-LeaveDate\" value=\"\" style=\"width:100px;\"></td>"+
+					"    </tr>"+
+					"  </table>"+
+					"</div>"
+				).dialog({
+					 modal: true
+					,autoOpen: true
+					,width: "auto"
+					,height: "auto"
+					,resizable: false
+					,closeOnEscape: true
+					,title: $(elem).prop("title")
+					,buttons: {
+						"Submit": function () {
+							var eValue = $(this).find("#d-LeaveDate").val();
+							if(eValue && eValue.indexOf("_") == -1) {
+								$(this).dialog("close");
+								ChangeDate(elem, rowid, LeaveID, eValue);
+							} else {
+								alert("กรุณาระบุวันที่ให้ถูกต้อง");
+							}
+						},
+						"Cancel": function () { $(this).dialog("close"); }
+					}
+					,open: function (event, ui) {
+						$(this).find("#d-LeaveDate")
+						.mask("99/99/9999")
+					  .datepicker({
+							dateFormat: "dd/mm/yy",
+							autoSize: true,
+							changeYear: true,
+							changeMonth: true,
+							onSelect: function () {
+								try {
+									$(this).datepicker("hide");
+									var getDate = $(this).datepicker("getDate");
+									if($.type(getDate) === "date") {
+										$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+									}
+								} catch (e) {}
+							}
+						}).keyup(function() {
+							if($(this).val().indexOf("_") == -1) {
+								try {
+									//$(this).datepicker("hide");
+									$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+								} catch (e) {}
+							}
+						}).blur();
+					}
+					,close: function(event, ui) { $(this).dialog("destroy").remove(); }
+				});
+			}
+		}
+
+		// Change Leave Time
+		function ChangeTime(elem, rowid, LeaveID, NewBeginTime, NewUntilTime) {
+			var objGrid = "#Leave-Grid";
+			var eid = $(elem).prop("id");
+			var bDiv = $(objGrid)[0].grid.bDiv;
+
+			var em = "e".concat(new Date().getTime());
+			DisabledPageInteractive(em);
+			//var rec = $(objGrid).jqGrid("getRowData", rowid);
+			$.ajax({
+				 url: '@Url.Action("AjaxChangeTime", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", LeaveID: LeaveID, NewBeginTime: NewBeginTime, NewUntilTime: NewUntilTime }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						if(typeof(data.results) == "object" && data.results != null) {
+							var obj = data.results;
+							$(objGrid).jqGrid("setRowData", rowid, {
+								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
+								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
+							});
+						}
+						$(objGrid).jqGrid().trigger("reloadGrid");
+						$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						setTimeout(function() {
+							EnabledPageInteractive(em);
+							elem = $(bDiv).find(".ui-jqgrid-btable tr[role=row][id="+rowid+"] a[id="+eid+"]");
+							DisplayqTipResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						}, 1000);
+					} else {
+						EnabledPageInteractive(em);
+						DisplayqTipResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("error.");
+					EnabledPageInteractive(em);
+				}
+			});
+		}
+
+		function ChangeTimeUI(elem, rowid, LeaveID) {
+			if(!$.exist($(elem).children("div"))) {
+				$(elem).append($("<div />"));
+			}
+			if($(elem).children("div").hasClass("ui-dialog-content")) {
+				$(elem).children("div").dialog("open");
+			} else {
+				$(elem).children("div").html(
+					"<div class=\"tab-detail\">"+
+					"  <table class=\"info-panel\">"+
+					"    <tr>"+
+					"      <td style=\"text-align:right;\">เวลาเริ่ม :</td>"+
+					"      <td><input type=\"text\" id=\"d-BeginTime\" value=\"\" style=\"width:90px;\"></td>"+
+					"    </tr>"+
+					"    <tr>"+
+					"      <td style=\"text-align:right;\">จนถึงเวลา :</td>"+
+					"      <td><input type=\"text\" id=\"d-UntilTime\" value=\"\" style=\"width:90px;\"></td>"+
+					"    </tr>"+
+					"  </table>"+
+					"</div>"
+				).dialog({
+					 modal: true
+					,autoOpen: true
+					,width: "auto"
+					,height: "auto"
+					,resizable: false
+					,closeOnEscape: true
+					,title: $(elem).prop("title")
+					,buttons: {
+						"Submit": function () {
+							var eBegin = $(this).find("#d-BeginTime").val();
+							var eUntil = $(this).find("#d-UntilTime").val();
+							if(eBegin && eUntil) {
+								$(this).dialog("close");
+								ChangeTime(elem, rowid, LeaveID, eBegin, eUntil);
+							} else {
+								alert("กรุณาระบุเวลาให้ครบ");
+							}
+						},
+						"Cancel": function () { $(this).dialog("close"); }
+					}
+					,open: function (event, ui) {
+						$(this).find("#d-BeginTime").mask("99:99");
+						$(this).find("#d-UntilTime").mask("99:99");
+					}
+					,close: function(event, ui) { $(this).dialog("destroy").remove(); }
+				});
+			}
+		}
+
+		// Change Leave Amount
+		function ChangeAmount(elem, rowid, LeaveID, NewTotalHours, NewTotalMinutes) {
+			var objGrid = "#Leave-Grid";
+			var eid = $(elem).prop("id");
+			var bDiv = $(objGrid)[0].grid.bDiv;
+			
+			var em = "e".concat(new Date().getTime());
+			DisabledPageInteractive(em);
+			//var rec = $(objGrid).jqGrid("getRowData", rowid);
+			$.ajax({
+				 url: '@Url.Action("AjaxChangeAmount", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", LeaveID: LeaveID, NewTotalHours: NewTotalHours, NewTotalMinutes: NewTotalMinutes }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						if(typeof(data.results) == "object" && data.results != null) {
+							var obj = data.results;
+							$(objGrid).jqGrid("setRowData", rowid, {
+								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
+								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
+							});
+						}
+						$(objGrid).jqGrid().trigger("reloadGrid");
+						$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						setTimeout(function() {
+							EnabledPageInteractive(em);
+							elem = $(bDiv).find(".ui-jqgrid-btable tr[role=row][id="+rowid+"] a[id="+eid+"]");
+							DisplayqTipResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						}, 1000);
+					} else {
+						EnabledPageInteractive(em);
+						DisplayqTipResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("error.");
+					EnabledPageInteractive(em);
+				}
+			});
+		}
+
+		function ChangeAmountUI(elem, rowid, LeaveID) {
+			if(!$.exist($(elem).children("div"))) {
+				$(elem).append($("<div />"));
+			}
+			if($(elem).children("div").hasClass("ui-dialog-content")) {
+				$(elem).children("div").dialog("open");
+			} else {
+				$(elem).children("div").html(
+					"<div class=\"tab-detail\">"+
+					"  <table class=\"info-panel\">"+
+					"    <tr>"+
+					"      <td style=\"text-align:right;\">ระบุจำนวณ :</td>"+
+					"      <td>"+
+					"        <input type=\"text\" id=\"d-TotalHours\" value=\"\" style=\"width:50px;\"> ชม."+
+					"        <input type=\"text\" id=\"d-TotalMinutes\" value=\"\" style=\"width:50px;\"> นาที"+
+					"      </td>"+
+					"    </tr>"+
+					"  </table>"+
+					"</div>"
+				).dialog({
+					 modal: true
+					,autoOpen: true
+					,width: "auto"
+					,height: "auto"
+					,resizable: false
+					,closeOnEscape: true
+					,title: $(elem).prop("title")
+					,buttons: {
+						"Submit": function () {
+							var eTotalHours = $(this).find("#d-TotalHours").val();
+							var eTotalMinutes = $(this).find("#d-TotalMinutes").val();
+							if(eTotalHours || eTotalMinutes) {
+								$(this).dialog("close");
+								eTotalHours = parseInt(eTotalHours);
+								eTotalMinutes = parseInt(eTotalMinutes);
+								if(isNaN(eTotalHours)) eTotalHours = 0;
+								if(isNaN(eTotalMinutes)) eTotalMinutes = 0;
+								ChangeAmount(elem, rowid, LeaveID, eTotalHours, eTotalMinutes);
+							} else {
+								alert("กรุณาระบุจำนวณ");
+							}
+						},
+						"Cancel": function () { $(this).dialog("close"); }
+					}
+					,open: function (event, ui) {
+						$(this).find("#d-TotalHours").alphanum({maxLength:1}).numeric({min:0,max:8,allowMinus:false});
+						$(this).find("#d-TotalMinutes").alphanum({maxLength:2}).numeric({max:59});
+					}
+					,close: function(event, ui) { $(this).dialog("destroy").remove(); }
+				});
+			}
+		}
+
+		// Change Leave Status
+		function ChangeStatus(elem, rowid, LeaveID, NewStatusID) {
+			var objGrid = "#Leave-Grid";
+			var eid = $(elem).prop("id");
+			var bDiv = $(objGrid)[0].grid.bDiv;
+
+			var em = "e".concat(new Date().getTime());
+			DisabledPageInteractive(em);
+			//var rec = $(objGrid).jqGrid("getRowData", rowid);
+			$.ajax({
+				 url: '@Url.Action("AjaxChangeStatus", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", LeaveID: LeaveID, NewStatusID: NewStatusID }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						if(typeof(data.results) == "object" && data.results != null) {
+							var obj = data.results;
+							$(objGrid).jqGrid("setRowData", rowid, {
+								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
+								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
+							});
+						}
+						$(objGrid).jqGrid().trigger("reloadGrid");
+						$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						setTimeout(function() {
+							EnabledPageInteractive(em);
+							elem = $(bDiv).find(".ui-jqgrid-btable tr[role=row][id="+rowid+"] td[aria-describedby*='LeaveStatus']").next(0);
+							DisplayqTipResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						}, 1000);
+					} else {
+						EnabledPageInteractive(em);
+						DisplayqTipResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("error.");
+					EnabledPageInteractive(em);
+				}
+			});
+		}
+
+		function ChangeStatusUI(elem, rowid, LeaveID) {
+			if(!$.exist($(elem).children("div"))) {
+				$(elem).append($("<div />"));
+			}
+			if($(elem).children("div").hasClass("ui-dialog-content")) {
+				$(elem).children("div").dialog("open");
+			} else {
+				$(elem).children("div").html(
+					"<div class=\"tab-detail\">"+
+					"  <table class=\"info-panel\">"+
+					"    <tr>"+
+					"      <td style=\"text-align:right;\">ระบุสถานะ :</td>"+
+					"      <td>"+
+					"        <select id=\"d-LeaveStatus\">"+
+					"          <option value=\"\">- เลือก -</option>"+
+					"          @Html.Raw(ViewBag.LeaveStatusChanged)"+
+					"        </select>"+
+					"      </td>"+
+					"    </tr>"+
+					"  </table>"+
+					"</div>"
+				).dialog({
+					 modal: true
+					,autoOpen: true
+					,width: "auto"
+					,height: "auto"
+					,resizable: false
+					,closeOnEscape: true
+					,title: $(elem).prop("title")
+					,buttons: {
+						"Submit": function () {
+							var eValue = $(this).find("#d-LeaveStatus").val();
+							if(eValue) {
+								$(this).dialog("close");
+								ChangeStatus(elem, rowid, LeaveID, eValue);
+							} else {
+								alert("กรุณาระบุสถานะ");
+							}
+						},
+						"Cancel": function () { $(this).dialog("close"); }
+					}
+					//,open: function (event, ui) {}
+					,close: function(event, ui) { $(this).dialog("destroy").remove(); }
+				});
+			}
+		}
+
+		// Grant Viewer
+		function GrantViewer(elem, id) {
+			var html = "";
+			var htmlu = "";
+			$.ajax({
+				 url: '@Url.Action("AjexListGrantViewer", "Leave")'
+				,type: "POST"
+				,async: true
+				,data: { LeaveID: id }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					var n = 0;
+					for(i=0; i<data.grants.length; i++) {
+						n++;
+						var addClassName = (n % 2) == 0 ? "oddColor" : "evenColor";
+						html = html+
+						"<tr class=\"ui-widget-content m-grid-row ui-row-ltr "+addClassName+"\">"+
+						"  <td class=\"ui-state-default m-grid-rownum\">"+n+"</td>"+
+						"  <td>"+data.grants[i].HeadPersonName+"</td>"+
+						"  <td style=\"text-align:center;\">"+data.grants[i].GrantStepName+"</td>"+
+						"  <td style=\"text-align:center;\">"+data.grants[i].GrantDate+"</td>"+
+						"  <td>"+data.grants[i].GrantComment+"</td>"+
+						"</tr>";
+					}
+					if(data.vetoes.length > 0) {
+						n = 0;
+						for(i=0; i<data.vetoes.length; i++) {
+							n++;
+							var addClassName = (n % 2) == 0 ? "oddColor" : "evenColor";
+							htmlu = htmlu+
+							"<tr class=\"ui-widget-content m-grid-row ui-row-ltr "+addClassName+"\">"+
+							"  <td class=\"ui-state-default m-grid-rownum\">"+n+"</td>"+
+							"  <td>"+data.vetoes[i].HeadPersonName+"</td>"+
+							"  <td style=\"text-align:center;\">"+data.vetoes[i].ActionStatusName+"</td>"+
+							"  <td style=\"text-align:center;\">"+data.vetoes[i].ActionDate+"</td>"+
+							"  <td>"+data.vetoes[i].Reason+"</td>"+
+							"</tr>";
+						}
+						htmlu = "<br>"+
+							"<div class=\"twelve ui-state-default\" style=\"font-weight:bold;color:red;text-align:center;\">การระงับลา</div>"+
+							"<table class=\"ui-widget-content m-ui-grid-table twelve\" style=\"font-size:11px;\">"+
+							"  <thead>"+
+							"    <tr>"+
+							"      <th class=\"ui-state-default\" style=\"width:20px;\">&nbsp;</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:160px;\">ผู้ระงับ</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:80px;\">สถานะ</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:80px;\">วันที่ระงับ</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:200px;\">หมายเหตุ</th>"+
+							"    </tr>"+
+							"  </thead>"+
+							"  <tbody>"+
+							"    "+htmlu+
+							"  </tbody>"+
+							"</table>";
+					}
+					//if($(elem).children().is(".m-ui-grid"))
+					if(!$.exist($(elem).children("div"))) {
+						$(elem).append($("<div />").prop("class","m-ui-grid"));
+					}
+					if($(elem).children("div").hasClass("ui-dialog-content")) {
+						$(elem).children("div").dialog("open");
+					} else {
+						$(elem).children("div").html(
+							"<table class=\"ui-widget-content m-ui-grid-table twelve\" style=\"font-size:11px;\">"+
+							"  <thead>"+
+							"    <tr>"+
+							"      <th class=\"ui-state-default\" style=\"width:20px;\">&nbsp;</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:160px;\">ผู้อนุมัติ</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:80px;\">ผลการอนุมัติ</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:80px;\">วันที่อนุมัติ</th>"+
+							"      <th class=\"ui-state-default\" style=\"width:200px;\">เหตุผลการอนุมัติ</th>"+
+							"    </tr>"+
+							"  </thead>"+
+							"  <tbody>"+
+							"    "+html+
+							"  </tbody>"+
+							"</table>"+htmlu
+						).dialog({
+							 modal: true
+							,autoOpen: true
+							,width: "auto"
+							,height: "auto"
+							,resizable: false
+							,closeOnEscape: true
+							,title: $(elem).prop("title")
+							,close: function(event, ui) { $(this).dialog("destroy").remove(); }
+						});
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					window.console && console.log("Push Dialog (ajax): " + textStatus);
+				}
+			});
+		}
+
+		/* Reset sticky footer */
+		$(window).load(function () {
+			if ($(document.body).height() < $(window).height()) {
+				try {
+					var $windowHeight = $(window).height();
+					var $headerHeight = $("header").outerHeight();
+					var $containerHeight = $("#container").outerHeight();
+					var $content = $("#content-wrapper");
+					var $contentHeight = $("#content-wrapper").outerHeight();
+					$content.css({
+						"height": $windowHeight - $headerHeight - ($containerHeight - $contentHeight)
+					});
+				} catch (e) {
+					window.console && console.log("Adjust sticky footer error: " + e.toString());
+				}
+			}
+			setTimeout(function() { ResetGridHeight(); }, 300);
+		});
+
+		function ResetGridHeight(height) {
+			var skipInnerHeight = 80;
+			var outerPanelHeight = $("#content-wrapper").outerHeight();
+			var outerPanelPaddingTop = Math.abs(parseInt($("#content-wrapper").css("padding-top")));
+			var outerPanelPaddingBottom = Math.abs(parseInt($("#content-wrapper").css("padding-bottom")));
+			var firstInnerPanelHeight = $("#first-inner-panel").outerHeight();
+			var firstSpacePanelHeight = $("#first-space-panel").outerHeight();
+			var secondInnerPanelHeight = $("#second-inner-panel").outerHeight();
+			var secondSpacePanelHeight = $("#second-space-panel").outerHeight();
+			var thirdInnerPanelHeight = $("#third-inner-panel").outerHeight();
+			var fitContentHeight = outerPanelHeight - outerPanelPaddingTop - outerPanelPaddingBottom -
+														 firstInnerPanelHeight - firstSpacePanelHeight - 
+														 secondInnerPanelHeight - secondSpacePanelHeight - skipInnerHeight;
+									 
+			if(thirdInnerPanelHeight < fitContentHeight) {
+				$("#Leave-Grid").jqGrid("setGridHeight", fitContentHeight);
+			}
+		}
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+</head>
+<body>
+	<header>
+		<section id="global-nav">
+			<nav>
+				<div class="constrain">
+					<span id="logo-events">
+						<img src="@Url.Content("~/Content/images/logo.png")" alt="Company Logo" style="width:150px;height:30px;"/>
+					</span>
+					@if(User.Identity.IsAuthenticated){
+					<ul class="projects">
+						<li class="project home"><a href="@ViewBag.Referrer" title="Home"><span class="homeIcon"></span></a></li>
+						<li class="project proj"><a href="@Request.Url.AbsoluteUri" title="Leave" class="active"><span>Leave</span></a></li>
+					</ul>
+					<ul class="links">
+            @{if(User.Identity is LeaveCore.LoginIdentity){
+              <li><a href="#">@(((LeaveCore.LoginIdentity)User.Identity).FirstName) @(((LeaveCore.LoginIdentity)User.Identity).LastName)</a></li>
+            }}
+						<li><a href="@Url.Content("~/Public/Logout")">Log out</a></li>
+					</ul>}
+				</div>
+			</nav>
+		</section>
+	</header>
+	<div id="container">
+		<div id="content-wrapper" class="clearfix">
+			<div class="content-right twelve columns">
+				<div id="outer-panel" class="ui-inner-panel">
+					<div id="first-inner-panel" class="ui-inner-panel">
+						<div class="left-side">
+							<table id="Quota-Grid"></table>
+							<div id="Quota-Grid-nav"></div>
+						</div>
+						<div class="right-side">
+							<div class="m-ui-tabs">
+								<div class="m-ui-tabs-nested">
+									<div id="tabs">
+										<ul>
+											<li><a href="#tabs-1"><span>ข้อมูลทั่วไป</span></a></li>
+										</ul>
+										<div id="tabs-1">
+											<div class="tab-detail">
+												<table>
+													<tr>
+														<td style="vertical-align:top;border:1px solid #ccc;width:150px;">
+															<img src="@Url.Content("~/Content/images/no_pic.jpg")" width="150" height="150" alt="">
+														</td>
+														<td style="vertical-align:top;padding-left:20px;">
+															<table class="info-panel">
+																<tr>
+																	<td style="text-align:right;">รหัส :</td>
+																	<td><input type="text" id="EmployeeNo" value="@ViewBag.EmployeeNo" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">ชื่อ - สกุล :</td>
+																	<td><input type="text" id="PersonName" value="@ViewBag.PersonName" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">ตำแหน่ง :</td>
+																	<td><input type="text" id="PositionName" value="@ViewBag.PositionName" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">สังกัด/แผนก :</td>
+																	<td><input type="text" id="DepartmentName" value="@ViewBag.DepartmentName" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">วันที่เริ่มปฏิบัติงาน :</td>
+																	<td><input type="text" id="StartingDate" value="@ViewBag.StartingDate" disabled style="width:200px;"></td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="first-space-panel" style="height:20px;"></div>
+					<div id="second-inner-panel" class="ui-inner-panel twelve">
+						<!--div class="right-side">
+							<a id="viewForm" class="m-ui-button" href="@ViewBag.UrlLinkForm" target="_blank">พิมพ์แบบฟอร์ม</a>
+							<a id="prevData" class="m-ui-button" href="@Url.Content("~/Leave/Adjusting")/@ViewBag.UrlPrevData">ใบลาก่อนหน้า</a>
+							<a id="nextData" class="m-ui-button" href="@Url.Content("~/Leave/Adjusting")/@ViewBag.UrlNextData">ใบลาถัดไป</a>
+						</div-->
+						<div class="left-side">
+							<a id="viewForm" class="m-ui-button" href="@ViewBag.UrlLinkForm" target="_blank">พิมพ์แบบฟอร์ม</a>
+						</div>
+					</div>
+					<div id="second-space-panel" style="height:20px;"></div>
+					<div id="third-inner-panel" class="ui-inner-panel">
+						<table id="Leave-Grid"></table>
+						<div id="Leave-Grid-nav"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

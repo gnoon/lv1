@@ -1,0 +1,7 @@
+﻿1. Interop type 'zkemkeeper.CZKEMClass' cannot be embedded. Use the applicable interface instead.
+
+Solved: 
+.NET 4.0 allows primary interop assemblies (or rather, the bits of it that you need) to be embedded into your assembly so that you don't need to deploy them alongside your application.
+
+For whatever reason, this assembly can't be embedded - but it sounds like that's not a problem for you. Just open the Properties tab for the assembly in Visual Studio 2010 and set "Embed Interop Types" to "False".
+

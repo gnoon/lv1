@@ -1,0 +1,261 @@
+﻿@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+
+			$("#d-ScheduleDate").mask("99/99/9999")
+													.datepicker({
+        dateFormat: "dd/mm/yy",
+        autoSize: true,
+        changeYear: true,
+        changeMonth: true,
+				numberOfMonths: 1,
+				minDate: new Date(), // set mindate is current.
+				onClose: function(selectedDate) {
+					try {
+						var getDate = $(this).datepicker("getDate");
+						if($.type(getDate) === "date") {
+							$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+						}
+					} catch (e) {}
+				}
+      }).keyup(function() {
+				if($(this).val().indexOf("_") == -1) {
+					try {
+						//$(this).datepicker("hide");
+						$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+					} catch (e) {}
+				}
+			});
+
+			$("#Person-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListPerson", "Attendance")'
+				,mtype: "POST"
+				,datatype: "json"
+				,width: "auto"
+				,height: 221
+				,caption: "<em>รายชื่อพนักงาน</em>"
+				,colNames: ["ID","รหัส","ชื่อ - สกุล","สังกัด","ตำแหน่ง","อีเมลล์"]
+				,colModel: [
+					{name:"PersonNo",index:"PersonNo",hidden:true,search:false},
+					{name:"EmployeeNo",index:"EmployeeNo",width:60,align:"center",sortable:true,resizable:false},
+					{name:"PersonName",index:"PersonName",width:160,sortable:true,resizable:true},
+					{name:"SectionName",index:"SectionName",width:160,sortable:true,resizable:true},
+					{name:"PositionName",index:"PositionName",width:160,sortable:true,resizable:true},
+					{name:"EmailAddress",index:"EmailAddress",width:180,sortable:true,resizable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Person-Grid-nav"
+				,rowNum: 999
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				,multiselect: true // enabled for multiple selection
+				,loadComplete: function(data) {
+					try {
+						$(this.grid.hDiv).find(".ui-jqgrid-htable .ui-th-column input[class=cbox]").css({ "margin": "0px" });
+					} catch(e) {}
+				}
+			}).navGrid("#Person-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).filterToolbar({ stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+
+			$("#History-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListLogMail", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				//,postData: {}
+				,width: "auto"
+				,height: 221
+				,caption: "<em>ประวัติการส่งอีเมลล์</em>"
+				,colNames: ["ประจำวันที่","พนักงาน (คน)","สถานะ","เมื่อวันที่","เมื่อวันที่","ผู้ทำรายการ"]
+				,colModel: [
+					{name:"ScheduleDate",index:"ScheduleDate",width:100,align:"center",sortable:false,resizable:false},
+					{name:"TotalRecord",index:"TotalRecord",width:100,align:"right",sortable:false,resizable:false},
+					{name:"Sent",index:"Sent",width:100,align:"center",sortable:false,resizable:false},
+					{name:"SendTime",index:"SendTime",width:120,align:"center",sortable:false,resizable:false},
+					{name:"LogTime",index:"LogTime",width:120,align:"center",sortable:false,resizable:false},
+					{name:"LogPerson",index:"LogPerson",width:205,sortable:false,resizable:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#History-Grid-nav"
+				,rowNum: 10
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							$(this).children("td[aria-describedby*='TotalRecord']").css({ "padding-right": "10px" });
+						});
+					} catch(e) {}
+				}
+			}).navGrid("#History-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"ScheduleDate", numberOfColumns:4, titleText: "รายการส่งอีเมลล์"},
+					{startColumnName:"LogTime", numberOfColumns:2, titleText: "การทำรายการ"}
+				]
+			});
+
+			// Dialog
+			$("#Add-MailLog").dialog({
+         modal: true
+        ,autoOpen: false
+        ,width: "auto"
+        ,height: "auto"
+        ,resizable: false
+				,closeOnEscape: true
+        ,position: {
+					 my: "left top"
+					,at: "left top"
+					,of: $("#gview_Person-Grid").find(".ui-jqgrid-hdiv")
+				}
+				,buttons: {
+          "Submit": function () { setMailLog(); },
+          "Cancel": function () { $(this).dialog("close"); }
+        }
+				,open: function (event, ui) { $("#d-ScheduleDate").blur(); }
+      });
+
+			$("#sendEmail").button({ icons: { primary: "ui-icon-extlink" }, text: true })
+				.click(function()
+			{
+				$("#Add-MailLog").dialog("open");
+			});
+
+		});
+
+		function setMailLog() {
+			var objGrid = "#Person-Grid";
+			var eValue = $("#d-ScheduleDate").val();
+			if(eValue) {
+				var rec;
+				var arr = [];
+				var eCount = 0;
+				var selCount = 0;
+				var error = false;
+				var rows = $(objGrid).jqGrid("getGridParam", "selarrrow");
+				var recCount = $(objGrid).jqGrid("getGridParam", "reccount");
+				if(rows.length == 0 && recCount > 0) {
+					rows = $(objGrid).jqGrid("getDataIDs");
+				}
+
+				selCount = rows.length;
+				$.each(rows, function(key, value) {
+					rec = $(objGrid).jqGrid("getRowData", value);
+					if(rec.EmailAddress) {
+						eCount++;
+						arr.push("{\"PersonNo\":\""+rec.PersonNo+"\",\"EmailAddress\":\""+rec.EmailAddress+"\"}");
+					}
+				});
+				if(arr.length == 0) {
+					if(recCount == 0) {
+						alert("ไม่มีรายชื่อพนักงาน..");
+					} else {
+						alert("ไม่มีระบุอีเมลล์..");
+					}
+					error = true;
+				} else {
+					if(eCount != selCount) {
+						if(!confirm("เลือกเฉพาะพนักงานที่มีอีเมลล์เท่านั้น..")) {
+							error = true;
+						}
+					}
+				}
+				if(error) {
+					$("#Add-MailLog").dialog("close");
+					return;
+				}
+
+				var em = "e".concat(new Date().getTime());
+				DisabledPageInteractive(em);
+				$.ajax({
+					 url: '@Url.Action("AjaxSetLogMail", "Attendance")'
+					,type: "POST"
+					,async: true
+					,data: { Date: eValue, Data: "{\"rules\":[".concat(arr.join(",")).concat("]}") }
+					,dataType: "json"
+					,success: function(data, textStatus, jqXHR) {
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						EnabledPageInteractive(em);
+						$("#Add-MailLog").dialog("close");
+						$("#History-Grid").jqGrid().trigger("reloadGrid");
+					}
+					,error: function(jqXHR, textStatus, errorThrown) {
+						alert("ERROR.");
+						EnabledPageInteractive(em);
+						$("#Add-MailLog").dialog("close");
+					}
+				});
+			} else alert("กรุณาระบุวันที่สำหรับจัดส่งอีเมลล์");
+		}
+
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ส่งอีเมลล์สรุปประจำเดือน</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div id="outer-panel" class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div id="first-inner-panel" class="ui-inner-panel">
+					<table id="Person-Grid"></table>
+					<div id="Person-Grid-nav"></div>
+				</div>
+				<div id="first-space-panel" style="height:20px;"></div>
+				<div id="second-inner-panel" class="ui-inner-panel">
+					<button id="sendEmail" class="m-ui-button">ส่งอีเมลล์สรุปให้พนักงาน</button>
+				</div>
+				<div id="second-space-panel" style="height:20px;"></div>
+				<div id="third-inner-panel" class="ui-inner-panel">
+					<table id="History-Grid"></table>
+					<div id="History-Grid-nav"></div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog -->
+<div id="Add-MailLog" title="Add Record">
+	<div class="tab-detail">
+		<table class="info-panel">
+			<tr>
+				<td style="text-align:right;">วันที่ส่งอีเมลล์ :</td>
+				<td><input type="text" id="d-ScheduleDate" value="" style="width:100px;"></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- END Dialog -->

@@ -1,0 +1,7 @@
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\bin\Debug\FingerScan.exe.config
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\bin\Debug\FingerScan.exe
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\bin\Debug\FingerScan.pdb
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\bin\Debug\Interop.zkemkeeper.dll
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\obj\x86\Debug\FingerScan.exe
+D:\BD-Backup\Nop\Verasu\Leave\Code\FingerScan\obj\x86\Debug\FingerScan.pdb

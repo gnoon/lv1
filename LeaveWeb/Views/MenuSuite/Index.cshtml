@@ -1,0 +1,40 @@
+﻿@{Layout = null;}
+@model List<Leave.Controllers.MenuSuiteController.MenuSuiteRecord>
+<div id="accordion-resizer" class="ui-state-highlight">
+	<div id="accordion">
+  @{if(Model.Count > 0)
+	{foreach (var rec in Model){
+		<div class="m-ui-accordion-group">
+			<h3>
+				<span role="title" contextmenu="@rec.MenuID">@rec.NameTH</span>
+			</h3>
+			<div>
+				@if(rec.Items.Count > 0){
+				<div class="ui-tree">
+					<ul>
+						@foreach(var item in rec.Items){
+						<li class="folder">@item.NameTH
+							@if(item.ItemsSub.Count > 0){
+							<ul>
+								@foreach(var itemsub in item.ItemsSub){
+								var href = string.IsNullOrEmpty(itemsub.Url) ? "" : "href=\""+itemsub.Url+"\"";
+								var target = string.IsNullOrEmpty(itemsub.Target) ? "" : "target=\""+itemsub.Target+"\"";
+								<li><a @Html.Raw(href) @Html.Raw(target)>@itemsub.NameTH</a></li>}		
+							</ul>}
+						</li>}
+					</ul>
+				</div>}
+			</div>
+		</div>
+	}}
+	else
+	{
+		<div class="m-ui-accordion-group">
+			<h3>
+				<span></span>
+			</h3>
+			<div></div>
+		</div>
+	}}
+	</div>
+</div>

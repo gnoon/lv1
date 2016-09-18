@@ -1,0 +1,220 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		.qtip { max-width: 100%; }
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	        $("#tabs").tabs();
+
+	        var str1 = "<p style=\"font-size:12px;font-style:italic;\">" +
+										 "a.) กรณีต้องการลาครึ่งวัน กรุณาระบุเวลาเป็น @ViewBag.ShiftMorning น.</p>";
+	        var str2 = "<p style=\"font-size:12px;font-style:italic;\">" +
+										 "b.) กรณีต้องการลาเต็มวัน กรุณาระบุเวลาเป็น @ViewBag.ShiftAfternoon น.</p>";
+	        
+					$("#tabs-1 div:first").qtip({
+	          content: {
+	            text: str1 + str2,
+	            title: "<span style=\"font-size:13px;font-style:italic;\">" +
+							"กะเวลาทำงานของคุณคือ @ViewBag.ShiftBegin - @ViewBag.ShiftUntil ( จำนวนชั่วโมงทั้งหมด @ViewBag.ShiftHours ชม. )</span>"
+	          },
+	          position: {
+	            my: "top left",
+	            at: "bottom left"
+	          },
+	          hide: false,
+	          show: { ready: true },
+	          style: { classes: "qtip-default qtip-shadow qtip-rounded" }
+	        });
+
+	        $("#mailLogRefresh").button({ icons: { primary: "ui-icon-refresh" }, text: true }).click(function () {
+	          var RequestID = @(ViewBag.RequestID == null ? 0 : ViewBag.RequestID);
+	          $("#mailLogDiv").html('');
+	          $.ajax({
+								url: '@Url.Action("AjaxGetMailLog", "Leave")'
+							, type: "POST"
+							, async: true
+							, data: { RequestID: RequestID }
+							, dataType: "text"
+							, success: function (data, textStatus, jqXHR) {
+									$("#mailLogDiv").html(data);
+							}
+							, error: function (jqXHR, textStatus, errorThrown) {
+									window.console && console.log("Push AjaxGetMailLog (ajax): " + textStatus);
+							}
+	          });
+	        });
+
+					$("#gotoForm").button({ icons: { primary: "ui-icon-pencil" }, text: true });
+					$("#gotoPage").button({ icons: { primary: "ui-icon-circle-arrow-w" }, text: true });
+					$("#viewForm").button({ icons: { primary: "ui-icon-contact" }, text: true });
+					$("#confLeave").button({
+						icons: { primary: "ui-icon-newwin" }, text: true 
+					}).click(function(event) {
+						event.preventDefault();
+						DisabledPageInteractive("eComfirm");
+						setTimeout(function() { $("#myForm").submit(); }, 50);
+					});
+
+					// Display Leave Hours
+					$("#Requested-List table tbody tr").each(function() {
+						var elem = $(this).children("#Display-Amount");
+						var res = DisplayDHMformatText($(elem).text(), "#h #m");
+						if(res) $(elem).prop("title", res);
+					});
+
+	    });
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+	<div id="tabs" role="adjust-height">
+		<ul>
+			<li><a href="#tabs-1"><span>@(ViewBag.IsConfirm ? "สรุปผลการยื่นใบลา" : "ตรวจสอบและยืนยันการลา")</span></a></li>
+		</ul>
+		<div id="tabs-1">
+			<div class="ui-inner-panel">
+				<form id="myForm" method="post" enctype="multipart/form-data" action="@Url.Content("~/Leave/Apply")">
+					<input type="hidden" name="Action" value="Saved">
+					<input type="hidden" name="PersonNo" value="@ViewBag.PersonNo">
+					<input type="hidden" name="TypeSubID" value="@ViewBag.TypeSubID">
+					<input type="hidden" name="BeginDate" value="@ViewBag.BeginDate">
+					<input type="hidden" name="BeginTime" value="@ViewBag.BeginTime">
+					<input type="hidden" name="UntilDate" value="@ViewBag.UntilDate">
+					<input type="hidden" name="UntilTime" value="@ViewBag.UntilTime">
+					<input type="hidden" name="Reason" value="@ViewBag.Reason">
+					<input type="hidden" name="TypeCase" value="@ViewBag.TypeCase" />
+					<div class="m-ui-grid ui-corner-all">
+						<div class="ui-widget-header ui-corner-top ui-helper-clearfix twelve">
+							<span class="m-ui-grid-title">รายการวันลา ( แยกตามวัน )</span>
+						</div>
+						<div id="Requested-List" class="ui-helper-clearfix">
+							<table class="ui-widget-content m-ui-grid-table twelve">
+								<thead>
+									<tr>
+										<th class="ui-state-default" style="width:30px;">&nbsp;</th>
+										<th class="ui-state-default" style="width:200px;">ประเภทการลา</th>
+										<th class="ui-state-default" style="width:100px;">วันที่ลา</th>
+										<th class="ui-state-default" style="width:100px;">เริ่มตั้งแต่เวลา</th>
+										<th class="ui-state-default" style="width:100px;">จนถึงเวลา</th>
+										<th class="ui-state-default" style="width:100px;">ชม. ลา</th>
+										<th class="ui-state-default" style="min-width:200px;">หมายเหตุ</th>
+									</tr>
+								</thead>
+								<tbody>
+									@{
+									var n = 0;
+									foreach(LeaveCore.LeaveRecord rec in ViewBag.RequestedList)
+								{
+									++n;
+									<tr class="ui-widget-content m-grid-row ui-row-ltr @((n % 2) == 0 ? "oddColor" : "evenColor")">
+										<td class="ui-state-default m-grid-rownum">@n</td>
+										<td>@rec.LeaveRequested.TypeSubName</td>
+										<td style="text-align:center;">@rec.LeaveDate.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-US"))</td>
+										<td style="text-align:center;">@rec.BeginTime.Value.ToString("HH:mm")</td>
+										<td style="text-align:center;">@rec.UntilTime.Value.ToString("HH:mm")</td>
+										<td id="Display-Amount" style="text-align:center;">@Html.Raw(rec.TotalHours > 0 ? rec.DisplayTotalHours : "<span style=\"color:red;\">0</span>")</td>
+										<td style="color:Red;">@Html.Raw(rec.DisplayExactlyDays)</td>
+									</tr>
+								}}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					@{if(ViewBag.IsError)
+				{
+					<br />
+					<div class="ui-state-error" style="padding-left:20px;">
+						<br />
+						<p style="font-style:italic;">เกิดข้อผิดพลาด !! @ViewBag.ErrorMessage</p>
+						@{if(ViewBag.DuplicationList.Count > 0)
+					{
+						<div class="ui-inner-panel skip-width">
+							<div class="m-ui-grid ui-corner-all">
+								<div class="ui-widget-header ui-corner-top ui-helper-clearfix twelve">
+									<span class="m-ui-grid-title">รายการที่ลาไปแล้ว</span>
+								</div>
+								<div class="ui-helper-clearfix">
+									<table>
+										<thead>
+											<tr>
+												<th class="ui-state-default" style="width:30px;">&nbsp;</th>
+												<th class="ui-state-default" style="min-width:200px;">ประเภทการลา</th>
+												<th class="ui-state-default" style="min-width:100px;">วันที่ลา</th>
+												<th class="ui-state-default" style="min-width:100px;">เริ่มตั้งแต่เวลา</th>
+												<th class="ui-state-default" style="min-width:100px;">จนถึงเวลา</th>
+												<th class="ui-state-default" style="min-width:100px;">วันที่ยื่นใบลา</th>
+											</tr>
+										</thead>
+										<tbody>
+											@{
+											var m = 0;
+											foreach(LeaveCore.LeaveRecord rec in ViewBag.DuplicationList)
+										{
+											++m;
+											<tr class="ui-widget-content m-grid-row ui-row-ltr @((m % 2) == 0 ? "oddColor" : "evenColor")">
+												<td class="ui-state-default m-grid-rownum">@m</td>
+												<td>@rec.LeaveRequested.TypeSubName</td>
+												<td style="text-align:center;">@rec.LeaveDate.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-US"))</td>
+												<td style="text-align:center;">@rec.BeginTime.Value.ToString("HH:mm")</td>
+												<td style="text-align:center;">@rec.UntilTime.Value.ToString("HH:mm")</td>
+												<td style="text-align:center;">@rec.LeaveRequested.ApplyDate.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-US"))</td>
+											</tr>
+										}}		 
+										</tbody>		
+									</table>
+								</div>
+							</div>
+						</div>
+						<br />
+					}}				
+					</div>
+				}}	 
+					@{if(ViewBag.IsSuccess)
+				{
+					<br />
+					<div class="ui-state-active" style="padding-left:20px;">
+						<br />
+						<p style="font-style:italic;">ยื่นใบลาเรียบร้อยแล้ว !!</p>
+						@{if(ViewBag.EmailLogs.Count > 0)
+					{
+						<div class="ui-state-default" style="font-size: 0.8em; font-style: italic; border-bottom: 0px; border-left: 0px; border-top: 0px; border-right: 0px;">
+							<p>ระบบกำลังส่งเมลล์แจ้งไปที่ &nbsp;&nbsp;<span id="mailLogRefresh" style="display:inline-block;">Refresh</span></p>
+							<div id="mailLogDiv">
+								<ul>
+									@foreach(var log in ViewBag.EmailLogs){
+									<li>@log.SendResult - @log.ToName</li>
+									}
+								</ul>
+							</div>
+						</div>
+					}}
+					</div>
+				}}
+					@{if (!ViewBag.IsError && ViewBag.IsRequireAttached && !ViewBag.IsSuccess)
+				{
+					<br />	 
+					<div class="twelve">
+						<input type="file" name="AttachFiles" style="width:450px;background-color:#fff;border:1px solid #ccc;" /><br />
+						<span style="color:red;font-family:SmallContent;font-size:12px;">( กรณีลาป่วยติดต่อกันเกิน @((LeaveCore.Const.REQUEST_SICK_CONTINUALLY_HOURS/LeaveCore.Const.DEFAULT_WORKHOURS_OF_DAY).ToString("0.#")) วัน ต้องแนบไฟล์ใบรับรองแพทย์ )</span>
+					</div>
+				}}	 
+					<br />
+					<div class="twelve">
+						@{if (ViewBag.IsSuccess)
+				{
+						<a id="viewForm" class="m-ui-button" href="@ViewBag.UrlLinkForm@ViewBag.RequestID" target="_blank">พิมพ์แบบฟอร์ม</a>
+						<a id="gotoPage" class="m-ui-button" href="@Url.Content("~/Leave/Index")">กลับหน้าหลัก</a>
+				}}
+						@{if (!ViewBag.IsError && !ViewBag.IsSuccess)
+				{
+						<button id="confLeave" class="m-ui-button">ยืนยันการลา</button>
+				}}
+						<a id="gotoForm" class="m-ui-button" href="@Url.Content("~/Leave/Form")/@ViewBag.PersonNo">กรอกแบบฟอร์มใหม่</a>
+					</div>
+				</form>
+			</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$("#Quota-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListQuota", "Leave")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: "auto"
+				,caption: "<em>โควต้าวันลาพนักงาน { @ViewBag.PersonName }</em>"
+				,colNames: ["ประเภทการลา","สิทธิ์ลา (วัน)","ใช้ไปแล้ว (วัน)","อนุมัติแล้ว (วัน)","คงเหลือ (วัน)"]
+				,colModel: [
+					{name:"NameTH",index:"NameTH",width:250,sortable:true,resizable:false},
+					{name:"QuotaAmount",index:"QuotaAmount",width:100,align:"right",sortable:true,resizable:false},
+					{name:"TakenAmount",index:"TakenAmount",width:100,align:"right",sortable:true,resizable:false},
+					{name:"ApproveAmount",index:"ApproveAmount",width:100,align:"right",sortable:true,resizable:false},
+					{name:"BalanceAmount",index:"BalanceAmount",width:100,align:"right",sortable:true,resizable:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Quota-Grid-nav"
+				,rowNum: 100
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							var t = this;
+							var arr = ["TakenAmount", "ApproveAmount", "BalanceAmount"];
+							$.each(arr, function(key, value) {
+								elem = $(t).children("td[aria-describedby*='"+value+"']");
+								res = DisplayDHMformatText($(elem).text(), "#d #h #m");
+								if(res) $(elem).prop("title", res);
+							});
+							$(this).children("td[aria-describedby*='Amount']").css({ "padding-right": "10px" });
+						});
+					} catch(e) {}
+				}
+			}).navGrid("#Quota-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			);
+
+			$("#inputForm").button({ icons: { primary: "ui-icon-pencil" }, text: true });
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ยื่นใบลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div>
+					<table id="Quota-Grid"></table>
+					<div id="Quota-Grid-nav"></div>
+				</div>
+				<p></p>
+				<div>
+					<a id="inputForm" class="m-ui-button" href="@Url.Content("~/Leave/Form")">กรอกแบบฟอร์มใบลา</a>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

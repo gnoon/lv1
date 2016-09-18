@@ -1,0 +1,300 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		fieldset {
+			border: 1px solid #ccc;
+		}
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			// Global Variable
+			var objGrid = "#Attendance-Grid";
+			var gridCookie = "Attendance_Adjusting_Grid_Persistance";
+			
+			$("#tabs").tabs();
+			$("#tabs-search").tabs();
+
+			$("#e-BeginDate, #e-UntilDate").datepicker({
+        dateFormat: "dd/mm/yy",
+        autoSize: true,
+        changeYear: true,
+        changeMonth: true,
+				numberOfMonths: 1,
+				onClose: function(selectedDate) {
+					try {
+						var getDate = $(this).datepicker("getDate");
+						if($.type(getDate) === "date") {
+							$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+						}
+					} catch (e) {}
+				}
+      }).keyup(function() {
+				try {
+					//$(this).datepicker("hide");
+					$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+				} catch (e) {}
+			});
+
+			$(objGrid).jqGrid({
+				 url: '@Url.Action("AjaxListAdjusting", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { BeginDate: "@ViewBag.BeginDate", UntilDate: "@ViewBag.UntilDate" }
+				,width: "auto"
+				,height: 353
+				,caption: "<em>เวลาเข้า - ออกงาน</em>"
+				,colNames: ["ID","D1","D2","I1","I2","","ชื่อ - สกุล","วันที่","หมายเหตุ","กะเข้า","กะออก","เข้างาน","ออกงาน","จำนวน ชม."]
+				,colModel: [
+					{name:"UserID",index:"UserID",hidden:true},
+					{name:"PersonNo",index:"PersonNo",hidden:true},
+					{name:"EmployeeNo",index:"EmployeeNo",hidden:true},
+					{name:"DayOfWeek",index:"DayOfWeek",hidden:true},
+					{name:"HasChecked",index:"HasChecked",hidden:true},
+					{name:"Seq",index:"Seq",width:30,align:"center",sortable:false,resizable:false},
+					{name:"PersonName",index:"PersonName",width:150,sortable:false,resizable:false},
+					{name:"CheckDate",index:"CheckDate",width:100,align:"center",sortable:false,resizable:false},
+					{name:"Remark",index:"Remark",width:125,sortable:false,resizable:false},
+					{name:"ShiftIn",index:"ShiftIn",width:90,align:"center",sortable:false,resizable:false,
+					 editable:true,editoptions:{dataInit:function(elem){$(elem).mask("99:99");}}},
+					{name:"ShiftOut",index:"ShiftOut",width:90,align:"center",sortable:false,resizable:false,
+					 editable:true,editoptions:{dataInit:function(elem){$(elem).mask("99:99");}}},
+					{name:"CheckIn",index:"CheckIn",width:90,align:"center",sortable:false,resizable:false,
+					 editable:true,editoptions:{dataInit:function(elem){$(elem).mask("99:99");}}},
+					{name:"CheckOut",index:"CheckOut",width:90,align:"center",sortable:false,resizable:false,
+					 editable:true,editoptions:{dataInit:function(elem){$(elem).mask("99:99");}}},
+					{name:"HoursGross",index:"HoursGross",width:90,align:"center",sortable:false,resizable:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Attendance-Grid-nav"
+				,rowNum: 15
+				,rowList: [15,30,50,100]	// disable page size dropdown [10,20,30]
+				//,pgtext: null						// disable pager text like 'Page 0 of 10'
+				//,pgbuttons: false				// disable page control like next, back button
+				,viewrecords: true				// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				,grouping: true
+				,groupingView: {
+   				 groupField: ["PersonName"]
+					,groupColumnShow: [false]
+   			}
+				,loadComplete: function(data) {
+					try {
+						var DayOfWeek, HasChecked;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							DayOfWeek = $(this).children("td[aria-describedby*='DayOfWeek']").text();
+							HasChecked = $(this).children("td[aria-describedby*='HasChecked']").text();
+							if((DayOfWeek == "0" || DayOfWeek == "6") && HasChecked == "0") {
+								$(this).removeClass("oddColor").addClass("stifColor");
+							}
+						});
+					} catch(e) {}
+				}
+			}).navGrid("#Attendance-Grid-nav"
+				,{edit: true, add: false, del: false, refresh: true, search: false} // an array of settings
+				,{  // settings for edit
+					 url: '@Url.Action("AjaxChangeTime", "Attendance")'
+					,serializeEditData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						//return { oper: postdata.oper, id: 0, PersonNo: rec.PersonNo, Times: Times };
+						return { UserID: rec.UserID,
+										 PersonNo: rec.PersonNo, CheckDate: rec.CheckDate,
+										 ShiftIn: postdata.ShiftIn, ShiftOut: postdata.ShiftOut,
+										 CheckIn: postdata.CheckIn, CheckOut: postdata.CheckOut };
+					}
+					,width: "300"
+					,closeOnEscape: true
+					,closeAfterEdit: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						//$(this).setGridParam({postData:{ KeyPair: "Type", ValuePair: postdata.Type }}).trigger("reloadGrid");
+					}
+				} 
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"WShiftIn", numberOfColumns:2, titleText: "กะทำงาน"},
+					{startColumnName:"CheckIn", numberOfColumns:3, titleText: "เวลาเข้า - ออกงาน"}
+				]
+			});
+
+			$("#Search, #Cancel").click(function(event) {
+				event.preventDefault();
+
+				var arr = [];
+				var params = {};
+				var filters = null;
+				var BeginDate = $("#e-BeginDate").val();
+				var UntilDate = $("#e-UntilDate").val();
+				var postData = $(objGrid).getGridParam("postData");
+				$.extend(params, $.parseJSON("{\"PersonName\":\""+$("#e-PersonName").val()+"\"}"));
+				$.extend(params, $.parseJSON("{\"CompanyName\":\""+$("#e-CompanyCode").val()+"\"}"));
+				$.extend(params, $.parseJSON("{\"DepartmentName\":\""+$("#e-Department").val()+"\"}"));
+				$.extend(params, $.parseJSON("{\"SectionName\":\""+$("#e-Section").val()+"\"}"));
+				//$.extend(params, $.parseJSON("{\"Lated\":\""+$("#e-Lated").val()+"\"}"));
+				//$.extend(params, $.parseJSON("{\"Before\":\""+$("#e-Before").val()+"\"}"));
+				//$.extend(params, $.parseJSON("{\"ScanIn\":\""+$("#e-ScanIn").val()+"\"}"));
+				//$.extend(params, $.parseJSON("{\"ScanOut\":\""+$("#e-ScanOut").val()+"\"}"));
+				$.each(params, function(key, value) {
+					if($.trim(value)) {
+						arr.push("{\"field\":\""+key+"\",\"op\":\"cn\",\"data\":\""+value+"\"}");
+					}
+				});
+				if($(this).is("#Search")) {
+					if(arr.length > 0) {
+						filters = "{\"groupOp\":\"AND\",\"rules\":[".concat(arr.join(",")).concat("]}");
+					}
+				} else {
+					
+				}
+				$(objGrid).setGridParam({ page: 1, rowNum: postData.rows,
+					sortname: postData.sidx, sortorder: postData.sord, search: true,
+					postData: { BeginDate: BeginDate, UntilDate: UntilDate, filters: filters } });
+				setTimeout(function () { $(objGrid).trigger("reloadGrid"); }, 100);
+			});
+
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>แก้ไขเวลาเข้า-ออกงาน</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div class="ui-inner-panel" style="padding-left:10px;">
+				<div id="first-inner-panel" style="width:710px;">
+					<div class="m-ui-tabs">
+						<div class="m-ui-tabs-nested">
+							<div id="tabs-search">
+								<ul>
+									<li><a href="#tabs-search-1"><span>ค้นหาข้อมูล</span></a></li>
+								</ul>
+								<div id="tabs-search-1">
+									<div class="tab-detail">
+										<table class="info-panel">
+											<tr>
+												<td class="six" style="vertical-align:top;">
+													<table class="twelve">
+														<tr>
+															<td style="text-align:right;">ช่วงวันที่ :</td>
+															<td>
+																<input type="text" id="e-BeginDate" value="@ViewBag.BeginDate" style="width:100px;height:22px;">
+																<span>ถึง</span>
+																<input type="text" id="e-UntilDate" value="@ViewBag.UntilDate" style="width:100px;height:22px;">
+															</td>
+														</tr>
+														<tr>
+															<td style="text-align:right;">	ชื่อ - สกุล :</td>
+															<td><input type="text" id="e-PersonName" value="" style="width:220px;"></td>
+														</tr>
+														<tr>
+															<td style="text-align:right;">	เลือกเฉพาะ :</td>
+															<td class="edged">
+																<table class="twelve">
+																	<tr>
+																		<td class="six"><input type="checkbox" id="e-Lated" value="1"> มาสาย</td>
+																		<td class="six"><input type="checkbox" id="e-Before" value="1"> ออกก่อนเวลา</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+														<tr>
+															<td style="text-align:right;">	&nbsp;</td>
+															<td class="edged">
+																<table class="twelve">
+																	<tr>
+																		<td class="six"><input type="checkbox" id="e-ScanIn" value="1"> ไม่แสกนนิ้วเข้า</td>
+																		<td class="six"><input type="checkbox" id="e-ScanOut" value="1"> ไม่แสกนนิ้วออก</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="six" style="vertical-align:top;">
+													<table class="twelve">
+														<tr>
+															<td style="text-align:right;">บริษัท :</td>
+															<td>
+																<select id="e-CompanyCode" style="width:220px;height:22px;">
+																	<option value="">- เลือก -</option>
+																	@{
+																	foreach (var Company in ViewBag.Companies)
+																{
+																	<option value="@Company.Key">@Company.Value</option>									
+																}
+																	}
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td style="text-align:right;">ฝ่าย :</td>
+															<td>
+																<select id="e-Department" style="width:220px;height:22px;">
+																	<option value="">- เลือก -</option>
+																	@{
+																	foreach (var Department in ViewBag.Departments)
+																{
+																	<option value="@Department.Key">@Department.Value</option>									
+																}
+																	}
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td style="text-align:right;">แผนก :</td>
+															<td>
+																<select id="e-Section" style="width:220px;height:22px;">
+																	<option value="">- เลือก -</option>
+																	@{
+																	foreach (var Section in ViewBag.Sections)
+																{
+																	<option value="@Section.Key">@Section.Value</option>									
+																}
+																	}
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="2">
+																<button id="Search" class="m-ui-button">ค้นหา</button>
+																<button id="Cancel" class="m-ui-button">ยกเลิก</button>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="first-space-panel" style="height:20px;"></div>
+				<div id="second-inner-panel">
+					<table id="Attendance-Grid"></table>
+					<div id="Attendance-Grid-nav"></div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

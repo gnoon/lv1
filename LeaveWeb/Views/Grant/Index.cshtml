@@ -1,0 +1,133 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		a.file-download {
+			color: Blue !important;
+			font-size: 11px;
+			font-style: italic;
+			text-decoration: underline;
+			font-family: Baskerville, Georgia;
+		}
+		a.file-download:hover { color: Red !important; }
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$(document).on("click", "a.file-download", function () {
+					$.fileDownload($(this).prop("href"), {
+              //preparingMessageHtml: "Preparing your file, please wait...",
+              //failMessageHtml: "There was a problem generating your file, please try again."
+          }).fail(function () { alert("File download failed!"); });
+          return false; //this is critical to stop the click event which will trigger a normal file download!
+      });
+
+			$("#Leav").jqGrid({ // working for 4 charactor only with "sortColumn" and "setFrozenColumns"
+				 url: '@Url.Action("AjaxListApprove", "Grant")'
+				,mtype: "POST"
+				,datatype: "json"
+				,postData: { HeadPersonNo: "@ViewBag.PersonNo" }
+				,width: 980
+				,height: 350
+				,caption: "<em>รายการอนุมัติของ { @ViewBag.PersonName }</em>"
+				,colNames: ["D1","D2","N1","N2","","วันที่ยื่นลา","พนักงาน","ประเภทการลา","ลาตั้งแต่วันที่","ถึงวันที่","ชม. ลา","สถานะ","เหตุผลการลา","ไฟล์แนบ"]
+				,colModel: [
+					{name:"RequestID",index:"RequestID",hidden:true,frozen:true},
+					{name:"StatusID",index:"StatusID",hidden:true,frozen:true},
+					{name:"HeadPersonNo",index:"HeadPersonNo",hidden:true,frozen:true},
+					{name:"Digest",index:"Digest",hidden:true,frozen:true},
+					{name:"ActionRequested",index:"ActionRequested",width:100,align:"center",sortable:false,resizable:true,frozen:true},
+					{name:"ApplyDate",index:"ApplyDate",width:80,align:"center",sortable:true,resizable:true,frozen:true},
+					{name:"PersonName",index:"PersonName",width:150,sortable:true,resizable:true,frozen:true},
+					{name:"TypeSubName",index:"TypeSubName",width:150,sortable:true,resizable:true,frozen:true},
+					{name:"Since",index:"Since",width:110,align:"center",sortable:true,resizable:true},
+					{name:"Until",index:"Until",width:110,align:"center",sortable:true,resizable:true},
+					{name:"Amount",index:"Amount",width:80,align:"center",sortable:true,resizable:true},
+					{name:"StatusName",index:"StatusName",width:90,align:"center",sortable:true,resizable:true},
+					{name:"Reason",index:"Reason",width:250,sortable:true,resizable:true},
+					{name:"AttachedFile",index:"AttachedFile",width:80,align:"center",sortable:false,resizable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Leave-Grid-nav"
+				,rowNum: 20
+				,rowList: [10,20,50,100]    // disable page size dropdown [10,20,30]
+				//,pgtext: null							// disable pager text like 'Page 0 of 10'
+				//,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true					// display the total number of records
+				,sortname: "Since"
+				,sortorder: "desc"
+				,rownumbers: true
+				,gridview: true
+				//,autoencode: true
+				,ignoreCase: true
+				,shrinkToFit: false
+				,onPaging: function (pgButton) {
+					var p = this.p;
+					try {
+						var elem = p.pager + " input.ui-pg-input";
+						var goToPage = parseInt($(elem).val());
+						//if (pgButton === "user" && p.page > p.lastpage)
+						if (pgButton === "user" && goToPage > p.lastpage) {
+								alert ("You can't choose the page " + $(elem).val());
+								p.page = p.currentPage; // restore the value of page parameter
+								$(elem).val(p.currentPage);
+								return "stop";
+						}
+					} catch (e) { alert("You can't choose the page"); }
+				}
+				,loadComplete: function(data) {
+					this.p.currentPage = this.p.page;
+					$(this.grid.fhDiv).css({ "height": "inherit" });
+					try {
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							elem = $(this).children("td[aria-describedby*='Amount']");
+							res = DisplayDHMformatText($(elem).text(), "#h #m");
+							if(res) $(elem).prop("title", res);
+						});
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							var url = "@Url.Content("~/Grant/Approve/")"+rec.RequestID+"/0/"+rec.HeadPersonNo+"/0/"+rec.Digest;
+							var fnButton  = "onclick=\"location.href='"+url+"';\"";
+							var attrButton = "class=\"ui-state-active\" style=\"height:18px;width:85px;\"";
+							var elemButton = "<button "+fnButton+" "+attrButton+">เปิดหน้าอนุมัติ</button>";
+							var fileDownload = "";
+							if(rec.AttachedFile) {
+								fileDownload = "<a class=\"file-download\" href=\""+rec.AttachedFile+"\">Download</a>";
+							}
+							$(this).setRowData(rowid, { ActionRequested: elemButton, 
+											StatusName: DisplayLeaveStatus(rec.StatusID, rec.StatusName), AttachedFile: fileDownload });
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Leave-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setFrozenColumns();
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>อนุมัติใบลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+			<table id="Leav"></table>
+			<div id="Leave-Grid-nav"></div>
+    </div>
+  </div>
+</div>

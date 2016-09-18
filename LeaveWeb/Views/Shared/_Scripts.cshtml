@@ -1,0 +1,121 @@
+﻿<script type="text/javascript">
+	// Shared script for "Leave"
+	// Required jquery framework
+	function DisabledPageInteractive(em) {
+		try {
+			var elem = "#"+em;
+			if(!$.exist($(elem))) {
+				$("body").append($("<div />").prop("id", em).prop("class", "z-loading ui-state-default ui-state-active"));
+			}
+			if($(elem).hasClass("ui-dialog-content")) {
+				$(elem).dialog("open");
+			} else {
+				$(elem).html(
+					"Loading..."
+				).dialog({
+					 modal: true
+					,autoOpen: true
+					,width: "auto"
+					,height: "auto"
+					,minHeight: 60
+					,resizable: false
+					,closeOnEscape: false
+					,title: null
+					,open: function(event, ui) { $(this).parent().children(".ui-dialog-titlebar").remove(); }
+					//,close: function(event, ui) { $(this).dialog("destroy").remove(); } 
+					// the "destroy" is not working with $("selector").dialog("close")
+				});
+			}
+		} catch (e) {}
+	}
+
+	function EnabledPageInteractive(em) {
+		try {
+			var elem = "#"+em;
+			if($(elem).hasClass("ui-dialog-content")) {
+				$(elem).dialog("close");
+				setTimeout(function() { $(elem).dialog("destroy").remove(); }, 1000);
+			}
+		} catch (e) {}
+	}
+	
+	function DisplayqTipResult(elem, textContent, addClass) {
+		try {
+			$(elem).qtip({
+				content: textContent,
+				position: {
+					my: "bottom right",
+					at: "top left",
+					target: "mouse",
+					adjust: { mouse: false },
+					viewport: $(window)
+				},
+				show: { ready: true },
+				style: { classes: addClass },
+				events: {
+					show: function(event, api) {
+						setTimeout(function() {
+							if($(this).is(":visible")) {
+								$(elem).qtip("hide");
+							}
+						}, 3000);
+					},
+					hide: function(event, api) { return $(this).qtip("destroy"); }
+				}
+			});
+		} catch (e) {}
+	}
+
+	function DisplayLeaveStatus(id, name) {
+		var style = "";
+		try {
+			var sMultiple = "@LeaveCore.Const.STATUS_MULTIPLE_STATUSES";
+			var sApproved = "@LeaveCore.Const.STATUS_LEAVE_APPROVED";
+			var sRejected = "@LeaveCore.Const.STATUS_LEAVE_REJECTED";
+			var sAwaiting = "@LeaveCore.Const.STATUS_LEAVE_AWAITING";
+			var sCancelled = "@LeaveCore.Const.STATUS_LEAVE_CANCELLED";
+			var sCancelApproved = "@LeaveCore.Const.STATUS_LEAVE_CANCELAPPROVED";
+			var sCancelRequested = "@LeaveCore.Const.STATUS_LEAVE_CANCELREQUEST";
+			var sCancelRejected = "@LeaveCore.Const.STATUS_LEAVE_CANCELREJECTED";
+			var sCancelInterrupted = "@LeaveCore.Const.STATUS_LEAVE_INTERRUPTED";
+			var displayColor = [
+				{key:[sApproved,sCancelApproved], value:"green"},
+				{key:[sMultiple,sAwaiting,sCancelRequested], value:"orange"},
+				{key:[sRejected,sCancelled,sCancelRejected,sCancelInterrupted], value:"red"}
+			];
+			$.each(displayColor, function(key, obj) {
+				if($.inArray(id, obj.key) > -1) {
+					style = obj.value;
+				}
+			});
+			if(style) {
+				style = "style=\"color:"+style+";\"";
+			}
+		} catch (e) {}
+		return "<span "+style+">"+name+"</span>";
+	}
+
+	function DisplayDHMformatText(val, format) {
+		var a, b, c;
+		var d, h, m, s1, s2, res;
+		val = $.trim(val.replace("-", ""));
+		// Phone = /^[0-9]{3}-|\s[0-9]{3}-|\s[0-9]{4}$/
+		if(val.match(/^[0-9].|\s[0-9]{2}:|\s[0-9]{2}$/) || val.match(/^[0-9]{2}:|\s[0-9]{2}$/)) {
+			s1 = val.split(".");
+			s2 = s1.length > 1 ? s1[1].split(":") : s1[0].split(":");
+			if(s2.length == 2) {
+				h = parseInt(s2[0]);
+				m = parseInt(s2[1]);
+				if(s1.length == 2) {
+					d = parseInt(s1[0]);
+				} else d = 0;
+				a = d > 0 ? d.toString() + " วัน" : "";
+				b = h > 0 ? h.toString() + " ชม." : "";
+				c = m > 0 ? m.toString() + " นาที" : "";
+				res = $.trim(format.replace("#d", a).replace("#h", b).replace("#m", c));
+				if(res.length > 0) return res.replace("  ", " ");
+			}
+		}
+		return "";
+	}
+</script>

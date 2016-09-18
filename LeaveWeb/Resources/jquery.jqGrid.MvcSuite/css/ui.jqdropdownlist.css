@@ -1,0 +1,48 @@
+﻿.ui-jqdropdownlist-button
+{
+	padding-left: 3px;
+	padding-right: 3px;
+	height: 24px;
+	text-align: left;		
+}
+
+.ui-jqdropdownlist-toggle-image
+{
+	float: right;	
+}
+
+.ui-jqdropdownlist-button-text
+{
+	padding-top: 4px;
+	margin-top: 4px;
+}
+
+.ui-jqdropdownlist-dropdown-wrapper {
+	display: none;	
+	position: absolute;
+	z-index: 10000;	
+}
+
+.ui-jqdropdownlist-dropdown {	
+	overflow-y: auto;	
+	overflow-x: hidden;
+}
+
+.ui-jqdropdownlist-item a table tr td
+{
+	height : 20px;
+}
+
+.ui-jqdropdownlist-item-text
+{	
+	margin-left: 2px;
+	padding: 3px 3px 3px 3px;
+	overflow: hidden;
+	white-space: pre;		
+}
+
+.ui-jqdropdownlist-item-image
+{	
+	border: 0;
+	margin-top: 2px;
+}

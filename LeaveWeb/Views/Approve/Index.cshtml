@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Approve";
+}
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#tabs").tabs();
+
+    $('#approve_grid').jqGrid({
+       url: '@Url.Action("AjaxGetAllApprove", "Approve")'
+      ,mtype: 'POST'
+      ,datatype: 'json'
+			,postData: { PersonNo: '@ViewBag.PersonNo' }
+      ,width: 'auto'
+      ,height: 350
+      ,caption: '<em>รายการอนุมัติของ { @ViewBag.PersonName }</em>'
+      ,colNames: ['id', 'หัวหน้าอนุมัติ', 'พนักงาน', 'ประเภทการลา', 'วันลา', 'ช่วงการลา', 'จำนวนวัน (ชม.)', 'สถานะ', 'ไฟล์แนบ']
+      ,colModel: [
+        {name:'RequestID', index:'RequestID', hidden:true},
+        {name:'Approval', index:'Approval', width:80, align:'center', sortable:false, resizable:true},
+        {name:'Employee', index:'Employee', width:160, sortable:true, resizable:true},
+        {name:'LeaveType', index:'LeaveType', width:150, align:'center', sortable:true, resizable:true},
+				{name:'LeaveDate', index:'LeaveDate', width:150, align:'center', sortable:true, resizable:true},
+        {name:'LeavePeriod', index:'LeavePeriod', width:100, align:'center', sortable:true, resizable:true},
+        {name:'LeaveAmount', index:'LeaveAmount', width:90, align:'center', sortable:true, resizable:true},
+        {name:'LeaveStatus', index:'LeaveStatus', width:80, align:'center', sortable:true, resizable:true},
+        {name:'LeaveAttach', index:'LeaveAttach', width:150, align:'center', sortable:true, resizable:true}
+      ]
+			,altRows: true
+			,altclass: 'oddColor'
+      ,pager: '#approve_grid_nav'
+      ,rowNum: 500
+      ,rowList: []         // disable page size dropdown [10,20,30]
+      ,pgtext: null        // disable pager text like 'Page 0 of 10'
+      ,pgbuttons: false    // disable page control like next, back button
+      ,viewrecords: true   // display the total number of records
+      ,sortname: 'RequestID'
+      ,sortorder: 'desc'
+      ,rownumbers: true
+			,gridview: true
+			//,autoencode: true
+      ,ignoreCase: true
+			//,onPaging: function (pgButton) {}
+			//,onSelectRow: function(rowid, status, e) {}
+			//,loadComplete: function(data) {}
+			,gridComplete: function()	{
+<<<<<<< .mine
+				try {
+					var ids = $(this).getDataIDs();
+					for(var i=0; i<ids.length; i++) {
+						var cl = ids[i];
+						var url = '@Url.Content("~/Approve/Consider/0/")' + cl;
+						//var url = '@Url.Action("Consider", "Approve", new RouteValueDictionary {{"RequestID","0"},{"LeaveID","0"}})';
+						bt = '<input style="height:22px;width:68px;" type="button" value="อนุมัติ" onclick="javascript:location.href=\''+url+'\'">'; 
+						$(this).setRowData(ids[i], {act:bt});
+					}
+				} catch(e) {
+					alert("Error !! :: " + e.Message);
+				}
+=======
+				try {
+					var ids = $(this).getDataIDs();
+					for(var i=0; i<ids.length; i++) {
+						var cl = ids[i];
+						var url = '@Url.Content("~/Approve/Consider/")' + cl;
+						bt = '<input style="height:22px;width:68px;" type="button" value="อนุมัติ" onclick="javascript:location.href=\''+url+'\'">'; 
+						$(this).setRowData(ids[i], {Approval:bt});
+					}
+				} catch(e) {
+					alert("Error !! :: " + e.Message);
+				}
+>>>>>>> .r158
+			}
+    }).navGrid('#approve_grid_nav'
+      ,{edit: false, add: false, del: false, refresh: true, search: true} // an array of settings
+      ,{} // settings for edit
+      ,{/*reloadAfterSubmit: false, closeAfterAdd: true*/} // settings for add
+      ,{} // settings for delete
+			,{/*multipleSearch: true, overlay: false*/} // settings for search
+      ,{/*closeOnEscape: true*/} // settings for view
+    );
+
+  });
+</script>
+<div class="ui-mytabs">
+  <div id="tabs">
+	  <ul>
+		  <li><a href="#tabs-1"><span>อนุมัติใบลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+			<table id="approve_grid"></table>
+			<div id="approve_grid_nav"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+﻿@model LeaveCore.Email.Model.NotificationEmailModel
+@{Layout = null;}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head><title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+    body, p, pre { font-family: 'Angsana New',Tahoma, Arial, Sans-Serif, Helvetica; font-size: 1.3em; }
+    td { font-family: 'Angsana New',Tahoma, Arial, Sans-Serif, Helvetica; font-size: 1.2em; }
+    .infoPanel 
+    {
+    	border:0px solid; background-color:Orange; padding: 10px;
+    	border-top-left-radius: 10px; border-bottom-right-radius: 10px;
+    	-moz-border-top-left-radius: 10px; -moz-border-bottom-right-radius: 10px;
+    }
+    </style>
+</head>
+<body>
+<pre>
+<strong>วันที่</strong> @DateTime.Now.ToString("d MMMM yyyy", @Model.DisplayCultureInfo)
+<strong>เรื่อง</strong> แจ้งเตือนมีใบลารออนุมัติในระบบ
+<strong>เรียน</strong> คุณ@{@Model.Head.HeadNameFirstTH}  @Model.Head.HeadNameLastTH
+
+@if (Model.PendingList.Count == 0)
+{
+<span class="infoPanel">ขณะนี้ไม่มีใบลารออนุมัติเหลือค้างอยู่แล้ว</span>
+}
+else
+{
+@("มีใบลารออนุมัติที่พนักงานยื่นผ่านหน้าเว็บ ตามรายละเอียดในตารางด้านล่าง")
+@(Environment.NewLine)
+@("โปรดพิจารณาใบลาในรายการดังกล่าว โดยคลิกที่ลิงค์รายละเอียดด้านหน้าใบลาเพื่อเปิดหน้าจออนุมัติใบลา")
+@(Environment.NewLine)
+@(Environment.NewLine)
+<table border="1" cellpadding="5" cellspacing="0">
+ <tr>
+  <td align="center" width="30"><strong>#</strong></td>
+  <td align="center" width="100"><strong>รายละเอียด</strong></td>
+  <td align="center" width="150"><strong>พนักงาน</strong></td>
+  <td align="center" width="250"><strong>วันที่ลา</strong></td>
+  <td align="center" width="120"><strong>ประเภทการลา</strong></td>
+  <td align="center" width="100"><strong>สถานะใบลา</strong></td>
+  <td align="center" width="100"><strong>วัน (วัน:ชม.:นาที)</strong></td>
+ </tr>
+    @{int Row = 0;}
+    @foreach (LeaveCore.RequestRecord LeaveRequest in Model.PendingList)
+    {
+ <tr>
+  <td valign="top" align="center">@(++Row)</td>
+  <td valign="top" align="center"><a href="@Model.InternetBasedUrl/Grant/Approve/@LeaveRequest.RequestID/0/@Model.Head.HeadPersonNo/0/@LeaveCore.Leave.DigestGrant(@Model.Head.HeadPersonNo, @LeaveRequest.RequestID)/$" title="รายละเอียดเพิ่มเติม" style="" onclick="window.open(this.href);return false;" target="_blank">รายละเอียด...</a></td>
+  <td valign="top">@LeaveRequest.Person.NameFirstTH  @LeaveRequest.Person.NameLastTH</td>
+  <td valign="top">@if (LeaveRequest.Since.Value.Date == LeaveRequest.Until.Value.Date)
+                           {
+        @LeaveRequest.Since.Value.ToString("dd/MM/yy HH:mm", @Model.DisplayCultureInfo)
+        @(" - ")
+        @LeaveRequest.Until.Value.ToString("HH:mm น. (dddd)", @Model.DisplayCultureInfo)
+                           }
+                           else
+                           {
+        @LeaveRequest.Since.Value.ToString("dd/MM/yy HH:mm น. (dddd)", @Model.DisplayCultureInfo) @(" ถึง " + Environment.NewLine)
+        @LeaveRequest.Until.Value.ToString("dd/MM/yy HH:mm น. (dddd)", @Model.DisplayCultureInfo)
+                           }</td>
+  <td valign="top" align="center">@LeaveRequest.TypeSubName</td>
+  <td valign="top" align="center">@LeaveRequest.DisplayStatusName</td>
+  <td valign="top" align="center">@LeaveCore.Tool.ConvertDaysToString(LeaveRequest.TotalLeaveDays)</td>
+ </tr>
+    }
+</table>
+}
+@*<i><b>หมายเหตุ:</b>
+หากมีใบลารออนุมัติเหลือค้างอยู่ ระบบจะทำการส่งอีเมลล์นี้หาท่านวันละฉบับโดยอัตโนมัติ</i>
+
+ท่านสามารถตรวจสอบใบลารออนุมัติที่ยังเหลือค้างอยู่ด้วยตัวท่านเอง โดยคลิกที่ลิงค์ด้านล่างนี้
+ระบบจะส่งอีเมลล์ฉบับใหม่ให้กับท่าน หลังจากคลิกแล้วกรุณาตรวจสอบกล่องขาเข้าอีเมลล์ของท่านอีกครั้ง
+คลิ๊ก &gt;&gt; <a href=""onclick="window.open(this.href);return false;" target="_blank">ขอรับรายการใบลารออนุมัติทางอีเมลล์</a>*@
+
+@if (Model.PendingList.Count == 0) { @("จึงเรียนมาเพื่อทราบ") }
+else { @("จึงเรียนมาเพื่อทราบและพิจารณาใบลาของพนักงาน") }
+
+
+ขอแสดงความนับถือ
+Leave Online System
+</pre>
+</body></html>

@@ -1,0 +1,370 @@
+﻿@section ScriptsContents {
+	<script type="text/javascript">
+		// Global Variable
+		var e_timer = null; 
+		var e_timeout = null;
+		var e_reload = "e-reload";
+		var e_reloading = true;
+
+		$(document).ready(function () {
+			$("#tabs").tabs();
+
+			var initDateEntry = function(elem) {
+        setTimeout(function () {
+          $(elem).mask("99/99/9999")
+					       .datepicker({
+            dateFormat: "dd/mm/yy",
+            autoSize: true,
+            changeYear: true,
+            changeMonth: true,
+						numberOfMonths: 1,
+						onClose: function(selectedDate) {
+							try {
+								var getDate = $(this).datepicker("getDate");
+								if($.type(getDate) === "date") {
+									$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+									if($(this).prop("id") == "BeginDate") {
+										if(!$(this).parents("form").find("#UntilDate").val()) $(this).parents("form").find("#UntilDate").focus();
+									}
+								}
+							} catch (e) {}
+						}
+          }).keyup(function() {
+						if($(this).val().indexOf("_") == -1) {
+							try {
+								//$(this).datepicker("hide");
+								$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+							} catch (e) {}
+						}
+					});
+        }, 100);
+      };
+
+			$("#Current-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListLogConso", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: 100
+				,caption: "<em>รายการคำนวณ</em>"
+				,colNames: ["ID","I1","I2","ตั้งแต่วันที่","จนถึงวันที่","เมื่อวันที่","รายการคำนวณ","ผู้ทำรายการ",""]
+				,colModel: [
+					{name:"LogID",index:"LogID",hidden:true},
+					{name:"Locked",index:"Locked",hidden:true},
+					{name:"TotalRecord",index:"TotalRecord",hidden:true},
+					{name:"BeginDate",index:"BeginDate",width:100,align:"center",sortable:false,resizable:false,
+					 editable:true,editrules:{required:true},editoptions:{dataInit:initDateEntry}},
+					{name:"UntilDate",index:"UntilDate",width:100,align:"center",sortable:false,resizable:false,
+					 editable:true,editrules:{required:true},editoptions:{dataInit:initDateEntry}},
+					{name:"LogTime",index:"LogTime",width:100,align:"center",sortable:false,resizable:false},
+					{name:"ProgressRecord",index:"ProgressRecord",width:100,align:"right",sortable:false,resizable:false},
+					{name:"LogPerson",index:"LogPerson",width:160,sortable:false,resizable:false},
+					{name:"ActionRequested",index:"ActionRequested",width:80,align:"center",sortable:false,resizable:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Current-Grid-nav"
+				,rowNum: 10
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							$(this).children("td[aria-describedby*='TotalRecord']").css({ "padding-right": "10px" });
+							$(this).children("td[aria-describedby*='ProgressRecord']").css({ "padding-right": "10px" });
+						});
+						setTimeout(function() { ResetReloading(); }, 300);
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							var url = "@Url.Content("~/Attendance/Rechecked/")";
+							var RunProp = LockProp = "";
+							var RunClass = LockClass = "ui-state-active";
+							var RunStyle = LockStyle = "style=\"height:18px;width:85px;\"";
+							if(rec.TotalRecord != rec.ProgressRecord) {
+								RunProp = "disabled=\"disabled\"";
+								RunClass = RunClass + " ui-state-disabled";
+							}
+							if(rec.TotalRecord != rec.ProgressRecord || rec.Locked == "1") {
+								LockProp = "disabled=\"disabled\"";
+								LockClass = LockClass + " ui-state-disabled";
+							}
+							RunProp = "class=\""+RunClass+"\" style=\""+RunStyle+"\" "+RunProp;
+							LockProp = "class=\""+LockClass+"\" style=\""+LockStyle+"\" "+LockProp;
+							var fnRun = "onclick=\"ConsoData('"+rec.LogID+"','"+rec.BeginDate+"','"+rec.UntilDate+"',false);\"";
+							var fnLock = "onclick=\"LockData('"+rec.LogID+"');\"";
+							var RunButton = "<button "+RunProp+" "+fnRun+" title=\"คำนวน\">คำนวน</button>";
+							var LockButton = "<span style=\"padding-left:6px;\">"+
+															"<button "+LockProp+" "+fnLock+" title=\"Lock\">Lock</button></span>";
+							$(this).setRowData(rowid, { ActionRequested: RunButton });
+							//$(this).setRowData(rowid, { ActionRequested: RunButton+LockButton });
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Current-Grid-nav"
+				,{edit: false, add: true, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{  // settings for add
+					 url: '@Url.Action("AjaxSetLogConso", "Attendance")'
+					,serializeEditData: function(postdata) {
+						return { BeginDate: postdata.BeginDate, UntilDate: postdata.UntilDate }
+					}
+					,width: "250"
+					,closeOnEscape: true
+					,closeAfterAdd: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find("input").blur();
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) {
+							var msg = "ERROR.";
+							if(data.errorMessage == "DATA_LOCKED") msg = msg.concat(" ระบุช่วงวันที่ไม่ถูกต้อง");
+							alert(msg);
+							ReloadGrid(true);
+						} else {
+							if(typeof(data.results) === "object") {
+								ConsoData(data.results.LogID, data.results.BeginDate, data.results.UntilDate, true);
+							}
+						}
+					}
+					// Start-Stop the timer
+					,beforeInitData: function () { StopReloading(); }
+					,onclickSubmit: function(params) { e_reloading = false; }
+					,onClose: function() { setTimeout(function() { PageReloading(); }, 100); }
+				}
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"BeginDate", numberOfColumns:2, titleText: "ช่วงข้อมูล"},
+					{startColumnName:"LogTime", numberOfColumns:5, titleText: "การคำนวณเวลาทำงาน"}
+				]
+			});
+
+			$("#History-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListLogConsoHistory", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: 300
+				,caption: "<em>ประวัติการคำนวณเวลาทำงาน</em>"
+				,colNames: ["ตั้งแต่วันที่","จนถึงวันที่","เมื่อวันที่"/*,"จำนวนรายการ"*/,"รายการคำนวณ","ผู้ทำรายการ"/*,"Lock"*/]
+				,colModel: [
+					{name:"BeginDate",index:"BeginDate",width:100,align:"center",sortable:false,resizable:false},
+					{name:"UntilDate",index:"UntilDate",width:100,align:"center",sortable:false,resizable:false},
+					{name:"LogTime",index:"LogTime",width:100,align:"center",sortable:false,resizable:false},
+					//{name:"TotalRecord",index:"TotalRecord",width:100,align:"right",sortable:false,resizable:false},
+					{name:"ProgressRecord",index:"ProgressRecord",width:100,align:"right",sortable:false,resizable:false},
+					{name:"LogPerson",index:"LogPerson",width:240,sortable:false,resizable:false}//,
+					//{name:"Locked",index:"Locked",width:60,align:"center",sortable:false,resizable:false,
+					// editable:false,formatter:"checkbox",edittype:"checkbox",editoptions:{value:"1:0"}}*/
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#History-Grid-nav"
+				,rowNum: 10
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							$(this).children("td[aria-describedby*='TotalRecord']").css({ "padding-right": "10px" });
+							$(this).children("td[aria-describedby*='ProgressRecord']").css({ "padding-right": "10px" });
+						});
+					} catch(e) {}
+				}
+			}).navGrid("#History-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"BeginDate", numberOfColumns:2, titleText: "ช่วงข้อมูล"},
+					{startColumnName:"LogTime", numberOfColumns:5, titleText: "การคำนวณเวลาทำงาน"}
+				]
+			});
+
+			// onChange the refresh time
+			$("#refresh-second").change(function() {
+				StopReloading();
+				setTimeout(function() { PageReloading(); }, 100);
+			});
+
+		});
+
+		function ConsoData(LogID, BeginDate, UntilDate, Reload) {
+			StopReloading();
+			DisabledPageInteractive(e_reload);
+			$.ajax({
+				 url: '@Url.Action("AjaxConsoData", "Attendance")'
+				,type: "POST"
+				,async: true
+				,data: { LogID: LogID, BeginDate: BeginDate, UntilDate: UntilDate }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if(eval(data.error)) alert("ERROR.");
+					if(Reload) {
+						ReloadGrid(false);
+					} else {
+						ResetReloading();
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("ERROR.");
+					if(Reload) {
+						ReloadGrid(false);
+					} else {
+						ResetReloading();
+					}
+				}
+			});
+		}
+
+		function LockData(LogID) {
+			StopReloading();
+			DisabledPageInteractive(e_reload);
+			$.ajax({
+				 url: '@Url.Action("AjaxLockData", "Finger")'
+				,type: "POST"
+				,async: true
+				,data: { LogID: LogID }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if(eval(data.error) || data.records < 1) {
+						alert("ERROR.");
+						ResetReloading();
+					} else {
+						ReloadGrid(false);
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {
+					alert("ERROR.");
+					ResetReloading();
+				}
+			});
+		}
+
+		function ReloadGrid(CurrentOnly) {
+			$("#Current-Grid").jqGrid().trigger("reloadGrid");
+			if(!CurrentOnly) {
+				$("#History-Grid").jqGrid().trigger("reloadGrid");
+			}
+		}
+
+		function PageReloading() {
+			if(e_reloading) {
+				var def = 5;
+				var second;
+				var eValue = $("#refresh-second").val();
+				if(eValue && $.type(parseInt(eValue)) == "number") {
+					second = parseInt(eValue);
+				} else second = def;
+				StartReloading(second);
+				e_timeout = setTimeout(function() {
+					StopReloading();
+					DisabledPageInteractive(e_reload);
+					$("#Current-Grid").jqGrid().trigger("reloadGrid");
+				}, ((1000 * second) + 2000));
+			}
+		}
+
+		function StopReloading() {
+			if(e_timer) clearInterval(e_timer);
+			if(e_timeout) clearTimeout(e_timeout);
+		}
+
+		function StartReloading(second) {
+			var m = "00";
+			var s = second.toString().length == 1 ? "0".concat(second.toString()) : second.toString();
+			$("#cooldown").text(m.concat(":", s));
+			e_timer = setInterval(function() {
+				s = second.toString().length == 1 ? "0".concat(second.toString()) : second.toString();
+				$("#cooldown").text(m.concat(":", s));
+				second--;
+			}, 1000);
+		}
+
+		function ResetReloading() {
+			var elem = "#"+e_reload;
+			setTimeout(function() {
+				if($.exist($(elem)) && $(elem).hasClass("ui-dialog-content")) {
+					EnabledPageInteractive(e_reload);
+				}
+				e_reloading = true;
+				setTimeout(function() { PageReloading(); }, 100);
+			}, 200);
+		}
+
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>คำนวณเวลาทำงาน</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div id="outer-panel" class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div id="first-inner-panel" class="ui-inner-panel">
+					<span style="font-family:MenuTopic;font-weight:normal;font-size:13px;">
+						<span>Refresh หน้าเว็บทุกๆ</span>
+						<span><select id="refresh-second" style="font-family:SmoothContent;font-size:12px;height:22px;">
+							<option value="5">5 วินาที</option>
+							<option value="10">10 วินาที</option>
+							<option value="15">15 วินาที</option>
+							<option value="20">20 วินาที</option>
+							<option value="25">25 วินาที</option>
+							<option value="30">30 วินาที</option>
+						</select></span>
+						<span>วินาที</span>
+						<span style="padding-left:10px;color:Red;">
+							( หน้าเว็บจะ Refresh ในอีก <span id="cooldown">00:00</span> วินาที )
+						</span>
+					</span>
+				</div>
+				<div id="first-space-panel" style="height:10px;"></div>
+				<div id="second-inner-panel" class="ui-inner-panel">
+					<table id="Current-Grid"></table>
+					<div id="Current-Grid-nav"></div>
+				</div>
+				<div id="second-space-panel" style="height:30px;"></div>
+				<div id="third-inner-panel" class="ui-inner-panel">
+					<table id="History-Grid"></table>
+					<div id="History-Grid-nav"></div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

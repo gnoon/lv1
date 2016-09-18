@@ -1,0 +1,286 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		a.file-download {
+			color: Blue !important;
+			font-size: 11px;
+			font-style: italic;
+			text-decoration: underline;
+			font-family: Baskerville, Georgia;
+		}
+		a.file-download:hover { color: Red !important; }
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		// Global Variable
+		var objGrid = "#Leave-Grid";
+		var gridCookie = "Leave_Search_Grid_Persistance";
+
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$(document).on("click", "a.file-download", function () {
+					$.fileDownload($(this).prop("href"), {
+            //preparingMessageHtml: "Preparing your file, please wait...",
+            //failMessageHtml: "There was a problem generating your file, please try again."
+          }).fail(function () { alert("File download failed!"); });
+          return false; //this is critical to stop the click event which will trigger a normal file download!
+      });
+
+			var initDateSearch = function(elem) {
+        setTimeout(function () {
+          $(elem).mask("99/99/9999")
+					       .datepicker({
+            dateFormat: "dd/mm/yy",
+            autoSize: true,
+            changeYear: true,
+            changeMonth: true,
+            onSelect: function () {
+							try {
+								$(this).datepicker("hide");
+								var getDate = $(this).datepicker("getDate");
+								if($.type(getDate) === "date") {
+									$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+								}
+							} catch (e) {}
+							$(elem).blur();
+							setTimeout(function () { $(objGrid)[0].triggerToolbar(); }, 100);
+            }
+          }).keyup(function() {
+						if($(this).val().indexOf("_") == -1) {
+							try {
+								//$(this).datepicker("hide");
+								$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+							} catch (e) {}
+						}
+					});
+        }, 100);
+      };
+
+			$(objGrid).jqGrid({
+				 url: '@Url.Action("AjaxListHistory", "Leave")'
+				,mtype: "POST"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" } // not working with duplicate name in "colModel"
+				,width: "auto"
+				,height: 350
+				,caption: "<em>พนักงาน { @ViewBag.PersonName }</em>"
+				,colNames: ["D1","D2","N1","","วันที่ยื่นลา","ประเภทการลา","ลาตั้งแต่วันที่","ถึงวันที่","ชม. ลา","สถานะ","เหตุผลการลา","ไฟล์แนบ"]
+				,colModel: [
+					{name:"RequestID",index:"RequestID",hidden:true,search:false},
+					{name:"StatusID",index:"StatusID",hidden:true,search:false},
+					{name:"aPersonNo",index:"aPersonNo",hidden:true,search:false},
+					{name:"ActionRequested",index:"ActionRequested",width:80,align:"center",sortable:false,resizable:true,search:false},
+					{name:"ApplyDate",index:"ApplyDate",width:80,align:"center",sortable:true,resizable:true,search:false},
+					{name:"TypeSubName",index:"TypeSubName",width:160,sortable:true,resizable:true,
+					 stype:"select",searchoptions:{value:":- ไม่ระบุ -;@Html.Raw(ViewBag.LeaveTypeOptions)"}},
+					{name:"Since",index:"Since",width:110,align:"center",sortable:true,resizable:true,
+					 searchoptions:{dataInit:initDateSearch/*function(elem){$(elem).mask("99/99/9999");}*/}},
+					{name:"Until",index:"Until",width:110,align:"center",sortable:true,resizable:true,
+					 searchoptions:{dataInit:initDateSearch/*function(elem){$(elem).mask("99/99/9999");}*/}},
+					{name:"Amount",index:"Amount",width:80,align:"center",sortable:true,resizable:true,search:false},
+					{name:"StatusName",index:"StatusName",width:90,align:"center",sortable:true,resizable:true,search:false},
+					{name:"Reason",index:"Reason",width:165,sortable:true,resizable:true,editable:true,search:false},
+					{name:"AttachedFile",index:"AttachedFile",width:80,align:"center",sortable:false,resizable:true,search:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Leave-Grid-nav"
+				,rowNum: 20
+				,rowList: [10,20,50,100]		// disable page size dropdown [10,20,30]
+				//,pgtext: null							// disable pager text like 'Page 0 of 10'
+				//,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true					// display the total number of records
+				,sortname: "Since"
+				,sortorder: "desc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				//,autoencode: true
+				,onPaging: function (pgButton) {
+					var p = this.p;
+					try {
+						var elem = p.pager + " input.ui-pg-input";
+						var goToPage = parseInt($(elem).val());
+						//if (pgButton === "user" && p.page > p.lastpage)
+						if (pgButton === "user" && goToPage > p.lastpage) {
+								alert ("You can't choose the page " + $(elem).val());
+								p.page = p.currentPage; // restore the value of page parameter
+								$(elem).val(p.currentPage);
+								return "stop";
+						}
+					} catch (e) { alert("You can't choose the page"); }
+				}
+				,loadComplete: function(data) {
+					this.p.currentPage = this.p.page;
+					try {
+						setPersistanceParams(objGrid);
+						doTriggerToolbar(objGrid, gridCookie);
+					} catch(e) {}
+					try {
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							elem = $(this).children("td[aria-describedby*='Amount']");
+							res = DisplayDHMformatText($(elem).text(), "#h #m");
+							if(res) $(elem).prop("title", res);
+						});
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							var url = "@Url.Content("~/Leave/Todo/")"+rec.RequestID+"/"+rec.aPersonNo;
+							var fnButton  = "onclick=\"location.href='"+url+"';\"";
+							var attrButton = "class=\"ui-state-active\" style=\"height:18px;width:68px;\"";
+							var elemButton = "<button "+fnButton+" "+attrButton+">เปิดดูใบลา</button>";
+							var fileDownload = "";
+							if(rec.AttachedFile) {
+								fileDownload = "<a class=\"file-download\" href=\""+rec.AttachedFile+"\">Download</a>";
+							}
+							$(this).setRowData(rowid, { ActionRequested: elemButton, 
+											StatusName: DisplayLeaveStatus(rec.StatusID, rec.StatusName), AttachedFile: fileDownload });
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Leave-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).navButtonAdd("#Leave-Grid-nav"
+				,{
+          caption: "Reload",
+          buttonicon: "ui-icon-refresh",
+          title: "Reload data",
+          onClickButton: function () {
+						$(this)[0].triggerToolbar();
+          }
+				}
+			).navButtonAdd("#Leave-Grid-nav"
+				,{
+          caption: "Clear",
+          buttonicon: "ui-icon-closethick",
+          title: "Clear filter",
+          onClickButton: function () {
+						$.cookie(gridCookie,null);
+						$(this)[0].clearToolbar();
+          }
+				}
+			).filterToolbar({ stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+		});
+
+		function doTriggerToolbar(objGrid, gridCookie) {
+			var hasValue = false;
+			var postData = $(objGrid).getGridParam("postData");
+			var cookieData = getPersistanceParams($.cookie(gridCookie));
+			if(cookieData) {
+				try {
+					if(cookieData.filters) {
+						var filters = cookieData.filters;
+						if(filters.rules && filters.rules.length > 0) {
+							hasValue = true;
+							var hDiv = $(objGrid)[0].grid.hDiv;
+							var sDiv = $(hDiv).find(".ui-jqgrid-htable .ui-search-toolbar .ui-search-input");
+							var fhDiv = null;
+							var fsDiv = null;
+							if($(objGrid)[0].p.frozenColumns) {
+								fhDiv = $(objGrid)[0].grid.fhDiv;
+								fsDiv = $(fhDiv).find(".ui-jqgrid-htable .ui-search-toolbar .ui-search-input");
+							}
+							$.each(filters.rules, function(key, value) {
+								$(sDiv).find("input, select").each(function() {
+									if($(this).prop("id") === "gs_"+value.field) {
+										if(!$(this).hasClass("hasDatepicker") || value.data !== "__/__/____") {
+											$(this).val(value.data);
+										}
+									}
+								});
+								if(fhDiv && fsDiv) {
+									$(fsDiv).find("input, select").each(function() {
+										if($(this).prop("id") === "gs_"+value.field) {
+											if(!$(this).hasClass("hasDatepicker") || value.data !== "__/__/____") {
+												$(this).val(value.data);
+											}
+										}
+									});
+								}
+							});
+						}
+					}
+					// Important for checking the "_search"
+					// It must be protected the infinity loop.
+					if(hasValue && !postData._search) {
+						var page = postData.page;
+						var rows = postData.rows;
+						var sidx = postData.sidx;
+						var sord = postData.sord;
+						var filters = JSON.stringify(cookieData.filters);
+						if(cookieData.page && cookieData.page != postData.page) { page = cookieData.page; }
+						if(cookieData.rows && cookieData.rows != postData.rows) {
+							rows = cookieData.rows;
+							var gDiv = "#gbox_" + $(objGrid).prop("id");
+							$(gDiv).find(".ui-pg-selbox").val(cookieData.rows);
+						}
+						if(cookieData.sidx && cookieData.sidx != postData.sidx) { sidx = cookieData.sidx; }
+						if(cookieData.sord && cookieData.sord != postData.sord) { sord = cookieData.sord; }
+						$(objGrid).setGridParam({page:page,rowNum:rows,sortname:sidx,sortorder:sord,search:true,postData:{filters:filters}});
+						setTimeout(function () { $(objGrid).trigger("reloadGrid"); }, 100);
+					}
+				} catch (e) {}
+			}
+		}
+
+		function getPersistanceParams(dtCookie) {
+			if(dtCookie) {
+				try {
+					var postData = $.parseJSON(dtCookie);
+					if("object" === typeof(postData)) return postData;
+				} catch (e) {}
+			}
+			return null;
+		}
+
+		function setPersistanceParams(objGrid) {
+			try {
+				var params = {};
+				var recCount = $(objGrid).getGridParam("reccount");
+				var postData = $(objGrid).getGridParam("postData");
+				if(postData.filters) {
+					var hasValue = false;
+					if(postData.rows) $.extend(params, $.parseJSON("{\"rows\":\""+postData.rows+"\"}"));
+					if(postData.page) $.extend(params, $.parseJSON("{\"page\":\""+postData.page+"\"}"));
+					if(postData.sidx) $.extend(params, $.parseJSON("{\"sidx\":\""+postData.sidx+"\"}"));
+					if(postData.sord) $.extend(params, $.parseJSON("{\"sord\":\""+postData.sord+"\"}"));
+					if(recCount > 0) {
+						var filters = $.parseJSON(postData.filters);
+						if(filters.rules && filters.rules.length > 0) {
+							hasValue = true;
+							$.extend(params, $.parseJSON("{\"filters\":"+postData.filters+"}"));
+						}
+					}
+					if(!hasValue) {
+						$.extend(params, $.parseJSON("{\"filters\":\"\"}"));
+					}
+					$.cookie(gridCookie, JSON.stringify(params), { expires: 1 });
+				}
+			} catch (e) {}
+		}
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ค้นหาประวัติการลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+			<table id="Leave-Grid"></table>
+			<div id="Leave-Grid-nav"></div>
+		</div>
+  </div>
+</div>

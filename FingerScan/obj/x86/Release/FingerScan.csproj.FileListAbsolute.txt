@@ -1,0 +1,14 @@
+D:\Nop\Verasu\Leave\Code\FingerScan\obj\x86\Release\ResolveAssemblyReference.cache
+D:\Nop\Verasu\Leave\Code\FingerScan\bin\Release\FingerScan.exe.config
+D:\Nop\Verasu\Leave\Code\FingerScan\bin\Release\FingerScan.exe
+D:\Nop\Verasu\Leave\Code\FingerScan\bin\Release\FingerScan.pdb
+D:\Nop\Verasu\Leave\Code\FingerScan\obj\x86\Release\FingerScan.exe
+D:\Nop\Verasu\Leave\Code\FingerScan\obj\x86\Release\FingerScan.pdb
+D:\Nop\Multiplus\leave\code\FingerScan\bin\Release\FingerScan.exe.config
+D:\Nop\Multiplus\leave\code\FingerScan\bin\Release\FingerScan.exe
+D:\Nop\Multiplus\leave\code\FingerScan\bin\Release\FingerScan.pdb
+D:\Nop\Multiplus\leave\code\FingerScan\obj\x86\Release\FingerScan.exe
+D:\Nop\Multiplus\leave\code\FingerScan\obj\x86\Release\FingerScan.pdb
+D:\Nop\Multiplus\leave\code_mvc4\FingerScan\bin\Release\FingerScan.exe.config
+D:\Nop\Multiplus\leave\code_mvc4\FingerScan\obj\x86\Release\FingerScan.exe
+D:\Nop\Multiplus\leave\code_mvc4\FingerScan\obj\x86\Release\FingerScan.pdb

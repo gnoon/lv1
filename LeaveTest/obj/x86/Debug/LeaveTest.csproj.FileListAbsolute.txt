@@ -1,0 +1,28 @@
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\bin\Debug\LeaveTest.exe.config
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\bin\Debug\LeaveTest.exe
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\bin\Debug\LeaveTest.pdb
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\bin\Debug\LeaveCore.dll
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\bin\Debug\LeaveCore.pdb
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\obj\x86\Debug\LeaveTest.exe
+D:\Verasu\Leave\Code\LeaveTest\LeaveTest\obj\x86\Debug\LeaveTest.pdb
+D:\Verasu\Leave\Code\LeaveTest\bin\Debug\LeaveTest.exe.config
+D:\Verasu\Leave\Code\LeaveTest\obj\x86\Debug\LeaveTest.exe
+D:\Verasu\Leave\Code\LeaveTest\obj\x86\Debug\LeaveTest.pdb
+D:\Verasu\Leave\Code\LeaveTest\bin\Debug\LeaveTest.exe
+D:\Verasu\Leave\Code\LeaveTest\bin\Debug\LeaveTest.pdb
+D:\Verasu\Leave\Code\LeaveTest\bin\Debug\LeaveCore.dll
+D:\Verasu\Leave\Code\LeaveTest\bin\Debug\LeaveCore.pdb
+D:\Verasu\Leave\Code\LeaveTest\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\03 PROJECT\Leave\05 Development\01 Source Code\LeaveTest\bin\Debug\LeaveTest.exe.config
+D:\03 PROJECT\Leave\05 Development\01 Source Code\LeaveTest\obj\x86\Debug\LeaveTest.exe
+C:\dev\Web\LeaveTest\bin\Debug\LeaveTest.exe.config
+C:\dev\Web\LeaveTest\bin\Debug\LeaveTest.exe
+C:\dev\Web\LeaveTest\bin\Debug\LeaveTest.pdb
+C:\dev\Web\LeaveTest\bin\Debug\LeaveCore.dll
+C:\dev\Web\LeaveTest\bin\Debug\LeaveCore.pdb
+C:\dev\Web\LeaveTest\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\dev\Web\LeaveTest\obj\x86\Debug\LeaveTest.exe
+C:\dev\Web\LeaveTest\obj\x86\Debug\LeaveTest.pdb
+C:\dev\Web\LeaveTest\bin\Debug\Xipton.Razor.dll
+C:\dev\Web\LeaveTest\bin\Debug\System.Web.Razor.dll

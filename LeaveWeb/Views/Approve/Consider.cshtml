@@ -1,0 +1,493 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<!--[if IE 7 ]> <html class="no-js ie ie7 lte7 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 8 ]> <html class="no-js ie ie8 lte8 lte9" lang="en-US"> <![endif]-->
+<!--[if IE 9 ]> <html class="no-js ie ie9 lte9>" lang="en-US"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
+<head>
+  <title>Consider</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta charset="utf-8">
+	<meta name="author" content="">
+	<meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!--link rel="shortcut icon" href="../favicon.ico"-->
+	@{
+		var ContentsRequired = new ViewDataDictionary {
+		{"base.ui",true},{"jquery",true},{"jquery.ui",true},{"jquery.ui.core",true},
+		{"jquery.ui.widget",true},{"jquery.ui.button",true},{"jquery.ui.tabs",true},
+		{"jquery.jqgrid",true},{"jquery.qtip",true},{"my.ui.scripts",true}};
+	}
+	@{ Html.RenderPartial("~/Views/Shared/_Core.cshtml", ContentsRequired); }
+	<style type="text/css">
+		.ui-mytabs-nested .ui-tabs .ui-tabs-nav {
+			background: inherit;
+		}
+		.ui-mytabs-nested .ui-tabs .ui-tabs-panel {
+			min-height: 250px;
+		}
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#Quota-Grid").jqGrid({
+				 url: "@Url.Action("AjaxListQuota", "Leave")"
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: 265
+				,caption: "<em>โควต้าวันลาของ { @ViewBag.PersonName }</em>"
+				,colNames: ["ประเภทการลา","สิทธิ์ลา (วัน)","ใช้ไปแล้ว (วัน)","อนุมัติแล้ว (วัน)","คงเหลือ (วัน)"]
+				,colModel: [
+					{name:"NameTH",index:"NameTH",width:150,sortable:true,resizable:false},
+					{name:"QuotaAmount",index:"QuotaAmount",width:90,align:"center",sortable:true,resizable:false},
+					{name:"TakenAmount",index:"TakenAmount",width:90,align:"center",sortable:true,resizable:false},
+					{name:"ApproveAmount",index:"ApproveAmount",width:90,align:"center",sortable:true,resizable:false},
+					{name:"BalanceAmount",index:"BalanceAmount",width:90,align:"center",sortable:true,resizable:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Quota-Grid-nav"
+				,rowNum: 100
+				,rowList: []         // disable page size dropdown [10,20,30]
+				,pgtext: null        // disable pager text like 'Page 0 of 10'
+				,pgbuttons: false    // disable page control like next, back button
+				,viewrecords: true   // display the total number of records
+				,sortname: "NameTH"
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+			}).navGrid("#Quota-Grid-nav" ,{edit:false,add:false,del:false,refresh:false,search:false});
+
+			$("#Leave-Grid").jqGrid({
+				 datatype: "local"
+				,editurl: "clientArray"
+				,data: @(Html.Raw(ViewBag.JsonLocalData))
+				,width: "auto"
+				,height: 90
+				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
+				,colNames: ["D1","D2","D3","I1","I2","I3","I4","ประเภทการลา","วันลา","ช่วงการลา","จำนวนวัน (ชม.)","สถานะ","พิจารณา","ลงความเห็น"]
+				,colModel: [
+					{name:"LeaveID",index:"LeaveID",hidden:true},
+					{name:"StatusID",index:"StatusID",hidden:true},
+					{name:"ActiveStatusID",index:"ActiveStatusID",hidden:true},
+					{name:"IsGrantor",index:"IsGrantor",hidden:true},
+					{name:"IsPending",index:"IsPending",hidden:true},
+					{name:"IsAwaiting",index:"IsAwaiting",hidden:true},
+					{name:"IsCancelRequest",index:"IsCancelRequest",hidden:true},
+					{name:"LeaveType",index:"LeaveType",width:180,sortable:true,resizable:true},
+					{name:"LeaveDate",index:"LeaveDate",width:100,align:"center",sortable:true,resizable:true},
+					{name:"LeavePeriod",index:"LeavePeriod",width:100,align:"center",sortable:true,resizable:true},
+					{name:"LeaveAmount",index:"LeaveAmount",width:100,align:"center",sortable:true,resizable:true},
+					{name:"LeaveStatus",index:"LeaveStatus",width:100,align:"center",sortable:true,resizable:true},
+					{name:"ActionRequested",index:"ActionRequested",width:240,align:"center",sortable:false,resizable:true},
+					{name:"HeadComment",index:"HeadComment",width:280,sortable:true,resizable:true,editable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Leave-Grid-nav"
+				,rowNum: 100
+				,rowList: []         // disable page size dropdown [10,20,30]
+				,pgtext: null        // disable pager text like 'Page 0 of 10'
+				,pgbuttons: false    // disable page control like next, back button
+				,viewrecords: true   // display the total number of records
+				,sortname: "LeaveID"
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				,onCellSelect: function(rowid, iCol, cellcontent, e) {
+					try {
+						var cm = $(this).getGridParam("colModel");
+						var rec = $(this).getRowData(rowid);
+						if(cm[iCol].name == "HeadComment" &&
+							(eval(rec.IsPending) || eval(rec.IsAwaiting) || eval(rec.IsCancelRequest))) $(this).editRow(rowid, true);
+					} catch(e) {}
+				}
+				,loadComplete: function(data) {
+					try {
+						setTimeout(function() {
+							VerifyGrant(data.rows);
+						}, 100);
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable").children("tbody").children(".jqgrow").each(function() {
+							$(this).children("td[aria-describedby*='ActionRequested']").attr("title", "");
+						});
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							var LeaveID = rec.LeaveID;
+							var isValidApproved = false;
+							var isValidRejected = false;
+							var isValidAwaiting = false;
+							var aApprovedStatusId = "@LeaveCore.Const.STATUS_LEAVE_APPROVED";
+							var aRejectedStatusId = "@LeaveCore.Const.STATUS_LEAVE_REJECTED";
+							var aAwaitingStatusId = "@LeaveCore.Const.STATUS_LEAVE_AWAITING";
+							if(eval(rec.IsGrantor) && 
+								(eval(rec.IsPending) || eval(rec.IsAwaiting) || eval(rec.IsCancelRequest)))
+							{
+								isValidApproved = true;
+								isValidRejected = true;
+								isValidAwaiting = !eval(rec.IsAwaiting) && !eval(rec.IsCancelRequest);
+								if(eval(rec.IsCancelRequest)) {
+									aApprovedStatusId = "@LeaveCore.Const.STATUS_LEAVE_CANCELAPPROVED";
+									aRejectedStatusId = "@LeaveCore.Const.STATUS_LEAVE_CANCELREJECTED";
+								}
+							}
+
+							var vbApproved = "";
+							var vbRejected = "";
+							var vbAwaiting = "";
+							var attrApproved = "ui-state-active";
+							var attrRejected = "ui-state-error";
+							var attrAwaiting = "ui-state-highlight";
+							var styleButton = "style=\"height:18px;width:65px;\"";
+							if(!isValidApproved) { attrApproved = attrApproved + " ui-state-disabled"; vbApproved = "disabled=\"disabled\""; }
+							if(!isValidRejected) { attrRejected = attrRejected + " ui-state-disabled"; vbRejected = "disabled=\"disabled\""; }
+							if(!isValidAwaiting) { attrAwaiting = attrAwaiting + " ui-state-disabled"; vbAwaiting = "disabled=\"disabled\""; }
+							attrApproved = "class=\""+attrApproved+"\" "+vbApproved+" "+styleButton;
+							attrRejected = "class=\""+attrRejected+"\" "+vbRejected+" "+styleButton;
+							attrAwaiting = "class=\""+attrAwaiting+"\" "+vbAwaiting+" "+styleButton;
+							var fnApproved = "onclick=\"Grant(this,"+rowid+","+LeaveID+","+aApprovedStatusId+");\"";
+							var fnRejected = "onclick=\"Grant(this,"+rowid+","+LeaveID+","+aRejectedStatusId+");\"";
+							var fnAwaiting = "onclick=\"Grant(this,"+rowid+","+LeaveID+","+aAwaitingStatusId+");\"";
+							var emApproved = "<button "+fnApproved+" "+attrApproved+">อนุมัติ</button>";
+							var emRejected = "<button "+fnRejected+" "+attrRejected+">ไม่อนุมัติ</button>";
+							var emAwaiting = "<button "+fnAwaiting+" "+attrAwaiting+">รอพิจารณา</button>";
+							$(this).setRowData(rowid, { 
+								ActionRequested: emApproved+"&nbsp;&nbsp;"+emRejected+"&nbsp;&nbsp;"+emAwaiting, 
+								LeaveStatus: DisplayStatus(rec.ActiveStatusID, rec.LeaveStatus)
+							});
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Leave-Grid-nav" ,{
+				edit:false, add:false, del:false, refresh:false, search:false
+			}).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"LeaveID", numberOfColumns:12, titleText: "รายละเอียดการลา"},
+					{startColumnName:"ActionRequested", numberOfColumns:2, titleText: "หัวหน้างานพิจารณา"}
+				]
+			});
+			
+			$("#button-panel button").button().click(function (event) {
+				event.preventDefault();
+				var actionStatus;
+				if ($(this).is("#all-approved")) actionStatus = "@LeaveCore.Const.STATUS_LEAVE_APPROVED";
+				if ($(this).is("#all-rejected")) actionStatus = "@LeaveCore.Const.STATUS_LEAVE_REJECTED";
+				if ($(this).is("#all-awaiting")) actionStatus = "@LeaveCore.Const.STATUS_LEAVE_AWAITING";
+				if ($(this).is("#all-cancelapproved")) actionStatus = "@LeaveCore.Const.STATUS_LEAVE_CANCELAPPROVED";
+				if ($(this).is("#all-cancelrejected")) actionStatus = "@LeaveCore.Const.STATUS_LEAVE_CANCELREJECTED";
+				try {
+					GrantAll(this, actionStatus);
+				} catch(e) { alert(e.Message); }
+			});
+
+			$("#tabs").tabs({
+				create: function(event, ui) {
+					var a = $(".ui-jqgrid:eq(0)").outerHeight();
+					var b = $(this).children(".ui-tabs-nav").outerHeight();
+					$(this).children(".ui-tabs-panel").css({ "height" : (a - b) });
+				}
+			});
+
+			VerifyRequestCompare();
+		});
+
+		function VerifyGrant(rows)
+		{
+			var countValidApproved = 0;
+			var countValidRejected = 0;
+			var countValidAwaiting = 0;
+			var countCancelRequest = 0;
+			var isMultipleStatus = false;
+			var prevStatusID = -1;
+			for(var i=0; i<rows.length; i++) {
+				if(eval(rows[i].IsGrantor) && 
+					(eval(rows[i].IsPending) || eval(rows[i].IsAwaiting) || eval(rows[i].IsCancelRequest)))
+				{
+					countValidApproved++;
+					countValidRejected++;
+					if(eval(rows[i].IsCancelRequest)) countCancelRequest++;
+					if(!eval(rows[i].IsAwaiting) && !eval(rows[i].IsCancelRequest)) countValidAwaiting++;
+				}
+				if(prevStatusID != -1 && prevStatusID != parseInt(rows[i].StatusID) &&
+					 rows[i].ActiveStatusID != "@LeaveCore.Const.STATUS_LEAVE_AWAITING") isMultipleStatus = true;
+				prevStatusID = parseInt(rows[i].StatusID);
+			}
+			try {
+				$("#button-panel button").button({ disabled: true });
+				if(!isMultipleStatus) {
+					if(countCancelRequest == rows.length) {
+						$("#all-approved").button({ disabled: false }).attr("id", "all-cancelapproved");
+						$("#all-rejected").button({ disabled: false }).attr("id", "all-cancelrejected");
+					} else {
+						if(countValidApproved == rows.length) $("#all-approved").button({ disabled: false });
+						if(countValidRejected == rows.length) $("#all-rejected").button({ disabled: false });
+						if(countValidAwaiting == rows.length) $("#all-awaiting").button({ disabled: false });
+					}
+				}
+				$("#button-panel button").qtip("destroy");
+			} catch (e) {}
+		}
+
+		function VerifyRequestCompare() {
+			$("#nData").attr("disabled", true).addClass("ui-state-disabled");
+			$("#pData").attr("disabled", true).addClass("ui-state-disabled");
+			$.ajax({
+				 url: "@Url.Action("AjaxVerifyRequestCompare", "Approve")"
+				,type: "POST"
+				,async: true
+				,data: { RequestID: "@ViewBag.RequestID", HeadPersonNo: "@ViewBag.HeadPersonNo", Digest: "@ViewBag.Digest" }
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if(data.hasNextRequested) $("#nData").attr("disabled", false).removeClass("ui-state-disabled");
+					if(data.hasPrevRequested) $("#pData").attr("disabled", false).removeClass("ui-state-disabled");
+				}
+				,error: function(jqXHR, textStatus, errorThrown) {}
+			});
+		}
+
+		function Grant(elem, rowid, LeaveID, newStatusID) {
+			var grid = $("#Leave-Grid");
+			SaveGridRows(grid, grid.jqGrid("getDataIDs"));
+			var rec = grid.jqGrid("getRowData", rowid);
+			$.ajax({
+				 url: "@Url.Action("AjaxGrant", "Approve")"
+				,type: "POST"
+				,async: true
+				,data: {
+					RequestID: "@ViewBag.RequestID", LeaveID: LeaveID, HeadPersonNo: "@ViewBag.HeadPersonNo",
+					Digest: "@ViewBag.Digest", NewStatusID: newStatusID, HeadComment: rec.HeadComment
+				}
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						if(typeof(data.records) == "object" && data.records != null) {
+							var obj = data.records;
+							grid.jqGrid("setRowData", rowid, {
+								StatusID: obj.StatusID, 
+								ActiveStatusID: obj.ActiveStatusID, LeaveStatus: obj.DisplayStatusName,
+								IsPending: obj.IsPending, IsAwaiting: obj.IsAwaiting, IsCancelRequest: obj.IsCancelRequest
+							});
+						}
+						DisplayResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						setTimeout(function() {
+							grid.jqGrid().trigger("reloadGrid");
+							$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						}, 2000);
+					} else {
+						DisplayResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) { alert("error"); }
+			});
+		}
+
+		function GrantAll(elem, newStatusID) {
+			var grid = $("#Leave-Grid");
+			var ids = grid.jqGrid("getDataIDs");
+			var LeaveIDs = [], HeadComments = [];
+			SaveGridRows(grid, ids);
+			for(var i=0; i<ids.length; i++) {
+				var rec = grid.jqGrid("getRowData", ids[i]);
+				LeaveIDs.push(rec.LeaveID);
+				HeadComments.push(rec.HeadComment);
+			}
+			$.ajax({
+				 url: "@Url.Action("AjaxGrantAll", "Approve")"
+				,type: "POST"
+				,async: true
+				,traditional: true
+				,data: {
+					RequestID: "@ViewBag.RequestID", LeaveIDs: LeaveIDs, HeadPersonNo: "@ViewBag.HeadPersonNo",
+					Digest: "@ViewBag.Digest", NewStatusID: newStatusID, HeadComments: HeadComments
+				}
+				,dataType: "json"
+				,success: function(data, textStatus, jqXHR) {
+					if (textStatus == "success" && !eval(data.error)) {
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec_i = grid.jqGrid("getRowData", rowid);
+							if(typeof(data.records) == "object" && data.records != null && data.records.length > 0) {
+								$.each(data.records, function(key, obj) {
+									if(obj.LeaveID.toString() == rec_i.LeaveID) {
+										grid.jqGrid("setRowData", rowid, {
+											StatusID: obj.StatusID, 
+											ActiveStatusID: obj.ActiveStatusID, LeaveStatus: obj.DisplayStatusName,
+											IsPending: obj.IsPending, IsAwaiting: obj.IsAwaiting, IsCancelRequest: obj.IsCancelRequest
+										});
+									}
+								});
+							}
+						}
+						DisplayResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						setTimeout(function() {
+							grid.jqGrid().trigger("reloadGrid");
+							$("#Quota-Grid").jqGrid().trigger("reloadGrid");
+						}, 2000);
+					} else {
+						DisplayResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+					}
+				}
+				,error: function(jqXHR, textStatus, errorThrown) { alert("error"); }
+			});
+		}
+
+		function SaveGridRows(grid, ids) {
+			try {
+				for(var i=0; i<ids.length; i++) {
+					var rowid = ids[i];
+					grid.jqGrid("saveRow", rowid);
+				}
+			} catch (e) {}
+		}
+
+		function DisplayResult(elem, textContent, addClass) {
+			$(elem).qtip({
+				content: textContent,
+				position: {
+					my: "bottom right",
+					at: "top left",
+					target: "mouse",
+					adjust: { mouse: false },
+					viewport: $(window)
+				},
+				show: { ready: true },
+				style: { classes: addClass },
+				events: {
+					hide: function(event, api) { return $(this).qtip("destroy"); }
+				}
+			});
+			//$(selector).qtip("show");
+			//$(selector).qtip("option", "style.classes", addClass);
+		}
+
+		function DisplayStatus(sId, sName) {
+			var displayColor = [
+				{key:["@LeaveCore.Const.STATUS_LEAVE_APPROVED","@LeaveCore.Const.STATUS_LEAVE_CANCELAPPROVED"], 
+							value:"green"},
+				{key:["@LeaveCore.Const.STATUS_MULTIPLE_STATUSES",
+							"@LeaveCore.Const.STATUS_LEAVE_AWAITING","@LeaveCore.Const.STATUS_LEAVE_CANCELREQUEST"], 
+							value:"orange"},
+				{key:["@LeaveCore.Const.STATUS_LEAVE_REJECTED","@LeaveCore.Const.STATUS_LEAVE_CANCELLED",
+							"@LeaveCore.Const.STATUS_LEAVE_CANCELREJECTED","@LeaveCore.Const.STATUS_LEAVE_INTERRUPTED"], 
+							value:"red"}
+			];
+			$.each(displayColor, function(key, obj) {
+				if($.inArray(sId, obj.key) > -1) {
+					sName = "<span style=\"color:"+obj.value+";\">"+sName+"</span>";
+				}
+			});
+			return sName;
+		}
+	</script>
+</head>
+<body>
+	<header>
+		<section id="global-nav">
+			<nav>
+				<div class="constrain">
+					<span id="logo-events">VERASU</span>
+					@if(User.Identity.IsAuthenticated){
+					<ul class="projects">
+						<li class="project home"><a href="@Url.Content("~/Approve/Index")" title="Home"><span class="homeIcon"></span></a></li>
+						<li class="project proj"><a href="@Request.Url.AbsoluteUri" title="Leave" class="active"><span>Leave</span></a></li>
+					</ul>
+					<ul class="links">
+						<li><a href="@Url.Content("~/Public/Logout")">Log out</a></li>
+					</ul>}
+				</div>
+			</nav>
+		</section>
+	</header>
+	<div id="container">
+		<div id="content-wrapper" class="clearfix">
+			<div class="content-right twelve columns">
+				<div class="ui-inner-panel">
+					<div class="ui-inner-panel">
+						<div class="left-side">
+							<table id="Quota-Grid"></table>
+							<div id="Quota-Grid-nav"></div>
+						</div>
+						<div class="right-side" style="margin-left:50px;">
+							<div class="ui-mytabs">
+								<div class="ui-mytabs-nested">
+									<div id="tabs">
+										<ul>
+											<li><a href="#tabs-1"><span>ข้อมูลทั่วไป</span></a></li>
+										</ul>
+										<div id="tabs-1">
+											<div class="tab-detail">
+												<table>
+													<tr>
+														<td style="vertical-align:top;border:1px solid #ccc;">
+															<img src="@Url.Content("~/Content/images/no_pic.jpg")" width="150" height="150" alt="">
+														</td>
+														<td style="vertical-align:top;padding-left:20px;">
+															<table class="info-panel">
+																<tr>
+																	<td style="text-align:right;">รหัส :</td>
+																	<td><input type="text" id="EmployeeNo" value="@ViewBag.EmployeeNo" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">ชื่อ - สกุล :</td>
+																	<td><input type="text" id="PersonName" value="@ViewBag.PersonName" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">ตำแหน่ง :</td>
+																	<td><input type="text" id="PositionName" value="@ViewBag.PositionName" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">สังกัด/แผนก :</td>
+																	<td><input type="text" id="DepartmentName" value="@ViewBag.DepartmentName" disabled style="width:200px;"></td>
+																</tr>
+																<tr>
+																	<td style="text-align:right;">วันที่เริ่มปฏิบัติงาน :</td>
+																	<td><input type="text" id="StartingDate" value="@ViewBag.StartingDate" disabled style="width:200px;"></td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p></p>
+					<div class="ui-inner-panel twelve">
+						<div class="left-side">
+							<a href="@Url.Content("~/Approve/Consider/")@ViewBag.UrlParamPrev" id="pData" class="fm-button ui-state-default ui-corner-left">
+								<span class="ui-icon ui-icon-triangle-1-w"></span>
+							</a>
+							<a href="@Url.Content("~/Approve/Consider/")@ViewBag.UrlParamNext" id="nData" class="fm-button ui-state-default ui-corner-right">
+								<span class="ui-icon ui-icon-triangle-1-e"></span>
+							</a>
+						</div>
+						<div id="button-panel" class="right-side">
+							<button id="all-approved" class="ui-state-default ui-my-button" style="width:120px;">อนุมัติทั้งหมด</button>
+							<button id="all-rejected" class="ui-state-error ui-my-button" style="width:130px;">ไม่อนุมัติทั้งหมด</button>
+							<button id="all-awaiting" class="ui-state-highlight ui-my-button" style="width:150px;">รอพิจารณาทั้งหมด</button>
+						</div>
+					</div>
+					<p></p>
+					<div class="ui-inner-panel">
+						<table id="Leave-Grid"></table>
+						<div id="Leave-Grid-nav"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

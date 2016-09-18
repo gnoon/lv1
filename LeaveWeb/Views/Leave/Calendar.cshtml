@@ -1,0 +1,59 @@
+﻿<link rel='stylesheet' type='text/css' href='@Url.Content("~/Resources/jquery.fullcalendar/fullcalendar.css")' />
+<script type='text/javascript' src='@Url.Content("~/Resources/jquery.fullcalendar/fullcalendar.js")'></script>
+<script type='text/javascript'>
+    function getContrastYIQ(hexcolor){
+	    var r = parseInt(hexcolor.substr(0,2),16);
+	    var g = parseInt(hexcolor.substr(2,2),16);
+	    var b = parseInt(hexcolor.substr(4,2),16);
+	    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+	    return (yiq >= 128) ? 'black' : 'white';
+    }
+    $(document).ready(function () {
+        $('#leaveCalendar').fullCalendar({
+            theme: true,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            loading: function (bool) {
+                if (bool) $('#leaveCalendarLoading').show();
+                else $('#leaveCalendarLoading').hide();
+            },
+            monthNames: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม',
+                        'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+            monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม',
+                        'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+            dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+            dayNamesShort: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+            eventSources: [
+            @foreach(var rec in LeaveCore.Person.ListUnderling(User, User.Identity.Name))
+            {
+                string color = LeaveCore.Tool.CreateHash(rec.PersonNo).Substring(0, 6);
+                <text>
+                {
+                    url: '@Url.Action("AjaxLeaveCalendar", "Leave")',
+                    type: 'POST',
+                    data: { PersonNo: '@rec.PersonNo' },
+                    color: '#@color',
+                    textColor: getContrastYIQ('@color'),
+                    error: function () {
+                        window.console && console.log("Error AjaxLeaveCalendar: ");
+                    }
+                },
+                </text>
+            }
+            ]
+        });
+    });
+</script>
+<style type="text/css">
+    #leaveCalendarLoading {
+		position: absolute;
+		top: 0px;
+		right: 5px;
+    }
+</style>
+<h2>ปฏิทินวันลาของพนักงานในสังกัด</h2>
+<div id='leaveCalendarLoading' style='display:none;'>loading...</div>
+<div id="leaveCalendar"></div>

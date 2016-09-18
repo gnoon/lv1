@@ -1,0 +1,642 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		.ui-inner-panel { min-width: 950px !important; }
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		$(window).load(function () {
+			setTimeout(function() {
+				try {
+					var skipOuterHeight = 10;
+					var outerPanelHeight = $("#tabs .ui-tabs-panel:first").outerHeight();
+					var outerPanelPaddingTop = Math.abs(parseInt($("#tabs .ui-tabs-panel:first").css("padding-top")));
+					var outerPanelPaddingBottom = Math.abs(parseInt($("#tabs .ui-tabs-panel:first").css("padding-bottom")));
+					var outerPanelNavHeight = $("#tabs-nested .ui-tabs-nav:first").outerHeight();
+					var outerPanelPanelHeight = $("#tabs-nested .ui-tabs-panel:first").outerHeight();
+					var fitContentHeight = outerPanelHeight - outerPanelPaddingTop - outerPanelPaddingBottom - outerPanelNavHeight - skipOuterHeight;
+					if(outerPanelPanelHeight < fitContentHeight) {
+						$("#tabs-nested .ui-tabs-panel").css({ "height" : fitContentHeight });
+					}
+					var skipInnerHeight = 80;
+					var fixFirstPanelZero = 139; // temp
+					outerPanelPanelHeight = $("#tabs-nested .ui-tabs-panel:first").outerHeight();
+					var outerPanelPanelPaddingTop = Math.abs(parseInt($("#tabs-nested .ui-tabs-panel:first").css("padding-top")));
+					var outerPanelPanelPaddingBottom = Math.abs(parseInt($("#tabs-nested .ui-tabs-panel:first").css("padding-bottom")));
+					var firstInnerPanelHeight = $("#first-inner-panel").outerHeight();
+					var firstSpacePanelHeight = $("#first-space-panel").outerHeight();
+					if(firstInnerPanelHeight == 0) firstInnerPanelHeight = fixFirstPanelZero;
+					ResetGridHeight(outerPanelPanelHeight - outerPanelPanelPaddingTop - 
+													outerPanelPanelPaddingBottom - firstInnerPanelHeight - firstSpacePanelHeight - skipInnerHeight);
+				} catch (e) {}
+			}, 1000);
+		});
+
+		$(document).ready(function () {
+			// Initialize tabs
+			$("#tabs").tabs();
+
+			var initDateEntry = function(elem) {
+        setTimeout(function () {
+          $(elem).mask("99/99/9999")
+					       .datepicker({
+            dateFormat: "dd/mm/yy",
+            autoSize: true,
+            changeYear: true,
+            changeMonth: true,
+						onClose: function(selectedDate) {
+							try {
+								var getDate = $(this).datepicker("getDate");
+								if($.type(getDate) === "date") {
+									$(this).datepicker("setDate", convertDate($.datepicker.formatDate("dd/mm/yy", getDate), "/"));
+									if(!$(this).parents("form").find("#NameTH").val()) $(this).parents("form").find("#NameTH").focus();
+								}
+							} catch (e) {}
+						}
+          }).keyup(function() {
+						if($(this).val().indexOf("_") == -1) {
+							try {
+								//$(this).datepicker("hide");
+								$(this).datepicker("setDate", convertDate($(this).val(), "/"));
+							} catch (e) {}
+						}
+					});
+        }, 100);
+      };
+			
+			// Holiday Grid
+			$("#Holiday-Grid").jqGrid({
+				 mtype: "POST"
+				,datatype: "json"
+				,width: "auto"
+				,height: 200
+				,caption: "<em>รายการ { วันหยุดตามปฎิทินบริษัท }</em>"
+				,colNames: ["D1","D2","วันที่","ชื่อวันสำคัญ","Name in english"]
+				,colModel: [
+					{name:"HolidayID",index:"HolidayID",hidden:true,editable:true},
+					{name:"HolidaysID",index:"HolidaysID",hidden:true,editable:true},
+					{name:"Date",index:"Date",width:100,align:"center",sortable:true,resizable:true,
+					 editable:true,editrules:{required:true},editoptions:{dataInit:initDateEntry/*function(elem){$(elem).mask("99/99/9999");}*/}},
+					{name:"NameTH",index:"NameTH",width:410,sortable:true,resizable:true,
+					 editable:true,editrules:{required:true},editoptions:{size:50}},
+					{name:"NameEN",index:"NameEN",width:410,editable:true,editoptions:{size:50},sortable:true,resizable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Holiday-Grid-nav"
+				,rowNum: 100
+				,rowList: []							// disable page size dropdown [10,20,30]
+				,pgtext: null							// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true				// display the total number of records
+				,sortname: "Date"
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				//,onPaging: function (pgButton) {}
+				//,onSelectRow: function(rowid, status, e) {}
+				,loadComplete: function(data) {
+					try {
+						var userdata = $(this).getGridParam("userData");
+						var currPage = $(this).getGridParam("page"); // is always 1
+						if (userdata && currPage === userdata.page) {
+							$(this).setSelection(userdata.selId, true);
+						//} else {
+						//	$(this).setSelection(data.rows[0].id, true); // if true = The event onSelectRow is launched.
+						}
+					} catch (e) {}
+					this.p.currentPage = this.p.page;
+					$(this).setGridParam({ postData: { KeyPair: null, ValuePair: null } });
+				}
+			}).navGrid("#Holiday-Grid-nav"
+				,{edit: true, add: true, del: true, refresh: true, search: false} // an array of settings
+				,{ // settings for edit
+					 url: '@Url.Action("AjaxSetHoliday", "Setting")'
+					,serializeEditData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.HolidayID, HolidaysID: rec.HolidaysID,
+										 Date: postdata.Date, NameTH: postdata.NameTH, NameEN: postdata.NameEN };
+					}
+					,width: "450"
+					,closeOnEscape: true
+					,closeAfterEdit: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find("#Date").blur();
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setGridParam({postData:{ KeyPair: "HolidayID", ValuePair: postdata.HolidayID }}).trigger("reloadGrid");
+					}
+				}
+				,{ // settings for add
+					 url: '@Url.Action("AjaxSetHoliday", "Setting")'
+					,serializeEditData: function(postdata) {
+						var rowid = $("#Holidays-Grid").jqGrid("getGridParam", "selrow");
+						var rec = $("#Holidays-Grid").jqGrid("getRowData", rowid);
+						return { oper: postdata.oper, id: 0, HolidaysID: rec.HolidaysID,
+										 Date: postdata.Date, NameTH: postdata.NameTH, NameEN: postdata.NameEN };
+					}
+					,width: "450"
+					,closeOnEscape: true
+					,closeAfterAdd: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find("#Date").blur();
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var date = postdata.Date;
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) {
+							date = null;
+							alert("ERROR.");
+						}
+						$(this).setGridParam({postData:{ KeyPair: "Date", ValuePair: date }}).trigger("reloadGrid");
+					}
+				}
+				,{ // settings for delete
+					 url: '@Url.Action("AjaxSetHoliday", "Setting")'
+					,serializeDelData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.HolidayID, HolidaysID: rec.HolidaysID };
+					}
+					,closeOnEscape: true
+					,reloadAfterSubmit: false
+					,onclickSubmit: function(rp_ge, rowid) {
+						var rec = $(this).getRowData(rowid);
+						$(this).setGridParam({postData:{ KeyPair: "HolidayID", ValuePair: rec.HolidayID }});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).trigger("reloadGrid");
+					}
+				}
+				,{} // settings for search
+				,{} // settings for view
+			);
+			
+			// Holidays Grid
+			$("#Holidays-Grid").jqGrid({
+				 url: '@Url.Action("AjaxGetHolidays", "Setting")'
+				,mtype: "POST"
+				,datatype: "json"
+				,width: "auto"
+				,height: 67
+				,caption: "<em>รายการ { วันหยุดประจำปี }</em>"
+				,colNames: ["ID","วันหยุดประจำปี",""]
+				,colModel: [
+					{name:"HolidaysID",index:"HolidaysID",hidden:true,editable:true},
+					{name:"Description",index:"Description",width:450,sortable:true,resizable:true,
+					 editable:true,editrules:{required:true},editoptions:{size:50}},
+					{name:"ActionRequested",index:"ActionRequested",width:100,align:"center",sortable:false,resizable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Holidays-Grid-nav"
+				,rowNum: 3
+				,rowList: [10,20,50,100]		// disable page size dropdown [10,20,30]
+				//,pgtext: null							// disable pager text like 'Page 0 of 10'
+				//,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true					// display the total number of records
+				,sortname: "HolidaysID"
+				,sortorder: "desc"
+				,rownumbers: true
+				,gridview: true
+				//,autoencode: true
+				,ignoreCase: true
+				,onPaging: function (pgButton) {
+					var p = this.p;
+					try {
+						var elem = p.pager + " input.ui-pg-input";
+						var goToPage = parseInt($(elem).val());
+						//if (pgButton === "user" && p.page > p.lastpage)
+						if (pgButton === "user" && goToPage > p.lastpage) {
+								alert ("You can't choose the page " + $(elem).val());
+								p.page = p.currentPage; // restore the value of page parameter
+								$(elem).val(p.currentPage);
+								return "stop";
+						}
+					} catch (e) { alert("You can't choose the page"); }
+				}
+				,onSelectRow: function(rowid, status, e) {
+					try {
+						var rec = $(this).getRowData(rowid);
+						$("#Holiday-Grid").setGridParam({
+							 url: '@Url.Action("AjaxGetHoliday", "Setting")'
+							,mtype: "POST"
+							,datatype: "json"
+							,postData: { HolidaysID: rec.HolidaysID }
+							,loadError: function(xhr, status, error) {}
+						}).setCaption("<em>รายละเอียด { " + rec.Description + " }</em>").trigger("reloadGrid");
+					} catch (e) {
+						window.console && console.log("Selected row: " + e.toString());
+					}
+					setInteractiveButton(true, "#gbox_Holiday-Grid");
+				}
+				,loadComplete: function(data) {
+					try {
+						ClearGridData("#Holiday-Grid");
+						setInteractiveButton(false, "#gbox_Holiday-Grid");
+					} catch (e) {}
+					try {
+						var userdata = $(this).getGridParam("userData");
+						var currPage = $(this).getGridParam("page"); // is always 1
+						if (userdata && currPage === userdata.page) {
+							$(this).setSelection(userdata.selId, true);
+						//} else {
+						//	$(this).setSelection(data.rows[0].id, true); // if true = The event onSelectRow is launched.
+						}
+					} catch (e) {}
+					this.p.currentPage = this.p.page;
+					$(this).setGridParam({ postData: { KeyPair: null, ValuePair: null } });
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							//var url = "@Url.Content("~/Route/Action/");
+							var fnButton  = "onclick=\"javascript:void(0);\"";
+							var attrButton = "class=\"ui-state-active\" style=\"height:18px;width:85px;\"";
+							var elemButton = "<button "+fnButton+" "+attrButton+">สำเนารายการ</button>";
+							$(this).setRowData(rowid, { ActionRequested: elemButton });
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Holidays-Grid-nav"
+				,{edit: true, add: true, del: true, refresh: true, search: false} // an array of settings
+				,{ // settings for edit
+					 url: '@Url.Action("AjaxSetHolidays", "Setting")'
+					,serializeEditData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.HolidaysID, Description: postdata.Description };
+					}
+					,width: "450"
+					,closeOnEscape: true
+					,closeAfterEdit: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setGridParam({postData:{ KeyPair: "HolidaysID", ValuePair: postdata.HolidaysID }}).trigger("reloadGrid");
+					}
+				}
+				,{ // settings for add
+					 url: '@Url.Action("AjaxSetHolidays", "Setting")'
+					,serializeEditData: function(postdata) {
+						return { oper: postdata.oper, id: 0, Description: postdata.Description };
+					}
+					,width: "450"
+					,closeOnEscape: true
+					,closeAfterAdd: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setGridParam({postData:{ KeyPair: "Description", ValuePair: postdata.Description }}).trigger("reloadGrid");
+					}
+				}
+				,{ // settings for delete
+					 url: '@Url.Action("AjaxSetHolidays", "Setting")'
+					,serializeDelData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.HolidaysID };
+					}
+					,closeOnEscape: true
+					,reloadAfterSubmit: false
+					,onclickSubmit: function(rp_ge, rowid) {
+						var rec = $(this).getRowData(rowid);
+						$(this).setGridParam({postData:{ KeyPair: "HolidaysID", ValuePair: rec.HolidaysID }});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) {
+							alert("ERROR.");						
+						} else {
+							var p = this.p, newPage = p.page;
+							if (p.lastpage > 1) {// on the multipage grid reload the grid
+								if (p.reccount === 0 && newPage === p.lastpage) {
+									// if after deliting there are no rows on the current page
+									// which is the last page of the grid
+									newPage--; // go to the previous page
+								}
+								// reload grid to make the row from the next page visable.
+								$(this).trigger("reloadGrid", [{page: newPage}]);
+							}
+						}
+						// finally, reloadGrid
+						$(this).trigger("reloadGrid");
+						$("#Holiday-Grid").setGridParam({ postData: { HolidaysID: 0 } }).trigger("reloadGrid");
+					}
+				}
+				,{} // settings for search
+				,{} // settings for view
+			);
+
+			// Workshift Grid
+			$("#Workshift-Grid").jqGrid({
+				 mtype: "POST"
+				,datatype: "json"
+				,width: "auto"
+				,height: 350
+				,caption: "<em>รายละเอียด { กะเวลาทำงาน }</em>"
+				,colNames: ["D1","D2","I1","กะเวลาทำงาน","เริ่มตั้งแต่เวลา","จนถึงเวลา"]
+				,colModel: [
+					{name:"WorkshiftID",index:"WorkshiftID",hidden:true},
+					{name:"WorkshiftsID",index:"WorkshiftsID",hidden:true},
+					{name:"Type",index:"Type",hidden:true,editable:true},
+					{name:"Description",index:"Description",width:200,sortable:true,resizable:true},
+					{name:"TimeBegin",index:"TimeBegin",width:120,align:"center",sortable:true,resizable:true,
+					 editable:true,editoptions:{dataInit:function(elem){$(elem).mask("99:99");}}},
+					{name:"TimeUntil",index:"TimeUntil",width:120,align:"center",sortable:true,resizable:true,
+					 editable:true,editoptions:{dataInit:function(elem){$(elem).mask("99:99");}}}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Workshift-Grid-nav"
+				,rowNum: 100
+				,rowList: []							// disable page size dropdown [10,20,30]
+				,pgtext: null							// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true				// display the total number of records
+				,sortname: "Type"
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				//,onPaging: function (pgButton) {}
+				//,onSelectRow: function(rowid, status, e) {}
+				,loadComplete: function(data) {
+					try {
+						var userdata = $(this).getGridParam("userData");
+						var currPage = $(this).getGridParam("page"); // is always 1
+						if (userdata && currPage === userdata.page) {
+							$(this).setSelection(userdata.selId, true);
+						//} else {
+						//	$(this).setSelection(data.rows[0].id, true); // if true = The event onSelectRow is launched.
+						}
+					} catch (e) {}
+					this.p.currentPage = this.p.page;
+					$(this).setGridParam({ postData: { KeyPair: null, ValuePair: null } });
+				}
+			}).navGrid("#Workshift-Grid-nav"
+				,{edit: true, add: false, del: false, refresh: true, search: false} // an array of settings
+				,{ // settings for edit
+					 url: '@Url.Action("AjaxSetWorkshift", "Setting")'
+					,serializeEditData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.WorkshiftID, TimeBegin: postdata.TimeBegin, TimeUntil: postdata.TimeUntil };
+					}
+					,width: "350"
+					,closeOnEscape: true
+					,closeAfterEdit: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setGridParam({postData:{ KeyPair: "Type", ValuePair: postdata.Type }}).trigger("reloadGrid");
+					}
+				}
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			);
+
+			// Workshifts Grid
+			$("#Workshifts-Grid").jqGrid({
+				 url: '@Url.Action("AjaxGetWorkshifts", "Setting")'
+				,mtype: "POST"
+				,datatype: "json"
+				,width: "auto"
+				,height: 350
+				,caption: "<em>รายการ { กะเวลาทำงาน }</em>"
+				,colNames: ["ID","เป็นกะพนักงาน Office","รายละเอียด"]
+				,colModel: [
+					{name:"WorkshiftsID",index:"WorkshiftsID",hidden:true,editable:true},
+					{name:"OfficeStaff",index:"OfficeStaff",width:130,align:"center",sortable:true,resizable:true,
+					 editable:true,formatter:"checkbox",edittype:"checkbox",editoptions:{value:"1:0"}},
+					{name:"Description",index:"Description",width:270,sortable:true,resizable:true,
+					 editable:true,editrules:{required:true},editoptions:{size:50}}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Workshifts-Grid-nav"
+				,rowNum: 100
+				,rowList: []							// disable page size dropdown [10,20,30]
+				,pgtext: null							// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true				// display the total number of records
+				,sortname: "Description"
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				//,autoencode: true
+				,ignoreCase: true
+				//,onPaging: function (pgButton) {}
+				,onSelectRow: function(rowid, status, e) {
+					try {
+						var rec = $(this).getRowData(rowid);
+						$("#Workshift-Grid").setGridParam({
+							 url: '@Url.Action("AjaxGetWorkshift", "Setting")'
+							,mtype: "POST"
+							,datatype: "json"
+							,postData: { WorkshiftsID: rec.WorkshiftsID }
+							,loadError: function(xhr, status, error) {}
+						}).setCaption("<em>รายละเอียด { " + rec.Description + " }</em>").trigger("reloadGrid");
+					} catch (e) {
+						window.console && console.log("Selected row: " + e.toString());
+					}
+					setInteractiveButton(true, "#gbox_Workshift-Grid");
+				}
+				,loadComplete: function(data) {
+					try {
+						ClearGridData("#Workshift-Grid");
+						setInteractiveButton(false, "#gbox_Workshift-Grid");
+					} catch (e) {}
+					try {
+						var userdata = $(this).getGridParam("userData");
+						var currPage = $(this).getGridParam("page"); // is always 1
+						if (userdata && currPage === userdata.page) {
+							$(this).setSelection(userdata.selId, true);
+						//} else {
+						//	$(this).setSelection(data.rows[0].id, true); // if true = The event onSelectRow is launched.
+						}
+					} catch (e) {}
+					this.p.currentPage = this.p.page;
+					$(this).setGridParam({ postData: { KeyPair: null, ValuePair: null } });
+				}
+			}).navGrid("#Workshifts-Grid-nav"
+				,{edit: true, add: true, del: true, refresh: true, search: false} // an array of settings
+				,{ // settings for edit
+					 url: '@Url.Action("AjaxSetWorkshifts", "Setting")'
+					,serializeEditData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.WorkshiftsID, OfficeStaff: postdata.OfficeStaff, Description: postdata.Description };
+					}
+					,width: "430"
+					,closeOnEscape: true
+					,closeAfterEdit: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setGridParam({postData:{ KeyPair: "WorkshiftsID", ValuePair: postdata.WorkshiftsID }}).trigger("reloadGrid");
+					}
+				}
+				,{ // settings for add
+					 url: '@Url.Action("AjaxSetWorkshifts", "Setting")'
+					,serializeEditData: function(postdata) {
+						return { oper: postdata.oper, id: 0, OfficeStaff: postdata.OfficeStaff, Description: postdata.Description };
+					}
+					,width: "430"
+					,closeOnEscape: true
+					,closeAfterAdd: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setGridParam({postData:{ KeyPair: "Description", ValuePair: postdata.Description }}).trigger("reloadGrid");
+					}
+				}
+				,{ // settings for delete
+					 url: '@Url.Action("AjaxSetWorkshifts", "Setting")'
+					,serializeDelData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						return { oper: postdata.oper, id: rec.WorkshiftsID, OfficeStaff: 0 };
+					}
+					,closeOnEscape: true
+					,reloadAfterSubmit: false
+					,onclickSubmit: function(rp_ge, rowid) {
+						var rec = $(this).getRowData(rowid);
+						$(this).setGridParam({postData:{ KeyPair: "WorkshiftsID", ValuePair: rec.WorkshiftsID }});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) {
+							alert("ERROR.");						
+						} else {
+							var p = this.p, newPage = p.page;
+							if (p.lastpage > 1) {// on the multipage grid reload the grid
+								if (p.reccount === 0 && newPage === p.lastpage) {
+									// if after deliting there are no rows on the current page
+									// which is the last page of the grid
+									newPage--; // go to the previous page
+								}
+								// reload grid to make the row from the next page visable.
+								$(this).trigger("reloadGrid", [{page: newPage}]);
+							}
+						}
+						// finally, reloadGrid
+						$(this).trigger("reloadGrid");
+						$("#Workshift-Grid").setGridParam({ postData: { WorkshiftsID: 0 } }).trigger("reloadGrid");
+					}
+				}
+				,{} // settings for search
+				,{} // settings for view
+			);
+
+			//$.cookie.defaults = { path: "/", expires: 1 };
+			var cookieName = "Setting_Templates_Tab_Persistance";
+			var tabActiveIndex = $.cookie(cookieName) ? parseInt($.cookie(cookieName)) : 0;
+			$("#tabs-nested").tabs({
+				active: tabActiveIndex,
+				create: function(event, ui) {
+					//$(this).children(".ui-tabs-panel").css({ "height" : 150 });
+				},
+				activate: function(event, ui) {
+					$.cookie(cookieName, ui.newTab.index(), { expires: 1 });
+				}
+			});
+
+			// Interactive
+			setInteractiveButton(false, "#gbox_Holiday-Grid");
+			setInteractiveButton(false, "#gbox_Workshift-Grid");
+		});
+
+		function setInteractiveButton(active, gboxGrid) {
+			if(active) {
+				$(gboxGrid).find(".ui-pg-button").removeClass("ui-state-disabled");
+			} else {
+				$(gboxGrid).find(".ui-pg-button").addClass("ui-state-disabled");
+			}
+		}
+
+		function ResetGridHeight(height) {
+			$("#Holiday-Grid").jqGrid("setGridHeight", height);
+		}
+
+		function ClearGridData(objGrid) {
+			$(objGrid).jqGrid("clearGridData", true);
+		}
+	</script>
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ตั้งค่าข้อมูลการลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+			<div class="m-ui-tabs">
+				<div class="m-ui-tabs-nested">
+					<div id="tabs-nested">
+						<ul>
+							<li><a href="#tabs-nested-1"><span>ปฏิทินวันหยุด</span></a></li>
+							<li><a href="#tabs-nested-2"><span>กะเวลาทำงาน</span></a></li>
+						</ul>
+						<div id="tabs-nested-1">
+							<div id="outer-panel" class="ui-inner-panel">
+								<div id="first-inner-panel" class="ui-inner-panel">
+									<table id="Holidays-Grid"></table>
+									<div id="Holidays-Grid-nav"></div>
+								</div>
+								<div id="first-space-panel" style="height:20px;"></div>
+								<div id="second-inner-panel" class="ui-inner-panel">
+									<table id="Holiday-Grid"></table>
+									<div id="Holiday-Grid-nav"></div>
+								</div>
+							</div>
+						</div>
+						<div id="tabs-nested-2">
+							<div class="ui-inner-panel">
+								<div class="ui-inner-panel">
+									<div class="left-side">
+										<table id="Workshifts-Grid"></table>
+										<div id="Workshifts-Grid-nav"></div>
+									</div>
+								<div class="right-side">
+									<table id="Workshift-Grid"></table>
+									<div id="Workshift-Grid-nav"></div>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

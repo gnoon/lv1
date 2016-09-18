@@ -1,0 +1,147 @@
+﻿@section ScriptsContents {
+	@{
+		var ContentsRequired = new ViewDataDictionary
+		{
+				{"jquery.alphanum",true}
+		};
+		Html.RenderPartial("~/Views/Shared/_Core.cshtml", ContentsRequired);
+	}
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+
+			var initNumberEntry = function(elem) {
+				setTimeout(function () {
+					$(elem).alphanum({maxLength:6}).numeric();
+				}, 100);
+			};
+
+			$("#Person-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListUserID", "Finger")'
+				,mtype: "POST"
+				,datatype: "json"
+				,width: "auto"
+				,height: 350
+				,caption: "<em>รายชื่อพนักงาน</em>"
+				,colNames: ["ID","รหัส","ชื่อ - สกุล","สังกัด","ตำแหน่ง","รหัสสแกนนิ้ว"]
+				,colModel: [
+					{name:"PersonNo",index:"PersonNo",hidden:true},
+					{name:"EmployeeNo",index:"EmployeeNo",width:60,align:"center",sortable:true,resizable:false},
+					{name:"PersonName",index:"PersonName",width:160,sortable:true,resizable:true},
+					{name:"SectionName",index:"SectionName",width:160,sortable:true,resizable:true},
+					{name:"PositionName",index:"PositionName",width:160,sortable:true,resizable:true},
+					{name:"UserID",index:"UserID",width:80,align:"center",sortable:true,resizable:true,search:false,
+					 editable:true,editrules:{required:true},editoptions:{dataInit:initNumberEntry}}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Person-Grid-nav"
+				,rowNum: 999
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				,loadComplete: function(data) {}
+			}).navGrid("#Person-Grid-nav"
+				,{edit: true, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{  // settings for edit
+					 url: '@Url.Action("AjaxChangeUserID", "Finger")'
+					,serializeEditData: function(postdata) {
+						var rec = $(this).getRowData(postdata.id);
+						//return { oper: postdata.oper, id: 0, PersonNo: rec.PersonNo, Times: Times };
+						return { PersonNo: rec.PersonNo, UserID: postdata.UserID };
+					}
+					//,width: "300"
+					,closeOnEscape: true
+					,closeAfterEdit: true
+					,reloadAfterSubmit: false
+					,afterShowForm: function(form) {
+						$(form).find(".CaptionTD").css({"text-align":"right"});
+					}
+					,afterComplete: function(response, postdata) {
+						var data = $.parseJSON(response.responseText);
+						if(eval(data.error) || data.records < 1) alert("ERROR.");
+						$(this).setRowData(postdata.id, { UserID: data.results.UserID });
+					}
+				} 
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).filterToolbar({ stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+
+			// Dialog
+			$("#Upload-Dialog").dialog({
+         modal: true
+        ,autoOpen: false
+        ,width: "auto"
+        ,height: "auto"
+        ,resizable: false
+				,closeOnEscape: true
+        ,position: {
+					 my: "left top"
+					,at: "left top"
+					,of: $("#gview_Person-Grid").find(".ui-jqgrid-hdiv")
+				}
+				,buttons: {
+          "Submit": function () {},
+          "Cancel": function () { $(this).dialog("close"); }
+        }
+				,open: function (event, ui) {}
+      });
+
+			//$("#Download").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: true })
+			$("#Download").button({ icons: { primary: "ui-icon-newwin" }, text: true })
+										.click(function() {
+				$.fileDownload('@Url.Action("ExportCSV", "Finger")', {
+            //preparingMessageHtml: "Preparing your file, please wait...",
+            //failMessageHtml: "There was a problem generating your file, please try again."
+        }).fail(function () { alert("File download failed!"); });
+        return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+			//$("#Upload").button({ icons: { primary: "ui-icon-arrowthick-1-nw" }, text: true });
+			$("#Upload").button({ icons: { primary: "ui-icon-extlink" }, text: true })
+									.click(function() { $("#Upload-Dialog").dialog("open"); });
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ตั้งค่ารหัสสแกนนิ้วมือ</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div>
+					<table id="Person-Grid"></table>
+					<div id="Person-Grid-nav"></div>
+				</div>
+				<p></p>
+				<div>
+					<button id="Download" class="m-ui-button">Download .csv</button>
+					<button id="Upload" class="m-ui-button">Upload .csv</button>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog -->
+<div id="Upload-Dialog" title="Upload File">
+	<div class="tab-detail">
+		<table class="info-panel">
+			<tr>
+				<td style="text-align:right;">เลือกไฟล์ :</td>
+				<td><input type="file" name="d-FileUpload" style="width:450px;background-color:#fff;border:1px solid #ccc;" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- END Dialog -->

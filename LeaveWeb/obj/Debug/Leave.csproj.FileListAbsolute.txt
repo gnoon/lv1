@@ -1,0 +1,12 @@
+C:\dev\Web\Leave\bin\Leave.dll
+C:\dev\Web\Leave\bin\Leave.pdb
+C:\dev\Web\Leave\bin\LeaveCore.dll
+C:\dev\Web\Leave\bin\Xipton.Razor.dll
+C:\dev\Web\Leave\bin\System.Web.Razor.dll
+C:\dev\Web\Leave\bin\LeaveCore.pdb
+C:\dev\Web\Leave\obj\Debug\Leave.csprojResolveAssemblyReference.cache
+C:\dev\Web\Leave\obj\Debug\Leave.Properties.Resources.resources
+C:\dev\Web\Leave\obj\Debug\Leave.csproj.GenerateResource.Cache
+C:\dev\Web\Leave\obj\Debug\Leave.dll
+C:\dev\Web\Leave\obj\Debug\Leave.pdb
+C:\dev\Web\Leave\bin\Newtonsoft.Json.xml

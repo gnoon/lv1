@@ -1,0 +1,4 @@
+2016-09-14 16:28:40,489 [32] DEBUG LeaveCore.Logger - leave request #13 of 8 to its supervisor by e-mail (head=7-nopadolsiri@hotmail.com)
+2016-09-14 16:28:42,712 [32] DEBUG LeaveCore.Logger - send to nopadolsiri@hotmail.com ... success
+2016-09-14 16:40:16,946 [19] DEBUG LeaveCore.Logger - leave request #14 of 8 to its supervisor by e-mail (head=7-nopadolsiri@hotmail.com)
+2016-09-14 16:40:17,616 [19] DEBUG LeaveCore.Logger - send to nopadolsiri@hotmail.com ... success

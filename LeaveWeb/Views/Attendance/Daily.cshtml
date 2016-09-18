@@ -1,0 +1,120 @@
+﻿@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$("#Attendance-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListDaily", "Attendance")'
+				,mtype: "GET"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" }
+				,width: "auto"
+				,height: 331
+				,caption: "<em>เวลาทำงานของพนักงาน  { @ViewBag.PersonName }</em>"
+				,colNames: ["ID","I1","","วันที่","หมายเหตุ","กะเข้า","กะออก","เข้างาน","ออกงาน","ตามกะ","ทั้งหมด","สาย","ขาด","ลาป่วย","ลากิจ","ลาพักผ่อน","ลาอื่นๆ"]
+				,colModel: [
+					{name:"Month",index:"Month",hidden:true,search:false},
+					{name:"DayOfWeek",index:"DayOfWeek",hidden:true},
+					{name:"Year",index:"Year",width:65,align:"center",sortable:false,resizable:false,
+					 stype:"select",searchoptions:{value:"@Html.Raw(ViewBag.YearOptions)"}},
+					{name:"WorkDate",index:"WorkDate",width:80,align:"center",sortable:false,resizable:false,
+					 stype:"select",searchoptions:{value:"1:Jan;2:Feb;3:Mar;4:Apr;5:May;6:Jun;7:Jul;8:Aug;9:Sep;10:Oct;11:Nov;12:Dec"}},
+					{name:"Remark",index:"Remark",width:80,sortable:false,resizable:false,search:false},
+					{name:"ShiftIn",index:"ShiftIn",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"ShiftOut",index:"ShiftOut",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"CheckIn",index:"CheckIn",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"CheckOut",index:"CheckOut",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"HoursShift",index:"HoursShift",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"HoursGross",index:"HoursGross",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"Late",index:"Late",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"Absence",index:"Absence",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveSick",index:"LeaveSick",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveBusiness",index:"LeaveBusiness",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveVocation",index:"LeaveVocation",width:60,align:"center",sortable:false,resizable:false,search:false},
+					{name:"LeaveOther",index:"LeaveOther",width:60,align:"center",sortable:false,resizable:false,search:false}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Attendance-Grid-nav"
+				,rowNum: 100
+				,rowList: []					// disable page size dropdown [10,20,30]
+				,pgtext: null					// disable pager text like 'Page 0 of 10'
+				,pgbuttons: false			// disable page control like next, back button
+				,viewrecords: true		// display the total number of records
+				,sortname: null
+				,sortorder: "asc"
+				,rownumbers: true
+				,gridview: true
+				,autoencode: true
+				,ignoreCase: true
+				,loadComplete: function(data) {
+					try {
+						setFilterValues();
+						
+						var res, elem;
+						var DayOfWeek;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							var t = this;
+							var arr = ["HoursShift", "HoursGross", "Late", "Absence", 
+												 "LeaveSick", "LeaveBusiness", "LeaveVocation", "LeaveOther"];
+							$.each(arr, function(key, value) {
+								elem = $(t).children("td[aria-describedby*='"+value+"']");
+								res = DisplayDHMformatText($(elem).text(), "#h #m");
+								if(res) $(elem).prop("title", res);
+							});
+
+							DayOfWeek = $(this).children("td[aria-describedby*='DayOfWeek']").text();
+							if(DayOfWeek == "0" || DayOfWeek == "6") {
+								$(this).removeClass("oddColor").addClass("stifColor");
+							}
+							$(this).children("td[aria-describedby*='Amount']").css({ "padding-right": "10px" });
+						});
+					} catch (e) {}
+				}
+			}).navGrid("#Attendance-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			).setGroupHeaders({
+				useColSpanStyle: true,
+				groupHeaders: [
+					{startColumnName:"WShiftIn", numberOfColumns:2, titleText: "กะทำงาน"},
+					{startColumnName:"CheckIn", numberOfColumns:6, titleText: "เวลาเข้า-ออกงาน (ชม. : นาที)"},
+					{startColumnName:"LeaveSick", numberOfColumns:4, titleText: "วันลา (ชม. : นาที)"}
+				]
+			}).filterToolbar({ stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+
+		});
+
+		function setFilterValues() {
+			var objGrid = "#Attendance-Grid";
+			var rec = $(objGrid).getRowData(1);
+			var hDiv = $(objGrid)[0].grid.hDiv;
+			var sDiv = $(hDiv).find(".ui-jqgrid-htable .ui-search-toolbar .ui-search-input");
+			var eValue = $(sDiv).find("#gs_WorkDate").val();
+			if(eValue != rec.Month) {
+				$(sDiv).find("#gs_WorkDate").val(rec.Month);
+			}
+		}
+
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>สรุปเวลาทำงาน</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+      <div class="ui-inner-panel" style="padding-left:10px;padding-top:10px;">
+				<div>
+					<table id="Attendance-Grid"></table>
+					<div id="Attendance-Grid-nav"></div>
+				</div>
+			</div>
+    </div>
+  </div>
+</div>

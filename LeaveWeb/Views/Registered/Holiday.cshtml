@@ -1,0 +1,41 @@
+﻿@model List<LeaveCore.Setting.HolidayTemplate>
+<div class="toc">
+	<div class="toc-header">ปฏิทินวันหยุด</div>
+	<div class="toc-content">
+		<p></p>
+		<div class="m-ui-grid ui-corner-all">
+			<div class="ui-widget-header ui-corner-top ui-helper-clearfix twelve">
+				<span class="m-ui-grid-title">รายการวันหยุดประจำปี @ViewBag.Year</span>
+			</div>
+			<div class="ui-helper-clearfix">
+				<table class="ui-widget-content m-ui-grid-table twelve">
+					<thead>
+						<tr>
+							<th class="ui-state-default" style="width:30px;">&nbsp;</th>
+							<th class="ui-state-default" style="width:100px;">วันที่</th>
+							<th class="ui-state-default" style="min-width:200px;">ชื่อวันสำคัญ</th>
+							<th class="ui-state-default" style="min-width:200px;">Name in english</th>
+						</tr>
+					</thead>
+					<tbody>
+						@{
+						var n = 0;
+						if(Model.Count > 0)
+					{	 						
+						foreach (var rec in Model)
+					{
+						++n;
+						<tr class="ui-widget-content m-grid-row ui-row-ltr @((n % 2) == 0 ? "oddColor" : "evenColor")">
+							<td class="ui-state-default m-grid-rownum">@n</td>
+							<td style="text-align:center;">@rec.Date.Value.ToString("dd/MM/yyyy")</td>
+							<td>@rec.NameTH</td>
+							<td>@rec.NameEN</td>
+						</tr>
+					}}}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<p></p>
+	</div>
+</div>

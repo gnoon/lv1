@@ -1,0 +1,114 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		.toc-content table td {
+			font-size: 12px;
+			font-family: SmoothContent;
+		}
+		.toc-content button {
+			width: 80px;
+			font-size: 13px;
+			font-style: italic;
+			font-family: Trebuchet MS,Myriad Pro,Arial,sans-serif;
+		}
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			
+			var PersonNo = $.trim($("#PersonNo").val());
+			if (PersonNo) {
+				$.ajax({
+					 url: '@Url.Action("AjaxGetPersonInfo", "Setting")'
+					,type: "POST"
+					,async: true
+					,data: { PersonNo : PersonNo }
+					,dataType: "json"
+					,success: function(data, textStatus, jqXHR) {
+						if (textStatus == "success" && !eval(data.error)) {
+							$("#Email").val(data.records.Email).attr("disabled", false);
+							$("#EmailSecond").val(data.records.EmailSecond).attr("disabled", false);
+							$("#ADAccount").val(data.records.ADAccount);
+							$("#Password").val(data.records.Password).attr("disabled", false);
+							$("#UsePasswordDefault").prop("disabled", false);
+							if(data.records.UsePasswordDefault == 1) {
+								$("#UsePasswordDefault").prop("checked", true);
+							} else $("#UsePasswordDefault").prop("checked", false);
+						} else { window.console && console.log("getProfiles(ajax): " + textStatus); }
+					}
+					,error: function(jqXHR, textStatus, errorThrown) {}
+				});
+			}
+
+			// Button event
+			$("#Update-Account").button().click(function (event) {
+				event.preventDefault();
+				var elem = this;
+				var PersonNo = $("#PersonNo").val();
+				var Password = $("#Password").val();
+				var Email = $.trim($("#Email").val());
+				var EmailSecond = $.trim($("#EmailSecond").val());
+				var UsePasswordDefault = $("#UsePasswordDefault").prop("checked") ? 1 : 0;
+				if(EmailSecond) Email = Email ? Email + ";" + EmailSecond : EmailSecond;
+				if(!Password && UsePasswordDefault == 1) {
+					alert("กรุณาระบุรหัสผ่าน 4 หลัก");
+					return false;
+				}
+				$.ajax({
+						url: '@Url.Action("AjaxSetUserAccount", "Setting")'
+					,type: "POST"
+					,async: true
+					,data: { PersonNo: PersonNo, Email: Email, Password: Password, UsePasswordDefault: UsePasswordDefault }
+					,dataType: "json"
+					,success: function(data, textStatus, jqXHR) {
+						if (textStatus == "success" && !eval(data.error) && data.records > 0) {
+							DisplayqTipResult(elem, "<p></p><p>ทำรายการเรียบร้อย</p><p></p>", "qtip-green qtip-shadow qtip-rounded");
+						} else {
+							DisplayqTipResult(elem, "<p></p><p>เกิดข้อผิดพลาด</p><p></p>", "qtip-red qtip-shadow qtip-rounded");
+						}
+					}
+					,error: function(jqXHR, textStatus, errorThrown) { alert(errorThrown); }
+				});
+			});
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="toc">
+	<div class="toc-header">ข้อมูลส่วนตัวพนักงาน</div>
+	<div class="toc-content">
+		<p></p>
+		<table class="info-panel">
+			<tr>
+				<td style="text-align:right;width:150px;">รหัสผ่าน 4 หลัก :</td>
+				<td>
+					<input type="text" id="Password" value="" style="width:100px;">
+					<span style="padding-left:20px;">
+						<input type="checkbox" id="UsePasswordDefault" value="1"> ใช้งาน
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">AD Account :</td>
+				<td>
+					<input type="text" id="ADAccount" value="" style="width:250px;" class="ui-state-disabled">
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">อีเมลล์พนักงาน :</td>
+				<td><input type="text" id="Email" value="" maxlength="50" style="width:250px;"></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">อีเมลล์สำรอง :</td>
+				<td>
+					<input type="text" id="EmailSecond" value="" maxlength="50" style="width:250px;">
+					<span style="padding-left:20px;">
+						<input type="hidden" id="PersonNo" value="@ViewBag.PersonNo">
+						<button id="Update-Account" class="ui-state-default m-ui-button">Update</button>
+					</span>
+				</td>
+			</tr>
+		</table>
+		<p></p>
+	</div>
+</div>

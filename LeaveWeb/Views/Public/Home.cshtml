@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<script type="text/javascript">
+$(document).ready(function () {
+    /* When clicking on the login pane */
+    $("a.login-window").click(function () {
+        // Getting the variable's value from a link 
+        var loginBox = $(this).attr("href");
+        //Fade in the Popup and add close button
+        $(loginBox).fadeIn(300);
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+        $(loginBox).css({
+            "margin-top": -popMargTop,
+            "margin-left": -popMargLeft
+        });
+        // Add the mask to body
+        $("body").append('<div id="mask"></div>');
+        $("#mask").fadeIn(300);
+        // Focus the username input
+        $("#Username").focus();
+        return false;
+    });
+    /* When clicking on the button close or the mask layer the popup closed */
+    //$('a.close, #mask').on('click', function () {
+    $(document).on("click", "a.close, #mask", function () {
+        $("#mask, .login-popup").fadeOut(300, function () {
+            $("#mask").remove();
+        });
+        return false;
+    });
+});
+</script>
+
+<style type="text/css">
+/*
+ * Overwriting jQuery base
+ */
+#content-wrapper { border-top-left-radius: 10px; border-top-right-radius: 10px; }
+/*
+ * Style for Dialog login
+ */   
+#mask {
+    top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
+    z-index: 999; display: none; position: fixed; background: #000;
+}
+.login-popup {
+	top: 50%; left: 50%; width: 370px; height: 248px; display: none; z-index: 99999;
+	position: fixed; margin: 150px auto 0; padding: 8px 0 0 8px; box-sizing: content-box;
+	border-radius: 9px; -moz-border-radius: 9px;/* Firefox */ -webkit-border-radius: 9px;/* Safari, Chrome */
+	-moz-box-shadow: 0px 0px 20px #999;/* Firefox */ -webkit-box-shadow: 0px 0px 20px #999;/* Safari, Chrome */
+	box-shadow: 0px 0px 20px #999; background: url(../../Content/images/form_bg.jpg) top left;
+}
+/*img.btn_close {*/
+a.close {
+    border: 0px; float: right; margin: -20px -12px 0 0; width: 25px; height: 25px;
+    background: url(../../Content/images/close.png) 0px 0px no-repeat;
+}
+a.close:hover { background-position: 0px -25px; }
+.login-popup form {
+    width: 360px; height: 239px; margin-top: 0px; padding-top: 0px;
+	border-radius: 4px; -moz-border-radius: 4px;/* Firefox */ -webkit-border-radius: 4px;/* Safari, Chrome */
+	box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.1);/* Firefox */
+	-webkit-box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.1);/* Safari, Chrome */
+	background: #fff url(../../Content/images/form_header.jpg) repeat-x top left;
+}
+.login-popup form p {
+	padding: 0px; margin: 0 0 12px; border-width: 0px; border-style: none; vertical-align: baseline;
+}
+.login-popup form h2 {
+	padding: 0px !important; margin: 0px 0px 10px 25px !important; color: #555555 !important;
+	font-size: 14px !important; font-weight: bold !important; line-height: 45px !important;
+	font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+	text-shadow: 0 1px 0 #fff !important;
+	-moz-text-shadow: 0 1px 0 #fff !important;/* Firefox */
+	-webkit-text-shadow: 0 1px 0 #fff !important;/* Safari, Chrome */
+	filter: dropshadow(color=#fff, offx=0, offy=1) !important;
+	-moz-filter: dropshadow(color=#fff, offx=0, offy=1) !important;/* Firefox */
+	-webkit-filter: dropshadow(color=#fff, offx=0, offy=1) !important;/* Safari, Chrome */
+}
+#content input[type="text"], #content input[type="password"] {
+	width: 290px; height: 33px; display: block; margin: 0 auto;
+	color: #aeaeae; font-size: 14px; font-family: Courier New !important;
+    min-width: 50%; max-width: 100%; padding: 0 10px 0 10px; border: 1px solid #bec2c4;
+	border-radius: 2px; -moz-border-radius: 2px;/* Firefox */ -webkit-border-radius: 2px;/* Safari, Chrome */
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;/* Firefox */ -webkit-box-sizing: content-box;/* Safari, Chrome */
+	box-shadow: 0px 0px 0px 4px #f2f5f7;
+	-moz-box-shadow: 0px 0px 0px 4px #f2f5f7;/* Firefox */
+    -webkit-box-shadow: 0px 0px 0px 4px #f2f5f7;/* Safari, Chrome */
+}
+#content input[type="text"]:focus, #content input[type="password"]:focus {
+	border: 1px solid #7dc6dd;
+	box-shadow: 0px 0px 0px 4px #e0f1fc;
+	-moz-box-shadow: 0px 0px 0px 4px #e0f1fc;/* Firefox */
+    -webkit-box-shadow: 0px 0px 0px 4px #e0f1fc;/* Safari, Chrome */
+}
+#content button {
+	border: 0px; width: 82px; height: 32px;
+	float: right; margin-right: 24px; background: url(../../Content/images/login.png) no-repeat;
+}
+#content button:hover {
+	border: 0px; width: 82px; height: 32px;
+	cursor: pointer; background: url(../../Content/images/login_hover.png) no-repeat;
+}
+#content button:active {
+	border: 0px; width: 82px; height: 32px; background: url(../../Content/images/login_active.png) no-repeat;
+}
+#content .login-popup label { display: inline; margin-left: 24px; vertical-align: middle; }
+#content .login-popup label span {
+	color: #bbb; font-size: 12px; line-height: 20px;
+	font-style: italic; font-family: "Trebuchet MS", "Myriad Pro", Arial, sans-serif;
+}
+#content p.forgot {
+	color: #fff; margin-top: 15px; font-size: 11px; font-weight: bold; text-align: center;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+	-moz-text-shadow: 0 1px 0 rgba(0,0,0,0.3);/* Firefox */
+	-webkit-text-shadow: 0 1px 0 rgba(0,0,0,0.3);/* Safari, Chrome */
+}	
+#content p.forgot a {
+	color: #cbebf6; padding-left: 5px; text-decoration: underline;
+	transition: color 0.5s linear; -moz-transition: color 0.5s linear;/* Firefox */
+	-webkit-transition: color 0.5s linear;/* Safari, Chrome */
+	/*-o-transition: color 0.5s linear;*/
+}
+#content p.forgot a:hover { color: #f39814; }
+</style>
+
+<div id="content-wrapper" class="clearfix row">
+    <div class="content-full full-width twelve columns">
+	    <div id="content">
+            <!--h2 class="block">What's Portal?</h2>
+            <p><br><br><br><br><br><br><br><br><br></p-->
+            <h2 class="block">Overview.</h2>
+            <p></p>
+            <!-- Modal box for Login form -->
+	        <div id="login-box" class="login-popup">
+                <a href="#" class="close"></a>
+		        <form method="post" action="/Public/Login">
+			        <h2>Login</h2>
+                    <label>
+                        <span>Username or email</span>
+                    </label>
+			        <p><input type="text" id="Username" name="Username" value=""></p>
+                    <label>
+                        <span>Password</span>
+                    </label>
+			        <p><input type="password" id="Password" name="Password" value=""></p>
+			        <!--label for="forgot"-->
+                    <label for="remember">
+                        <input type="checkbox" id="Remember" name="Remember" value="remember">
+                        <span>Remember me on this computer</span>
+			        </label>
+			        <button type="submit"></button>
+                    <!--input type="hidden" name="ReturnURL" value="@System.Web.HttpContext.Current.Request["ReturnURL"]"-->
+                    <input type="hidden" name="Role" value="Registered">
+                    <input type="hidden" name="ReturnURL" value="/Public/Index">
+		        </form>
+                <p class="forgot">Forgot your password? <a href="#">Click here to reset it.</a></p>
+	        </div><!-- Login form -->
+        </div>
+    </div>
+</div>

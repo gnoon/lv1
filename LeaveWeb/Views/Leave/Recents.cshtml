@@ -1,0 +1,135 @@
+﻿@section StylesContents {
+	<style type="text/css">
+		a.file-download {
+			color: Blue !important;
+			font-size: 11px;
+			font-style: italic;
+			text-decoration: underline;
+			font-family: Baskerville, Georgia;
+		}
+		a.file-download:hover { color: Red !important; }
+	</style>
+}
+@section ScriptsContents {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#tabs").tabs();
+			$(document).on("click", "a.file-download", function () {
+					$.fileDownload($(this).prop("href"), {
+              //preparingMessageHtml: "Preparing your file, please wait...",
+              //failMessageHtml: "There was a problem generating your file, please try again."
+          }).fail(function () { alert("File download failed!"); });
+          return false; //this is critical to stop the click event which will trigger a normal file download!
+      });
+
+			$("#Leave-Grid").jqGrid({
+				 url: '@Url.Action("AjaxListRecents", "Leave")'
+				,mtype: "POST"
+				,datatype: "json"
+				,postData: { PersonNo: "@ViewBag.PersonNo" } // not working with duplicate name in "colModel"
+				,width: "auto"
+				,height: 350
+				,caption: "<em>พนักงาน { @ViewBag.PersonName }</em>"
+				,colNames: ["D1","D2","I1","I2","I3","N1","","วันที่ยื่นลา","ประเภทการลา","ลาตั้งแต่วันที่","ถึงวันที่","ชม. ลา","สถานะ","เหตุผลการลา","ไฟล์แนบ"]
+				,colModel: [
+					{name:"RequestID",index:"RequestID",hidden:true},
+					{name:"StatusID",index:"StatusID",hidden:true},
+					{name:"IsPending",index:"IsPending",hidden:true},
+					{name:"IsAwaiting",index:"IsAwaiting",hidden:true},
+					{name:"IsApproved",index:"IsApproved",hidden:true},
+					{name:"aPersonNo",index:"aPersonNo",hidden:true},
+					{name:"ActionRequested",index:"ActionRequested",width:80,align:"center",sortable:false,resizable:true},
+					{name:"ApplyDate",index:"ApplyDate",width:80,align:"center",sortable:true,resizable:true},
+					{name:"TypeSubName",index:"TypeSubName",width:160,sortable:true,resizable:true},
+					{name:"Since",index:"Since",width:110,align:"center",sortable:true,resizable:true},
+					{name:"Until",index:"Until",width:110,align:"center",sortable:true,resizable:true},
+					{name:"Amount",index:"Amount",width:80,align:"center",sortable:true,resizable:true},
+					{name:"StatusName",index:"StatusName",width:90,align:"center",sortable:true,resizable:false},
+					{name:"Reason",index:"Reason",width:165,sortable:true,resizable:true,editable:true},
+					{name:"AttachedFile",index:"AttachedFile",width:80,align:"center",sortable:false,resizable:true}
+				]
+				,altRows: true
+				,altclass: "oddColor"
+				,pager: "#Leave-Grid-nav"
+				,rowNum: 20
+				,rowList: [10,20,50,100]		// disable page size dropdown [10,20,30]
+				//,pgtext: null							// disable pager text like 'Page 0 of 10'
+				//,pgbuttons: false					// disable page control like next, back button
+				,viewrecords: true					// display the total number of records
+				,sortname: "Since"
+				,sortorder: "desc"
+				,rownumbers: true
+				,gridview: true
+				,ignoreCase: true
+				//,autoencode: true
+				,onPaging: function (pgButton) {
+					var p = this.p;
+					try {
+						var elem = p.pager + " input.ui-pg-input";
+						var goToPage = parseInt($(elem).val());
+						//if (pgButton === "user" && p.page > p.lastpage)
+						if (pgButton === "user" && goToPage > p.lastpage) {
+								alert ("You can't choose the page " + $(elem).val());
+								p.page = p.currentPage; // restore the value of page parameter
+								$(elem).val(p.currentPage);
+								return "stop";
+						}
+					} catch (e) { alert("You can't choose the page"); }
+				}
+				,loadComplete: function(data) {
+					this.p.currentPage = this.p.page;
+					try {
+						var res, elem;
+						$(this.grid.bDiv).children().children(".ui-jqgrid-btable")
+									.children("tbody").children(".jqgrow").each(function() {
+							elem = $(this).children("td[aria-describedby*='Amount']");
+							res = DisplayDHMformatText($(elem).text(), "#h #m");
+							if(res) $(elem).prop("title", res);
+						});
+					} catch(e) {}
+				}
+				,gridComplete: function()	{
+					try {
+						var ids = $(this).getDataIDs();
+						for(var i=0; i<ids.length; i++) {
+							var rowid = ids[i];
+							var rec = $(this).getRowData(rowid);
+							//var isValidCancel = false;
+							//if(eval(rec.IsPending) || eval(rec.IsAwaiting) || eval(rec.IsApproved)) { isValidCancel = true; }
+							var url = "@Url.Content("~/Leave/Todo/")"+rec.RequestID+"/"+rec.aPersonNo;
+							var fnButton  = "onclick=\"location.href='"+url+"';\"";
+							var attrButton = "class=\"ui-state-active\" style=\"height:18px;width:68px;\"";
+							//if(!isValidCancel) { attrButton = attrButton + " disabled=\"disabled\""; }
+							var elemButton = "<button "+fnButton+" "+attrButton+">เปิดดูใบลา</button>";
+							var fileDownload = "";
+							if(rec.AttachedFile) {
+								fileDownload = "<a class=\"file-download\" href=\""+rec.AttachedFile+"\">Download</a>";
+							}
+							$(this).setRowData(rowid, { ActionRequested: elemButton, 
+											StatusName: DisplayLeaveStatus(rec.StatusID, rec.StatusName), AttachedFile: fileDownload });
+						}
+					} catch(e) {}
+				}
+			}).navGrid("#Leave-Grid-nav"
+				,{edit: false, add: false, del: false, refresh: false, search: false} // an array of settings
+				,{} // settings for edit
+				,{} // settings for add
+				,{} // settings for delete
+				,{} // settings for search
+				,{} // settings for view
+			);
+		});
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ติดตามใบลา</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+			<table id="Leave-Grid"></table>
+			<div id="Leave-Grid-nav"></div>
+    </div>
+  </div>
+</div>
