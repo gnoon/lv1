@@ -92,7 +92,8 @@ namespace LeaveCore
 
 		#region Quota
         public static int QUOTA_MONTHSTART = 1;
-        public static int QUOTA_MINYEARS4VACATION = 1;
+        public static int QUOTA_VACATION_MONTHSTART = 1;
+        public static int QUOTA_MINMONTHS4VACATION = 1;
         public const int QUOTA_UNLIMITED = 366;
         public static int QUOTA_VACATION_INIT_DAYS = 6;//10;
         public static int QUOTA_BUSINESS_INIT_DAYS = 7;//12;

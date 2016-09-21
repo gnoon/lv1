@@ -176,7 +176,8 @@ namespace Leave
             Const.REQUEST_SICK_CONTINUALLY_HOURS = Leave.Properties.Settings.Default.Policy_SickHours_MaxContinuous;
 
             Const.QUOTA_MONTHSTART = Leave.Properties.Settings.Default.Policy_Quota_StartingMonth;
-            Const.QUOTA_MINYEARS4VACATION = Leave.Properties.Settings.Default.Policy_MinWorkYears_Vacation;
+            Const.QUOTA_VACATION_MONTHSTART = Leave.Properties.Settings.Default.Policy_QuotaVacation_StartingMonth;
+            Const.QUOTA_MINMONTHS4VACATION = Leave.Properties.Settings.Default.Policy_MinWorkMonths_Vacation;
 
             Const.DEFAULT_WORKHOURS_OF_DAY = Leave.Properties.Settings.Default.Policy_WorkHours_PerDay;
             Const.REQUEST_APPROVED_BCC = Leave.Properties.Settings.Default.Policy_Bcc_LeaveApproved;

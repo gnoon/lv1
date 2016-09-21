@@ -165,9 +165,9 @@ namespace Leave.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Policy_MinWorkYears_Vacation {
+        public int Policy_MinWorkMonths_Vacation {
             get {
-                return ((int)(this["Policy_MinWorkYears_Vacation"]));
+                return ((int)(this["Policy_MinWorkMonths_Vacation"]));
             }
         }
         
@@ -312,6 +312,15 @@ namespace Leave.Properties {
         public string InternetBasedUrl {
             get {
                 return ((string)(this["InternetBasedUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public int Policy_QuotaVacation_StartingMonth {
+            get {
+                return ((int)(this["Policy_QuotaVacation_StartingMonth"]));
             }
         }
     }

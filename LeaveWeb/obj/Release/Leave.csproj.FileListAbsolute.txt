@@ -92,7 +92,6 @@ D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\Microsoft.CSharp.dll
 D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\Microsoft.Web.Infrastructure.dll
 D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\Microsoft.Web.WebPages.OAuth.dll
-D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\MySql.Data.dll
 D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\System.ComponentModel.DataAnnotations.dll
 D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\System.Configuration.dll
 D:\Nop\Multiplus\leave\lv1\LeaveWeb\bin\System.Data.DataSetExtensions.dll

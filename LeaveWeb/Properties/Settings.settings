@@ -47,7 +47,7 @@
     <Setting Name="Policy_Quota_StartingMonth" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Policy_MinWorkYears_Vacation" Type="System.Int32" Scope="Application">
+    <Setting Name="Policy_MinWorkMonths_Vacation" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="Policy_PreDays_Business" Type="System.Int32" Scope="Application">
@@ -97,6 +97,9 @@
     </Setting>
     <Setting Name="InternetBasedUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://www.multiplus.co.th:81/leaveonline</Value>
+    </Setting>
+    <Setting Name="Policy_QuotaVacation_StartingMonth" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">6</Value>
     </Setting>
   </Settings>
 </SettingsFile>

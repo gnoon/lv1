@@ -458,7 +458,7 @@ namespace LeaveCore
 			// 1.
 			if (this.TypeNo == Const.TYPE_NO_VACATION)
 			{
-                var exc = new LeaveRequestEffectiveVacationException(PersonNo, (DateTime)this.Person.Record.Employee.StartingDate, Const.QUOTA_MINYEARS4VACATION);
+                var exc = new LeaveRequestEffectiveVacationException(PersonNo, (DateTime)this.Person.Record.Employee.StartingDate, Const.QUOTA_MINMONTHS4VACATION);
                 if (!this.Person.Record.Employee.StartingDate.HasValue || this.ApplyDate < exc.EffectiveDate)
 					throw exc;
 			}

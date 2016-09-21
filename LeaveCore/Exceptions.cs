@@ -185,18 +185,18 @@ namespace LeaveCore
         {
             get
             {
-                return new DateTime(_BaseDate.Year + YearsToAllow, _BaseDate.Month, _BaseDate.Day);
+                return new DateTime(_BaseDate.Year, _BaseDate.Month, _BaseDate.Day).AddMonths(_MonthsToAllow);
             }
         }
 
-        private int _YearsToAllow;
-        public int YearsToAllow { get { return _YearsToAllow; } }
+        private int _MonthsToAllow;
+        public int MonthsToAllow { get { return _MonthsToAllow; } }
 
-        public LeaveRequestEffectiveVacationException(string PersonNo, DateTime BaseDate, int YearsToAllow)
+        public LeaveRequestEffectiveVacationException(string PersonNo, DateTime BaseDate, int MonthsToAllow)
             : base(PersonNo, 0)
         {
             this._BaseDate = BaseDate;
-            this._YearsToAllow = YearsToAllow;
+            this._MonthsToAllow = MonthsToAllow;
         }
     }
 

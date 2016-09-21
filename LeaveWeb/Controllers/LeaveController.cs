@@ -40,6 +40,10 @@ namespace Leave.Controllers
 			if (User.Identity.IsAuthenticated)
 			{
 				LoginIdentity user = (LoginIdentity)User.Identity;
+                if (user.Roles.Any(x => x.Contains(Const.ROLE_ASSTHR)))
+                {
+                    return RedirectToAction("Profiles", "Setting");
+                }
 				ViewBag.PersonNo = user.Name;
 				ViewBag.PersonName = user.Prefix + user.FirstName + " " + user.LastName;
 			}
@@ -496,7 +500,7 @@ namespace Leave.Controllers
 			catch (LeaveRequestEffectiveVacationException e)
 			{
 				IsError = true;
-				ErrorMessage = "ไม่สามารถยื่นใบลาได้ ต้องมีอายุงานอย่างน้อย " + e.YearsToAllow + " ปี";
+				ErrorMessage = "ไม่สามารถยื่นใบลาได้ ต้องมีอายุงานอย่างน้อย " + e.MonthsToAllow + " ปี";
 			}
 			catch (LeaveRequestQuotaExceedException e)
 			{

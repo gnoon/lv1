@@ -147,7 +147,6 @@ namespace Leave.Controllers
                     string RedirectUrl = Url.Content(ReturnUrl);
                     return Redirect(RedirectUrl);
 				}
-
                 return RedirectToAction("Index", "Leave");
             }
             else
