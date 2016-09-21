@@ -317,7 +317,7 @@ namespace Leave.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
         public int Policy_QuotaVacation_StartingMonth {
             get {
                 return ((int)(this["Policy_QuotaVacation_StartingMonth"]));

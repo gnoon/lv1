@@ -44,6 +44,10 @@ namespace Leave.Controllers
                 {
                     return RedirectToAction("Profiles", "Setting");
                 }
+                var person = Person.GetInfo(User, user.PersonNo, null);
+                ViewBag.WorkBeginString = person != null && person.Employee != null &&
+                    person.Employee.StartingDate.HasValue && person.Employee.StartingDate.Value != DateTime.MinValue.Date
+                    ? person.Employee.StartingDate.Value.ToString("dd/MM/yyyy") : "-";
 				ViewBag.PersonNo = user.Name;
 				ViewBag.PersonName = user.Prefix + user.FirstName + " " + user.LastName;
 			}

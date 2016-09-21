@@ -99,7 +99,7 @@
       <Value Profile="(Default)">http://www.multiplus.co.th:81/leaveonline</Value>
     </Setting>
     <Setting Name="Policy_QuotaVacation_StartingMonth" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">6</Value>
+      <Value Profile="(Default)">7</Value>
     </Setting>
   </Settings>
 </SettingsFile>
