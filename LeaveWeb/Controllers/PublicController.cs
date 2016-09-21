@@ -125,6 +125,7 @@ namespace Leave.Controllers
             {
                 error = true;
                 ViewBag.ErrorMessage = e.Message;
+                ActionLog.File.Error(e);
             }
 
             if (!error)

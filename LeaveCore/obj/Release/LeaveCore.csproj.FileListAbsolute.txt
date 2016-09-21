@@ -12,3 +12,10 @@ D:\Nop\Multiplus\leave\code_mvc4\LeaveCore\obj\Release\LeaveCore.pdb
 D:\Nop\Multiplus\leave\code_mvc4\LeaveCore\bin\Release\log4net.dll
 D:\Nop\Multiplus\leave\code_mvc4\LeaveCore\bin\Release\log4net.xml
 D:\Nop\Multiplus\leave\code_mvc4\LeaveCore\obj\Release\LeaveCore.csprojResolveAssemblyReference.cache
+D:\Nop\Multiplus\leave\lv1\LeaveCore\bin\Release\LeaveCore.dll
+D:\Nop\Multiplus\leave\lv1\LeaveCore\bin\Release\LeaveCore.pdb
+D:\Nop\Multiplus\leave\lv1\LeaveCore\bin\Release\log4net.dll
+D:\Nop\Multiplus\leave\lv1\LeaveCore\bin\Release\Xipton.Razor.dll
+D:\Nop\Multiplus\leave\lv1\LeaveCore\bin\Release\log4net.xml
+D:\Nop\Multiplus\leave\lv1\LeaveCore\obj\Release\LeaveCore.dll
+D:\Nop\Multiplus\leave\lv1\LeaveCore\obj\Release\LeaveCore.pdb

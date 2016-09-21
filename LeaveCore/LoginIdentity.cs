@@ -526,8 +526,8 @@ namespace LeaveCore
                 //    "where (a.\"Person No\"=b.\"Person No\") and upper(replace(b.\"Employee No\",'-',''))=upper(replace(@1,'-','')) " +
                 //    "and (@2 between b.\"Starting Date\" and b.\"Until Date\")";
                 cmd.CommandText = "select a.\"Person No\",a.\"Password\",a.\"Salt\",b.\"Employee No\" " +
-                    "from \"HR Person\" a,\"HR Employee\" b " +
-                    "where (a.\"Person No\"=b.\"Person No\") and a.Account=@1 " +
+                    "from \"HR Accounts\" a,\"HR Employee\" b " +
+                    "where (a.\"Person No\"=b.\"Person No\") and (a.Account=@1 or @1 like a.Account+'@%') " +
                     "and (@2 between b.\"Starting Date\" and b.\"Until Date\")";
                 using (IDataReader rs = cmd.ExecuteReader())
                 {

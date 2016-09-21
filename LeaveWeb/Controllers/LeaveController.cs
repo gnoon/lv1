@@ -514,7 +514,7 @@ namespace Leave.Controllers
 				else
 					ErrorMessage = "ระบุวันลาไม่ถูกต้อง ( กรณีลาป่วย อณุญาตให้ยื่นใบลาย้อนหลังเท่านั้น )";
 			}
-			catch (LeaveRequestMedicalCertificateException e)
+			catch (LeaveRequestMedicalCertificateException)
 			{
 				IsError = true;
 				ErrorMessage = "ไม่มีไฟล์แนบ";

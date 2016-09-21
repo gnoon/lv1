@@ -34,7 +34,9 @@ namespace Leave.Controllers
 						rec.NameTH = obj.NameTH;
 
 						rec.Items = new List<ItemRecord>();
-						var filtersItems = obj.Items.Where(r => r.Roles.Any(n => id.Roles.Contains(n.NameTH))).ToList();
+                        var filtersItems = obj.Items.Where(r =>
+                            r.Roles.Any(n => id.Roles.Contains(n.NameTH)) &&
+                            !r.ExcludeRoles.Any(n => id.Roles.Contains(n.NameTH))).ToList();
 						if (filtersItems != null)
 						{
 							foreach (var item in filtersItems)
@@ -92,6 +94,10 @@ namespace Leave.Controllers
 							{
 								new RoleRecord { NameTH = Const.ROLE_MY }
 							},
+							ExcludeRoles = new List<RoleRecord>()
+							{
+								new RoleRecord { NameTH = Const.ROLE_ASSTHR }
+							},
 							ItemsSub = new List<ItemSubRecord>()
 							{
 								new ItemSubRecord()
@@ -142,6 +148,7 @@ namespace Leave.Controllers
 							{
 								new RoleRecord { NameTH = Const.ROLE_HEAD }
 							},
+							ExcludeRoles = new List<RoleRecord>(),
 							ItemsSub = new List<ItemSubRecord>()
 							{
 								new ItemSubRecord()
@@ -186,6 +193,7 @@ namespace Leave.Controllers
 								new RoleRecord { NameTH = Const.ROLE_HR },
 								new RoleRecord { NameTH = Const.ROLE_IMPERSONATE }
 							},
+							ExcludeRoles = new List<RoleRecord>(),
 							ItemsSub = new List<ItemSubRecord>()
 							{
 								new ItemSubRecord()
@@ -215,11 +223,14 @@ namespace Leave.Controllers
 						#region 3. จัดการข้อมูล (ASST HR)
 						new ItemRecord()
 						{
-							NameTH = "จัดการข้อมูล", Sorting = 3,
+							NameTH = "จัดการข้อมูล",
+                            Sorting = 3,
+							Active = 1,
 							Roles = new List<RoleRecord>()
 							{
 								new RoleRecord { NameTH = Const.ROLE_ASSTHR },
 							},
+							ExcludeRoles = new List<RoleRecord>(),
 							ItemsSub = new List<ItemSubRecord>()
 							{
 								new ItemSubRecord()
@@ -228,6 +239,13 @@ namespace Leave.Controllers
 									Sorting = 2,
 									Active = 1,
 									Url = Url.Content("~/Setting/Profiles")
+								},
+								new ItemSubRecord()
+								{
+									NameTH = "ตั้งค่าข้อมูลการลา",
+									Sorting = 3,
+									Active = 1,
+									Url = Url.Content("~/Setting/Templates")
 								}
 							}
 						},
@@ -243,6 +261,7 @@ namespace Leave.Controllers
 								new RoleRecord { NameTH = Const.ROLE_HR },
 								new RoleRecord { NameTH = Const.ROLE_IMPERSONATE }
 							},
+							ExcludeRoles = new List<RoleRecord>(),
 							ItemsSub = new List<ItemSubRecord>()
 							{
 								new ItemSubRecord()
@@ -279,6 +298,7 @@ namespace Leave.Controllers
 							{
 								new RoleRecord { NameTH = Const.ROLE_MY }
 							},
+							ExcludeRoles = new List<RoleRecord>(),
 							ItemsSub = new List<ItemSubRecord>()
 							{/*
 								new ItemSubRecord()
@@ -441,7 +461,8 @@ namespace Leave.Controllers
 		public class ItemRecord
 		{
 			public int ItemID { get; set; }
-			public List<RoleRecord> Roles { get; set; }
+            public List<RoleRecord> Roles { get; set; }
+            public List<RoleRecord> ExcludeRoles { get; set; }
 			public List<ItemSubRecord> ItemsSub { get; set; }
 			public string NameTH { get; set; }
 			public string NameEN { get; set; }
