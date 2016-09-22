@@ -796,7 +796,10 @@ namespace Leave.Controllers
 				}
 				records = Quota.OfLeaveType.Count();
 				decimal h = Const.DEFAULT_WORKHOURS_OF_DAY;
-				foreach (var rec in Quota.OfLeaveType.Skip((page - 1) * rows).Take(rows))
+                var list = Quota.OfLeaveType.Skip((page - 1) * rows).Take(rows);
+                var stringDays = Tool.ConvertDaysToString(-1.75m);
+                var x = 1+0;
+				foreach (var rec in list)
 				{
 					var a = TimeSpan.FromDays((double)rec.TakenAmount);
 					var b = TimeSpan.FromDays((double)rec.ApproveAmount);

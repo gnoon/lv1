@@ -262,11 +262,12 @@ namespace LeaveCore
             }
             decimal anhourMinutes = 60;
             decimal adayMinutes = anhourMinutes * Const.DEFAULT_WORKHOURS_OF_DAY;
-            decimal totalMinutes = days * adayMinutes;
-            int d = (int)Math.Floor(days);
+            decimal totalMinutes = Math.Abs(days) * adayMinutes;
+            int f = days < 0 ? -1 : 1;
+            int d = (int)Math.Floor(Math.Abs(days));
             int h = (int)Math.Floor((totalMinutes % adayMinutes) / anhourMinutes);
             int m = (int)Math.Floor((totalMinutes % adayMinutes) % anhourMinutes);
-            var s = string.Format("{0:0}:{1:00}:{2:00}", d, h, m);
+            var s = string.Format("{0:0}:{1:00}:{2:00}", f * d, h, m);
             return s;
         }
         public static string ConvertHoursToString(decimal hours)
