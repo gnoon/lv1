@@ -277,7 +277,8 @@ namespace LeaveCore
 				// TotalHours, TotalDays, ApproveDays
 				if (this.Person.Holidays.IsHoliday(obj.LeaveDate.Value) || this.Person.Weekends.IsWeekend(obj.LeaveDate.Value))
 				{
-					obj.TotalHours = 0;
+                    obj.TotalHours = 0;
+                    obj.ApproveMinutes = 0;
 					obj.DisplayExactlyDays = DisplayCaseExactlyToStopDay(obj.LeaveDate.Value);
 				}
                 // กรณีเป็นวันหยุดให้คำนวนชั่วโมงไปก่อน ไม่ต้องเซ็ตเป็น 0 จะดีกว่าเซ็ตเป็น 0
@@ -285,7 +286,7 @@ namespace LeaveCore
                 // โดยที่ไม่ต้องมีการโทรมาหา HR หรือ BD ให้แก้ไขชั่วโมงให้ถูกต้อง
                 // เคสนี้จะเจอบ่อยกับ Cashier ที่ถึงแม้เป็นวันหยุด แต่ไม่หยุด และมาทำงานโดยเบิกเป็น OT
                 // อย่างไรก็ตาม DisplayExactlyDays ก็ยังคงแสดงที่หน้าเว็บเหมือนเดิม
-				// else
+				else
 				{
                     // ถ้าการคำนวนตรงกับวันเริ่มลาหรือวันลาวันสุดท้าย ให้ใช้เวลาที่ระบุจากหน้าเว็บในการคำนวน (ที่ Rounded แล้ว)
                     DaySince = IsSinceDay ? RoundedSince : obj.BeginTime.Value;
@@ -298,6 +299,7 @@ namespace LeaveCore
                         shifts[1].TimeUntil,
                         ref DaySince, ref DayUntil, ref ErrorMessage) / 60d
                     );
+                    obj.ApproveMinutes = this.AutoGranted ? Convert.ToInt32(obj.TotalHours * 60) : 0;
 
                     if (ErrorMessage == null)
                     {
@@ -310,7 +312,6 @@ namespace LeaveCore
                         obj.UntilTime = this.Until;
                     }
 				}
-				obj.ApproveMinutes = 0;
 
 				obj.LeaveRequested = this.Header == null ? this.SerializeLeaveHeader() : this.Header;
 				obj.LeaveRequested.Person = new PersonRecord();

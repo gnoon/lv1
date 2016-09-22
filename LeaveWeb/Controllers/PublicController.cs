@@ -131,13 +131,14 @@ namespace Leave.Controllers
             if (!error)
             {
 				var createPersistentCookie = "yes".Equals(Remember);
+                var isImpersonate = roles.IndexOf(Const.ROLE_IMPERSONATE) > -1 ? "1" : "0";
 
                 // ถ้า sessionless ถูกเซ็ตเป็น AutoDetect ใน web.config
                 // หาก Browser เปิดใช้งาน cookies ก็จะเก็บ authen ใน cookies
                 // แต่หาก Browser ไม่เปิดใช้ cookies ก็จะส่ง authen ไปทาง url แทน
                 // ทำให้ใช้งานระบบได้ใน Browser ที่ไม่ได้เปิดใช้ cookie ด้วยนั่นเอง
                 // ไม่เช่นนั้นก็จะ Login ไม่เข้า เด้งอยู่หน้า Login นั่นแหละ
-                FormsAuthentication.SetAuthCookie(PersonNo, createPersistentCookie);
+                FormsAuthentication.SetAuthCookie(PersonNo + "," + isImpersonate, createPersistentCookie);
 
                 // save login log
                 ActionLog.New(User, LeaveCore.Action.Login, Username, null);

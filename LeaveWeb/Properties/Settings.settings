@@ -47,15 +47,6 @@
     <Setting Name="Policy_Quota_StartingMonth" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Policy_MinWorkMonths_Vacation" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="Policy_PreDays_Business" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="Policy_PreDays_Vacation" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">3</Value>
-    </Setting>
     <Setting Name="Policy_PreDays_Maternity" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">30</Value>
     </Setting>
@@ -83,23 +74,32 @@
     <Setting Name="Policy_Bcc_LeaveApproved" Type="System.String" Scope="Application">
       <Value Profile="(Default)">multiplussmtp@gmail.com</Value>
     </Setting>
-    <Setting Name="Policy_Default_MorningBeginOClock" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">8</Value>
-    </Setting>
     <Setting Name="Policy_Default_MorningUntilOClock" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">12</Value>
     </Setting>
     <Setting Name="Policy_Default_NoonBeginOClock" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">13</Value>
     </Setting>
-    <Setting Name="Policy_Default_NoonUntilOClock" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">17</Value>
-    </Setting>
     <Setting Name="InternetBasedUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://www.multiplus.co.th:81/leaveonline</Value>
     </Setting>
     <Setting Name="Policy_QuotaVacation_StartingMonth" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Policy_MinWorkMonths_Vacation" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Business" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Policy_PreDays_Vacation" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Policy_Default_MorningBeginOClock" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+    <Setting Name="Policy_Default_NoonUntilOClock" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">18</Value>
     </Setting>
   </Settings>
 </SettingsFile>

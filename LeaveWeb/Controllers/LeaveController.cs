@@ -391,89 +391,100 @@ namespace Leave.Controllers
 						} 
 						catch {}
 
-                        // แยก Try Catch หลายๆ block เพื่อที่ว่าหากส่งเมลล์หาคนแรกไม่ได้ จะได้ข้ามไปส่งคนถัดไปได้
-                        // และไม่ควรส่งเมลล์หาคนเดิมซ้ำๆ
-                        List<string> sentAccList = new List<string>();
-                        //MailAddress mailAcc;
-                        try
+                        // ถ้าบันทึกใบลาเข้าระบบด้วยสิทธิ IMPERSONATE ไม่ต้องส่งเมลล์แจ้งหัวหน้าและใบลาจะถูกอนุมัติโดยอัตโนมัติ
+                        var shouldSendMail = !User.IsInRole(Const.ROLE_IMPERSONATE);
+                        if (!shouldSendMail)
                         {
-                            Grantors Grantors = new Grantors(User, PersonNo);
-
-                            var msg = string.Format("leave request #{2} of {0} to its supervisor by e-mail (head={1})",
-                                PersonNo, Grantors.Heads == null ? "null" : string.Join(",", Grantors.Heads.Select(x => x.HeadPersonNo + "-" + x.HeadEmail).ToArray()), RequestID);
-                            ActionLog.File.Debug(msg);
-
-                            if (Grantors.Heads != null)
+                            ActionLog.File.Info(string.Format(
+                                "บันทึกใบลาเข้าระบบด้วยสิทธิ IMPERSONATE: LeaveRequest={0}, PersonNo={1}, Date={2} - {3}, Time={4} - {5}, LeaveType={6}, ByUser={7}",
+                                RequestID, PersonNo, BeginDate, UntilDate, BeginTime, UntilTime, TypeSubID, User.Identity.Name));
+                        }
+                        else
+                        {
+                            // แยก Try Catch หลายๆ block เพื่อที่ว่าหากส่งเมลล์หาคนแรกไม่ได้ จะได้ข้ามไปส่งคนถัดไปได้
+                            // และไม่ควรส่งเมลล์หาคนเดิมซ้ำๆ
+                            List<string> sentAccList = new List<string>();
+                            //MailAddress mailAcc;
+                            try
                             {
-                                EmailService service = new EmailService(User);
-                                foreach (var rec in Grantors.Heads)
+                                Grantors Grantors = new Grantors(User, PersonNo);
+
+                                var msg = string.Format("leave request #{2} of {0} to its supervisor by e-mail (head={1})",
+                                    PersonNo, Grantors.Heads == null ? "null" : string.Join(",", Grantors.Heads.Select(x => x.HeadPersonNo + "-" + x.HeadEmail).ToArray()), RequestID);
+                                ActionLog.File.Debug(msg);
+
+                                if (Grantors.Heads != null)
                                 {
-                                    var debug = "send to " + rec.HeadEmail;
-                                    try
+                                    EmailService service = new EmailService(User);
+                                    foreach (var rec in Grantors.Heads)
                                     {
-                                        //mailAcc = new MailAddress(rec.HeadEmail);
-                                        //if (sentAccList.Contains(mailAcc.Address)) // ถ้าส่งไปแล้วก็ข้ามไป
-                                        if (sentAccList.Contains(rec.HeadEmail)) // ถ้าส่งไปแล้วก็ข้ามไป
-                                            continue;
-                                        var model = new LeaveCore.Email.Model.NotificationEmailModel(User, rec.HeadPersonNo, RequestID)
+                                        var debug = "send to " + rec.HeadEmail;
+                                        try
                                         {
-                                            InternetBasedUrl = Leave.Properties.Settings.Default.InternetBasedUrl
-                                        };
-                                        service.SendEmail(rec.HeadEmail, null, "แจ้งการยื่นใบลาของพนักงาน", EmailType.Notification, model);
-                                        //sentAccList.Add(mailAcc.Address);
-                                        sentAccList.Add(rec.HeadEmail);
-                                        debug += " ... success";
+                                            //mailAcc = new MailAddress(rec.HeadEmail);
+                                            //if (sentAccList.Contains(mailAcc.Address)) // ถ้าส่งไปแล้วก็ข้ามไป
+                                            if (sentAccList.Contains(rec.HeadEmail)) // ถ้าส่งไปแล้วก็ข้ามไป
+                                                continue;
+                                            var model = new LeaveCore.Email.Model.NotificationEmailModel(User, rec.HeadPersonNo, RequestID)
+                                            {
+                                                InternetBasedUrl = Leave.Properties.Settings.Default.InternetBasedUrl
+                                            };
+                                            service.SendEmail(rec.HeadEmail, null, "แจ้งการยื่นใบลาของพนักงาน", EmailType.Notification, model);
+                                            //sentAccList.Add(mailAcc.Address);
+                                            sentAccList.Add(rec.HeadEmail);
+                                            debug += " ... success";
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            debug += " ... error: " + e.ToString();
+                                        }
+                                        ActionLog.File.Debug(debug);
                                     }
-                                    catch (Exception e)
-                                    {
-                                        debug += " ... error: " + e.ToString();
-                                    }
-                                    ActionLog.File.Debug(debug);
                                 }
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            ActionLog.File.Error(e);
-                        }
+                            catch (Exception e)
+                            {
+                                ActionLog.File.Error(e);
+                            }
 
-                        sentAccList.Clear();
-                        try
-                        {
-							Vetoes Vetoes = new Vetoes(User, PersonNo);
-							//List<VetoRecord> Heads = LeaveCore.Leave.GetVetoes(User, RequestID, null);
-							if (Vetoes.Heads != null)
-							{
-								EmailService service = new EmailService(User);
-								foreach (var rec in Vetoes.Heads)
-								{
-                                    try
+                            sentAccList.Clear();
+                            try
+                            {
+                                Vetoes Vetoes = new Vetoes(User, PersonNo);
+                                //List<VetoRecord> Heads = LeaveCore.Leave.GetVetoes(User, RequestID, null);
+                                if (Vetoes.Heads != null)
+                                {
+                                    EmailService service = new EmailService(User);
+                                    foreach (var rec in Vetoes.Heads)
                                     {
-                                        //mailAcc = new MailAddress(rec.Email);
-                                        //if (sentAccList.Contains(mailAcc.Address)) // ถ้าส่งไปแล้วก็ข้ามไป
-                                        if (sentAccList.Contains(rec.Email)) // ถ้าส่งไปแล้วก็ข้ามไป
-                                            continue;
-                                        var Veto = new VetoRecord();
-                                        Veto.Person = rec;
-                                        var model = new LeaveCore.Email.Model.VetoEmailModel(User, RequestID, Veto)
+                                        try
                                         {
-                                            InternetBasedUrl = Leave.Properties.Settings.Default.InternetBasedUrl
-                                        };
-                                        service.SendEmail(rec.Email, null, "แจ้งการยื่นใบลาของพนักงาน", EmailType.Veto, model);
-                                        //sentAccList.Add(mailAcc.Address);
-                                        sentAccList.Add(rec.Email);
+                                            //mailAcc = new MailAddress(rec.Email);
+                                            //if (sentAccList.Contains(mailAcc.Address)) // ถ้าส่งไปแล้วก็ข้ามไป
+                                            if (sentAccList.Contains(rec.Email)) // ถ้าส่งไปแล้วก็ข้ามไป
+                                                continue;
+                                            var Veto = new VetoRecord();
+                                            Veto.Person = rec;
+                                            var model = new LeaveCore.Email.Model.VetoEmailModel(User, RequestID, Veto)
+                                            {
+                                                InternetBasedUrl = Leave.Properties.Settings.Default.InternetBasedUrl
+                                            };
+                                            service.SendEmail(rec.Email, null, "แจ้งการยื่นใบลาของพนักงาน", EmailType.Veto, model);
+                                            //sentAccList.Add(mailAcc.Address);
+                                            sentAccList.Add(rec.Email);
+                                        }
+                                        catch { }
                                     }
-                                    catch { }
-								}
-							}
-						}
-						catch {}
+                                }
+                            }
+                            catch { }
 
-                        try
-                        {
-                            EmailLogs = EmailLog.GetLog(User, RequestID);
+                            try
+                            {
+                                EmailLogs = EmailLog.GetLog(User, RequestID);
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
                 }
                 else
@@ -504,7 +515,7 @@ namespace Leave.Controllers
 			catch (LeaveRequestEffectiveVacationException e)
 			{
 				IsError = true;
-				ErrorMessage = "ไม่สามารถยื่นใบลาได้ ต้องมีอายุงานอย่างน้อย " + e.MonthsToAllow + " ปี";
+				ErrorMessage = "ไม่สามารถยื่นใบลาได้ ต้องมีอายุงานอย่างน้อย " + e.MonthsToAllow + " เดือน";
 			}
 			catch (LeaveRequestQuotaExceedException e)
 			{
@@ -1199,7 +1210,7 @@ namespace Leave.Controllers
 			try
 			{
 				LeaveCore.Leave obj = new LeaveCore.Leave(User, null);
-				obj.Load(RequestID, LeaveID).Change(NewStatusID, null, null);
+                obj.Load(RequestID, LeaveID).Change(NewStatusID, null, null);
 			}
 			catch (ArgumentException e)
 			{

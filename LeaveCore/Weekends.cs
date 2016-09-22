@@ -39,6 +39,9 @@ namespace LeaveCore
             {
                 _Rules = this.Query(PersonNo);
                 _Moves = this.QueryMoves(PersonNo);
+
+                if (_Rules == null || _Rules.Count == 0)
+                    _Rules = DefaultDays;
             }
         }
 
@@ -206,17 +209,16 @@ namespace LeaveCore
             get
             {
                 List<WeekendRecord> days = new List<WeekendRecord>(new WeekendRecord[] {
-                    // Default ให้เป็นสำหรับพนักงานใหม่ช่วงฝึกงาน
-                    //new WeekendRecord() {
-                    //    DayOfWeek = DayOfWeek.Saturday
-                    //    , StartingWeekOfMonth = 1
-                    //    , EveryNWeekOfMonth = 1
-                    //    , ExcludeWeekOfMonth = 5
-                    //    , NameEN = DayOfWeek.Saturday.ToString()
-                    //    , NameTH = DayOfWeek.Saturday.ToString()
-                    //    , Remark = "System Default"
-                    //}
-                    //,
+                    new WeekendRecord() {
+                        DayOfWeek = DayOfWeek.Saturday
+                        , StartingWeekOfMonth = 1
+                        , EveryNWeekOfMonth = 1
+                        , ExcludeWeekOfMonth = -1
+                        , NameEN = DayOfWeek.Saturday.ToString()
+                        , NameTH = DayOfWeek.Saturday.ToString()
+                        , Remark = "System Default"
+                    }
+                    ,
                     new WeekendRecord() {
                         DayOfWeek = DayOfWeek.Sunday
                         , StartingWeekOfMonth = 1

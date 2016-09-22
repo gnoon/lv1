@@ -164,33 +164,6 @@ namespace Leave.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Policy_MinWorkMonths_Vacation {
-            get {
-                return ((int)(this["Policy_MinWorkMonths_Vacation"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Policy_PreDays_Business {
-            get {
-                return ((int)(this["Policy_PreDays_Business"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int Policy_PreDays_Vacation {
-            get {
-                return ((int)(this["Policy_PreDays_Vacation"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("30")]
         public int Policy_PreDays_Maternity {
             get {
@@ -272,15 +245,6 @@ namespace Leave.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8")]
-        public int Policy_Default_MorningBeginOClock {
-            get {
-                return ((int)(this["Policy_Default_MorningBeginOClock"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int Policy_Default_MorningUntilOClock {
             get {
@@ -299,15 +263,6 @@ namespace Leave.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("17")]
-        public int Policy_Default_NoonUntilOClock {
-            get {
-                return ((int)(this["Policy_Default_NoonUntilOClock"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.multiplus.co.th:81/leaveonline")]
         public string InternetBasedUrl {
             get {
@@ -321,6 +276,51 @@ namespace Leave.Properties {
         public int Policy_QuotaVacation_StartingMonth {
             get {
                 return ((int)(this["Policy_QuotaVacation_StartingMonth"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Policy_MinWorkMonths_Vacation {
+            get {
+                return ((int)(this["Policy_MinWorkMonths_Vacation"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Policy_PreDays_Business {
+            get {
+                return ((int)(this["Policy_PreDays_Business"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int Policy_PreDays_Vacation {
+            get {
+                return ((int)(this["Policy_PreDays_Vacation"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9")]
+        public int Policy_Default_MorningBeginOClock {
+            get {
+                return ((int)(this["Policy_Default_MorningBeginOClock"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("18")]
+        public int Policy_Default_NoonUntilOClock {
+            get {
+                return ((int)(this["Policy_Default_NoonUntilOClock"]));
             }
         }
     }

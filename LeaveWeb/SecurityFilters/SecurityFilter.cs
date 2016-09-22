@@ -135,11 +135,17 @@ namespace Leave.SecurityFilters
                     return;
                 }
 
+                string PersonNo = ticket.Name.Split(',')[0];
+                bool isImpersonate = ticket.Name.EndsWith(",1");
+
                 Configuration conf = WebConfigurationManager.OpenWebConfiguration("~");
-                LoginIdentity id = LoginIdentity.CreateIdentity(ticket.Name, "Forms", Tool.GetConnectionString(conf, "LEAVE"));
+                LoginIdentity id = LoginIdentity.CreateIdentity(PersonNo, "Forms", Tool.GetConnectionString(conf, "LEAVE"));
 
                 if (!string.IsNullOrEmpty(id.EmployeeNo))
                 {
+                    if (isImpersonate && !id.Roles.Exists(x => x.Equals(Const.ROLE_IMPERSONATE)))
+                        id.Roles.Add(Const.ROLE_IMPERSONATE);
+
                     //string[] arr = LoginIdentity.SplitRoles(ticket.UserData);
                     string[] arr = id.Roles.ToArray();
                     GenericPrincipal prin = new GenericPrincipal(id, arr);
