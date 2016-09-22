@@ -484,7 +484,7 @@ namespace LeaveCore
 				//(var rec in DaysOfLeave.Keys.ToList())
 				foreach (var rec in DaysOfLeave)
 				{
-					if (this.Person.Quota.IsQuotaExceeded(this.TypeNo, rec.Key, rec.Value))
+					if (this.Person.Quota.IsQuotaExceeded(this.TypeNo, rec.Key, rec.Value) && !this.AutoGranted)
 						throw new LeaveRequestQuotaExceedException(
 							this.PersonNo,
 							this.TypeSubID,
