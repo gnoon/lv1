@@ -254,34 +254,39 @@ namespace LeaveCore
             return aes.Decrypt(str);
         }
 
-        public static string ConvertDaysToString(decimal days)
+        public static string ConvertMinutesToString(int minutes)
         {
-            if (days == 0 || days == Const.QUOTA_UNLIMITED)
+            return ConvertMinutesToString(minutes, Const.DEFAULT_WORKHOURS_OF_DAY);
+        }
+
+        public static string ConvertMinutesToString(int minutes, decimal hoursPerday)
+        {
+            if (minutes == 0 || minutes == Const.QUOTA_UNLIMITED)
             {
                 return "-";
             }
             decimal anhourMinutes = 60;
-            decimal adayMinutes = anhourMinutes * Const.DEFAULT_WORKHOURS_OF_DAY;
-            decimal totalMinutes = Math.Abs(days) * adayMinutes;
-            int f = days < 0 ? -1 : 1;
-            int d = (int)Math.Floor(Math.Abs(days));
+            decimal adayMinutes = anhourMinutes * hoursPerday;
+            decimal totalMinutes = Math.Abs(minutes);
+            int f = minutes < 0 ? -1 : 1;
+            int d = (int)Math.Floor(Math.Abs(minutes / adayMinutes));
             int h = (int)Math.Floor((totalMinutes % adayMinutes) / anhourMinutes);
             int m = (int)Math.Floor((totalMinutes % adayMinutes) % anhourMinutes);
             var s = string.Format("{0:0}:{1:00}:{2:00}", f * d, h, m);
             return s;
         }
-        public static string ConvertHoursToString(decimal hours)
-        {
-            if (hours <= 0)
-            {
-                return "-";
-            }
-            decimal anhourMinutes = 60;
-            decimal totalMinutes = hours * anhourMinutes;
-            int h = (int)Math.Floor(totalMinutes / anhourMinutes);
-            int m = (int)Math.Floor(totalMinutes % anhourMinutes);
-            var s = string.Format("{0:0}:{1:00}", h, m);
-            return s;
-        }
+        //public static string ConvertHoursToString(int minutes)
+        //{
+        //    if (minutes <= 0)
+        //    {
+        //        return "-";
+        //    }
+        //    decimal anhourMinutes = 60;
+        //    decimal totalMinutes = minutes;
+        //    int h = (int)Math.Floor(totalMinutes / anhourMinutes);
+        //    int m = (int)Math.Floor(totalMinutes % anhourMinutes);
+        //    var s = string.Format("{0:0}:{1:00}", h, m);
+        //    return s;
+        //}
     }
 }

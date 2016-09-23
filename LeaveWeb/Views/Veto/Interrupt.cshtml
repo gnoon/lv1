@@ -91,14 +91,14 @@
 				,width: "auto"
 				,height: 90
 				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
-				,colNames: ["D1","D2","I1","I2","I3","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ชม. ลา","สถานะ","เหตุผลการลา","พิจารณา","ลงความเห็น"]
+				,colNames: ["D1","D2","I1","I2","I3","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ลา(ชั่วโมง)","สถานะ","เหตุผลการลา","พิจารณา","ลงความเห็น"]
 				,colModel: [
 					{name:"LeaveID",index:"LeaveID",hidden:true},
 					{name:"StatusID",index:"StatusID",hidden:true},
 					{name:"IsAction",index:"IsAction",hidden:true},
 					{name:"IsInterrupted",index:"IsInterrupted",hidden:true},
 					{name:"IsStatusActive",index:"IsStatusActive",hidden:true},
-					{name:"LeaveDays",index:"LeaveDays",hidden:true},
+					{name:"LeaveMinutes",index:"LeaveMinutes",hidden:true},
 					{name:"ApplyDate",index:"ApplyDate",width:80,align:"center",sortable:true,resizable:true},
 					{name:"LeaveType",index:"LeaveType",width:180,sortable:true,resizable:true},
 					{name:"LeaveDate",index:"LeaveDate",width:80,align:"center",sortable:true,resizable:true},
@@ -158,7 +158,7 @@
 							var aLeaveAmount = rec.LeaveAmount;
 							var aLeaveStatus = rec.LeaveStatus;
 							var IsValidInterrupted = false;
-							var IsLeaveZero = parseFloat(rec.LeaveDays) == 0;
+							var IsLeaveZero = parseInt(rec.LeaveMinutes) == 0;
 							var newStatusID = "@LeaveCore.Const.VETO_INTERRUPTED";
 							if(IsLeaveZero) {
 								aLeaveAmount = "<span style=\"color:red;\">"+aLeaveAmount+"</span>";

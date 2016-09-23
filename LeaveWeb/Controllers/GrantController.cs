@@ -76,7 +76,7 @@ namespace Leave.Controllers
 				var Grant = LeaveCore.Leave.CurrentApproval(User, LeaveCore.Leave.GetApprovals(User, rec.LeaveID), HeadPersonNo);
 				int gStatusID = CurrentStatus(Grant, rec.StatusID);
 				string gStatusName = Const.GetStatusName(User, gStatusID, null);
-				if (rec.TotalHours == 0) gStatusName = rec.DisplayStatusName;
+                if (rec.TotalMinutes == 0) gStatusName = rec.DisplayStatusName;
 				results.Add(new
 				{
 					LeaveID = rec.LeaveID,
@@ -86,7 +86,7 @@ namespace Leave.Controllers
 					IsPending = gStatusID == Const.STATUS_LEAVE_PENDING_APPROVAL,
 					IsAwaiting = gStatusID == Const.STATUS_LEAVE_AWAITING,
 					IsCancelRequest = gStatusID == Const.STATUS_LEAVE_CANCELREQUEST,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					ApplyDate = rec.LeaveRequested.ApplyDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
@@ -243,7 +243,7 @@ namespace Leave.Controllers
 				var Grant = LeaveCore.Leave.CurrentApproval(User, LeaveCore.Leave.GetApprovals(User, rec.LeaveID), HeadPersonNo);
 				int gStatusID = CurrentStatus(Grant, rec.StatusID);
 				string gStatusName = Const.GetStatusName(User, gStatusID, null);
-				if (rec.TotalHours == 0) gStatusName = rec.DisplayStatusName;
+                if (rec.TotalMinutes == 0) gStatusName = rec.DisplayStatusName;
 				results = new
 				{
 					StatusID = rec.StatusID,
@@ -339,7 +339,7 @@ namespace Leave.Controllers
 					var Grant = LeaveCore.Leave.CurrentApproval(User, LeaveCore.Leave.GetApprovals(User, abc.LeaveID), HeadPersonNo);
 					int gStatusID = CurrentStatus(Grant, abc.StatusID);
 					string gStatusName = Const.GetStatusName(User, gStatusID, null);
-					if (abc.TotalHours == 0) gStatusName = abc.DisplayStatusName;
+                    if (abc.TotalMinutes == 0) gStatusName = abc.DisplayStatusName;
 					results.Add(new
 					{
 						LeaveID = abc.LeaveID,

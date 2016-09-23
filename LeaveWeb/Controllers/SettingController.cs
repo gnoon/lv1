@@ -473,38 +473,25 @@ namespace Leave.Controllers
 				decimal h = Const.DEFAULT_WORKHOURS_OF_DAY;
 				foreach (var rec in obj.OfLeaveType.Skip((page - 1) * rows).Take(rows))
 				{
-					var a = TimeSpan.FromDays((double)rec.TakenAmount);
-					var b = TimeSpan.FromDays((double)rec.ApproveAmount);
-					var c = TimeSpan.FromDays((double)rec.BalanceAmount);
-					var d = TimeSpan.FromDays((double)(rec.QuotaAmount + rec.QuotaPrevAmount));
-					results.Add(new
-					{
-						id = ++num,
-						cell = new[]
+                    var u = TimeSpan.FromMinutes((double)rec.TakenMinutes);
+					var a = TimeSpan.FromMinutes((double)rec.ApproveMinutes);
+                    var b = TimeSpan.FromMinutes((double)rec.BalanceMinutes);
+					var q = TimeSpan.FromDays((double)(rec.QuotaAmount + rec.QuotaPrevAmount));
+                    results.Add(new
+                    {
+                        id = ++num,
+                        cell = new[]
 						{
 							rec.LeaveType.TypeNo,
 							rec.LeaveType.NameTH,
-							d.TotalMinutes > 0 && d.TotalDays < Const.QUOTA_UNLIMITED
-								? string.Format("{0} ({1}h)", d.Days.ToString(), (d.Days * h).ToString("0.#####"))
-								: (d.TotalDays < Const.QUOTA_UNLIMITED ? "-" : "มีสิทธิลา"),
-							a.TotalMinutes > 0 && a.TotalDays < Const.QUOTA_UNLIMITED
-								? new TimeSpan(a.Days,
-									Convert.ToInt32(((a.Hours % h) * 60) / 60),
-									Convert.ToInt32(((a.Hours % h) * 60) % 60), 0).ToString(@"dd\.hh\:mm")
-								: "-",
-							b.TotalMinutes > 0 && b.TotalDays < Const.QUOTA_UNLIMITED
-								? new TimeSpan(b.Days,
-									Convert.ToInt32(((b.Hours % h) * 60) / 60),
-									Convert.ToInt32(((b.Hours % h) * 60) % 60), 0).ToString(@"dd\.hh\:mm")
-								: "-",
-							Math.Abs(c.TotalMinutes) > 0 && Math.Abs(c.TotalDays) < Const.QUOTA_UNLIMITED
-								? new TimeSpan(Math.Abs(c.Days),
-									Convert.ToInt32(((Math.Abs(c.Hours) % h) * 60) / 60),
-									Convert.ToInt32(((Math.Abs(c.Hours) % h) * 60) % 60), 0)
-									.ToString(string.Concat((c < TimeSpan.Zero ? "\\-" : ""), "dd\\.hh\\:mm"))
-								: "-"
+							q.TotalMinutes != 0 && q.TotalDays != Const.QUOTA_UNLIMITED
+								? string.Format("{0} ({1}h)", q.TotalDays.ToString(), q.Minutes > 0 ? Math.Floor(q.TotalHours) + q.ToString("':'mm") : q.TotalHours.ToString())
+								: (q.TotalMinutes == 0 ? "-" : "มีสิทธิลา"),
+							Tool.ConvertMinutesToString(rec.TakenMinutes),
+							Tool.ConvertMinutesToString(rec.ApproveMinutes),
+							Tool.ConvertMinutesToString(rec.BalanceMinutes)
 						}
-					});
+                    });
 				}
 			} finally {}
 

@@ -91,12 +91,12 @@
 				,width: "auto"
 				,height: 90
 				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
-				,colNames: ["D1","D2","I1","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ชม. ลา","สถานะ","เหตุผลการลา"]
+				,colNames: ["D1","D2","I1","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ลา(ชั่วโมง)","สถานะ","เหตุผลการลา"]
 				,colModel: [
 					{name:"LeaveID",index:"LeaveID",hidden:true},
 					{name:"StatusID",index:"StatusID",hidden:true},
 					{name:"IsCancelled",index:"IsCancelled",hidden:true},
-					{name:"LeaveDays",index:"LeaveDays",hidden:true},
+					{name:"LeaveMinutes",index:"LeaveMinutes",hidden:true},
 					{name:"ApplyDate",index:"ApplyDate",width:100,align:"center",sortable:true,resizable:true},
 					{name:"LeaveType",index:"LeaveType",width:220,sortable:true,resizable:true},
 					{name:"LeaveDate",index:"LeaveDate",width:120,align:"center",sortable:true,resizable:true},
@@ -144,7 +144,7 @@
 							var aLeaveAmount = rec.LeaveAmount;
 							var aLeaveStatus = rec.LeaveStatus;
 							var IsCancelled = eval(rec.IsCancelled);
-							var IsLeaveZero = parseFloat(rec.LeaveDays) == 0;
+							var IsLeaveZero = parseInt(rec.LeaveMinutes) == 0;
 							if(IsLeaveZero) {
 								aLeaveAmount = "<span style=\"color:red;\">"+aLeaveAmount+"</span>";
 								aLeaveStatus = "<span style=\"color:red;\">"+aLeaveStatus+"</span>";
@@ -283,7 +283,7 @@
 									if(obj.LeaveID.toString() == rec_i.LeaveID) {
 										$(objGrid).jqGrid("setRowData", rowid_i, {
 											StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
-											LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+											LeaveMinutes: obj.LeaveMinutes, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
 											LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
 										});
 									}
@@ -382,7 +382,7 @@
 							var obj = data.results;
 							$(objGrid).jqGrid("setRowData", rowid, {
 								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
-								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeaveMinutes: obj.LeaveMinutes, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
 								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
 							});
 						}
@@ -493,7 +493,7 @@
 							var obj = data.results;
 							$(objGrid).jqGrid("setRowData", rowid, {
 								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
-								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeaveMinutes: obj.LeaveMinutes, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
 								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
 							});
 						}
@@ -587,7 +587,7 @@
 							var obj = data.results;
 							$(objGrid).jqGrid("setRowData", rowid, {
 								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
-								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeaveMinutes: obj.LeaveMinutes, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
 								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
 							});
 						}
@@ -684,7 +684,7 @@
 							var obj = data.results;
 							$(objGrid).jqGrid("setRowData", rowid, {
 								StatusID: obj.StatusID, IsCancelled: obj.IsCancelled,
-								LeaveDays: obj.LeaveDays, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
+								LeaveMinutes: obj.LeaveMinutes, LeaveType: obj.LeaveType, LeaveDate: obj.LeaveDate,
 								LeavePeriod: obj.LeavePeriod, LeaveAmount: obj.LeaveAmount, LeaveStatus: obj.LeaveStatus
 							});
 						}

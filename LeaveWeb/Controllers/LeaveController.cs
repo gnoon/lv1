@@ -132,10 +132,11 @@ namespace Leave.Controllers
                 {
                     p = r.Person;
                     name = p.NameFirstTH + " " + p.NameLastTH;
+                    var o = TimeSpan.FromMinutes(r.TotalLeaveMinutes);
                     list.Add(new
                     {
                         id = r.RequestID,
-                        title = string.Format("({0}h) {1}", r.TotalLeaveHours%1==0 ? r.TotalLeaveHours.ToString("0") : r.DisplayTotalHours, name),
+                        title = string.Format("({0}h) {1}", o.Minutes > 0 ? Math.Floor(o.TotalHours) + o.ToString("':'mm") : o.TotalHours.ToString(), name),
                         allDay = false,//r.TotalLeaveHours >= Const.DEFAULT_WORKHOURS_OF_DAY,
                         start = r.Since.Value.ToString("yyyy-MM-ddTHH:mm:ss", en),
                         end = r.Until.Value.ToString("yyyy-MM-ddTHH:mm:ss", en)/*,
@@ -211,21 +212,24 @@ namespace Leave.Controllers
             string selected;
             Leave.Models.FormPostbackData pb = ViewBag.Postback;
 
-			decimal OtherAmount = 0;
+			int OtherMinutes = 0;
 			List<string> list = new List<string>();
 			foreach (var rec in Quota.OfLeaveType)
 			{
+                var s = Tool.ConvertMinutesToString(rec.TakenMinutes);
 				if (dict.ContainsKey(rec.LeaveType.TypeNo))
 				{
-					ViewData.Add(dict[rec.LeaveType.TypeNo]["label"], rec.TakenAmount > 0 ? "checked" : "");
-					ViewData.Add(dict[rec.LeaveType.TypeNo]["value"], rec.TakenAmount > 0 ? rec.TakenAmount.ToString("0.#####") : "");
+					ViewData.Add(dict[rec.LeaveType.TypeNo]["label"], rec.TakenMinutes > 0 ? "checked" : "");
+                    ViewData.Add(dict[rec.LeaveType.TypeNo]["value"], rec.TakenMinutes > 0 ? s : "");
 				}
-				else OtherAmount += rec.TakenAmount;
+                else OtherMinutes += rec.TakenMinutes;
                 selected = rec.LeaveType.TypeSubID == pb.TypeSubID ? " selected" : "";
                 list.Add("<option value=\"" + rec.LeaveType.TypeSubID + "\"" + selected + ">" + rec.LeaveType.NameTH + "</option>");
-			}
-			ViewData.Add("hasOther", OtherAmount > 0 ? "checked" : "");
-			ViewData.Add("OtherTakenAmount", OtherAmount > 0 ? OtherAmount.ToString("0.#####") : "");
+            }
+            var o = TimeSpan.FromMinutes(OtherMinutes);
+            var t = Tool.ConvertMinutesToString(OtherMinutes);
+			ViewData.Add("hasOther", OtherMinutes > 0 ? "checked" : "");
+            ViewData.Add("OtherTakenAmount", OtherMinutes > 0 ? t: "");
 
 			ViewData.Add("LeaveTypeOptions", string.Join("\n", list));
 			ViewBag.TypeCase = pb.TypeCase;
@@ -522,8 +526,8 @@ namespace Leave.Controllers
 				IsError = true;
                 ErrorMessage =
                       "จำนวนชั่วโมงการลาเกินโควต้าที่กำหนด ( "
-                    + "คงเหลือ = " + Tool.ConvertDaysToString(e.Quota) + " วัน:ช.ม.:นาที, "
-                    + "ยื่นลา = " + Tool.ConvertDaysToString(e.Request) + " วัน:ช.ม.:นาที )";
+                    + "คงเหลือ = " + Tool.ConvertMinutesToString(e.Quota) + " วัน:ช.ม.:นาที, "
+                    + "ยื่นลา = " + Tool.ConvertMinutesToString(e.Request) + " วัน:ช.ม.:นาที )";
 			}
 			catch (LeaveRequestPreDateException e)
 			{
@@ -565,7 +569,7 @@ namespace Leave.Controllers
 
                     Shifts = new Workshifts(User, PersonNo);
 					int temp = obj.ExecuteScalar<int>("SELECT [Type Sub ID] FROM [LV Type Sub] WHERE [Type No]='" + Const.TYPE_NO_SICK + "'", null);
-					if (temp.Equals(TypeSubID) && RequestedList.Sum(e => e.TotalHours) >= Const.REQUEST_SICK_CONTINUALLY_HOURS)
+                    if (temp.Equals(TypeSubID) && RequestedList.Sum(e => e.TotalMinutes) >= Const.REQUEST_SICK_CONTINUALLY_HOURS * 60)
 						IsRequireAttached = true;
                 }
                 catch (Exception e)
@@ -634,7 +638,7 @@ namespace Leave.Controllers
 					IsPending = rec.StatusID == Const.STATUS_LEAVE_PENDING_APPROVAL,
 					IsAwaiting = rec.StatusID == Const.STATUS_LEAVE_AWAITING,
 					IsApproved = rec.StatusID == Const.STATUS_LEAVE_APPROVED,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					ApplyDate = rec.LeaveRequested.ApplyDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
@@ -688,7 +692,7 @@ namespace Leave.Controllers
 				{
 					LeaveID = rec.LeaveID,
 					StatusID = rec.StatusID,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					ApplyDate = rec.LeaveRequested.ApplyDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
@@ -736,7 +740,7 @@ namespace Leave.Controllers
 					LeaveID = rec.LeaveID,
 					StatusID = rec.StatusID,
 					IsCancelled = rec.StatusID == Const.STATUS_LEAVE_CANCELLED,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					ApplyDate = rec.LeaveRequested.ApplyDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
@@ -797,13 +801,9 @@ namespace Leave.Controllers
 				records = Quota.OfLeaveType.Count();
 				decimal h = Const.DEFAULT_WORKHOURS_OF_DAY;
                 var list = Quota.OfLeaveType.Skip((page - 1) * rows).Take(rows);
-                var stringDays = Tool.ConvertDaysToString(-1.75m);
-                var x = 1+0;
 				foreach (var rec in list)
 				{
-					var a = TimeSpan.FromDays((double)rec.TakenAmount);
-					var b = TimeSpan.FromDays((double)rec.ApproveAmount);
-					var c = TimeSpan.FromDays((double)rec.BalanceAmount);
+                    Tool.ConvertMinutesToString(rec.TakenMinutes);
 					var d = TimeSpan.FromDays((double)(rec.QuotaAmount + rec.QuotaPrevAmount));
 					results.Add(new
 					{
@@ -811,25 +811,11 @@ namespace Leave.Controllers
 						cell = new[] {
                             rec.LeaveType.NameTH,
 							d.TotalMinutes > 0 && d.TotalDays < Const.QUOTA_UNLIMITED
-								? string.Format("{0} ({1}h)", d.Days.ToString(), (d.Days * h).ToString("0.#####"))
+								? string.Format("{0}", d.TotalDays.ToString(), d.Minutes > 0 ? Math.Floor(d.TotalHours) + d.ToString("':'mm") : d.TotalHours.ToString())
 								: (d.TotalDays < Const.QUOTA_UNLIMITED ? "-" : "มีสิทธิลา"),
-							/*a.TotalMinutes > 0 && a.TotalDays < Const.QUOTA_UNLIMITED
-								? new TimeSpan(a.Days,
-									Convert.ToInt32(((a.Hours % h) * 60) / 60),
-									Convert.ToInt32(((a.Hours % h) * 60) % 60), 0).ToString(@"dd\.hh\:mm")
-								: "-"*/Tool.ConvertDaysToString(rec.TakenAmount),
-							/*b.TotalMinutes > 0 && b.TotalDays < Const.QUOTA_UNLIMITED
-								? new TimeSpan(b.Days,
-									Convert.ToInt32(((b.Hours % h) * 60) / 60),
-									Convert.ToInt32(((b.Hours % h) * 60) % 60), 0).ToString(@"dd\.hh\:mm")
-								: "-"*/Tool.ConvertDaysToString(rec.ApproveAmount),
-							/*Math.Abs(c.TotalMinutes) > 0 && Math.Abs(c.TotalDays) < Const.QUOTA_UNLIMITED
-								? new TimeSpan(Math.Abs(c.Days),
-									Convert.ToInt32(((Math.Abs(c.Hours) % h) * 60) / 60),
-									Convert.ToInt32(((Math.Abs(c.Hours) % h) * 60) % 60), 0)
-									.ToString(string.Concat((c < TimeSpan.Zero ? "\\-" : ""), "dd\\.hh\\:mm"))
-								: "-"*/Tool.ConvertDaysToString(rec.BalanceAmount),
-                            Tool.ConvertDaysToString(rec.RemainAmount)
+							Tool.ConvertMinutesToString(rec.TakenMinutes),
+							Tool.ConvertMinutesToString(rec.ApproveMinutes),
+							Tool.ConvertMinutesToString(rec.BalanceMinutes)
                         }
 					});
 				}
@@ -1415,7 +1401,7 @@ namespace Leave.Controllers
 						LeaveID = abc.LeaveID,
 						StatusID = abc.StatusID,
 						IsCancelled = abc.StatusID == Const.STATUS_LEAVE_CANCELLED,
-						LeaveDays = abc.TotalDays,
+                        LeaveMinutes = abc.TotalMinutes,
 						LeaveType = abc.LeaveRequested.TypeSubName,
 						LeaveDate = abc.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 						LeavePeriod = abc.DisplayPeriod,
@@ -1471,7 +1457,7 @@ namespace Leave.Controllers
 					LeaveID = rec.LeaveID,
 					StatusID = rec.StatusID,
 					IsCancelled = rec.StatusID == Const.STATUS_LEAVE_CANCELLED,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeavePeriod = rec.DisplayPeriod,
@@ -1525,7 +1511,7 @@ namespace Leave.Controllers
 					LeaveID = rec.LeaveID,
 					StatusID = rec.StatusID,
 					IsCancelled = rec.StatusID == Const.STATUS_LEAVE_CANCELLED,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeavePeriod = rec.DisplayPeriod,
@@ -1549,24 +1535,24 @@ namespace Leave.Controllers
 			{
 				decimal TotalHours = NewTotalHours;
 				decimal TotalMinutes = NewTotalMinutes;
-				if (NewTotalMinutes > 0)
-				{
-					const double UnitMinutes = 3d;
-					double Minutes = Convert.ToDouble(NewTotalMinutes);
-					double Mod = Minutes % UnitMinutes;
-					int Devide = Convert.ToInt32(Math.Round(Minutes / UnitMinutes));
-					double CalcMinutes = Minutes;
-					if (Mod != 0d)
-					{
-						// ปัดขึ้น ปัดลง เช่น ลา 44 นาที ... 43/3 = 14.3 ปัดลงเป็น 14 ... 14x3 = 42 นาที
-						// หรือ          ลา 34 นาที ... 35/3 = 11.67 ปัดขึ้นเป็น 12 ... 12x3 = 36 นาที เป็นต้น
-						CalcMinutes = (UnitMinutes * Devide);
-					}
-					TotalMinutes = Convert.ToDecimal(CalcMinutes / 60d);
-					TotalHours += TotalMinutes;
-				}
+                //if (NewTotalMinutes > 0)
+                //{
+                //    const double UnitMinutes = 3d;
+                //    double Minutes = Convert.ToDouble(NewTotalMinutes);
+                //    double Mod = Minutes % UnitMinutes;
+                //    int Devide = Convert.ToInt32(Math.Round(Minutes / UnitMinutes));
+                //    double CalcMinutes = Minutes;
+                //    if (Mod != 0d)
+                //    {
+                //        // ปัดขึ้น ปัดลง เช่น ลา 44 นาที ... 43/3 = 14.3 ปัดลงเป็น 14 ... 14x3 = 42 นาที
+                //        // หรือ          ลา 34 นาที ... 35/3 = 11.67 ปัดขึ้นเป็น 12 ... 12x3 = 36 นาที เป็นต้น
+                //        CalcMinutes = (UnitMinutes * Devide);
+                //    }
+                //    TotalMinutes = Convert.ToDecimal(CalcMinutes / 60d);
+                //    TotalHours += TotalMinutes;
+                //}
 				LeaveCore.Leave obj = new LeaveCore.Leave(User, null);
-				records = obj.Load(RequestID, LeaveID).ChangeAmount(TotalHours);
+                records = obj.Load(RequestID, LeaveID).ChangeAmount(TotalMinutes + (TotalHours * 60));
 			}
 			catch (ArgumentException e)
 			{
@@ -1595,7 +1581,7 @@ namespace Leave.Controllers
 					LeaveID = rec.LeaveID,
 					StatusID = rec.StatusID,
 					IsCancelled = rec.StatusID == Const.STATUS_LEAVE_CANCELLED,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeavePeriod = rec.DisplayPeriod,
@@ -1646,7 +1632,7 @@ namespace Leave.Controllers
 					LeaveID = rec.LeaveID,
 					StatusID = rec.StatusID,
 					IsCancelled = rec.StatusID == Const.STATUS_LEAVE_CANCELLED,
-					LeaveDays = rec.TotalDays,
+                    LeaveMinutes = rec.TotalMinutes,
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeavePeriod = rec.DisplayPeriod,

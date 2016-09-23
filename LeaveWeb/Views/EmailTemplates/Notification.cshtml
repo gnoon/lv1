@@ -41,7 +41,7 @@ else
   <td align="center" width="250"><strong>วันที่ลา</strong></td>
   <td align="center" width="120"><strong>ประเภทการลา</strong></td>
   <td align="center" width="100"><strong>สถานะใบลา</strong></td>
-  <td align="center" width="100"><strong>วัน (วัน:ชม.:นาที)</strong></td>
+  <td align="center" width="100"><strong>วัน:ชั่วโมง:นาที</strong></td>
  </tr>
     @{int Row = 0;}
     @foreach (LeaveCore.RequestRecord LeaveRequest in Model.PendingList)
@@ -63,7 +63,7 @@ else
                            }</td>
   <td valign="top" align="center">@LeaveRequest.TypeSubName</td>
   <td valign="top" align="center">@LeaveRequest.DisplayStatusName</td>
-  <td valign="top" align="center">@LeaveCore.Tool.ConvertDaysToString(LeaveRequest.TotalLeaveDays)</td>
+  <td valign="top" align="center">@LeaveCore.Tool.ConvertMinutesToString(LeaveRequest.TotalLeaveMinutes)</td>
  </tr>
     }
 </table>

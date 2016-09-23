@@ -277,7 +277,7 @@ namespace LeaveCore
 				// TotalHours, TotalDays, ApproveDays
 				if (this.Person.Holidays.IsHoliday(obj.LeaveDate.Value) || this.Person.Weekends.IsWeekend(obj.LeaveDate.Value))
 				{
-                    obj.TotalHours = 0;
+                    obj.TotalMinutes = 0;
                     obj.ApproveMinutes = 0;
 					obj.DisplayExactlyDays = DisplayCaseExactlyToStopDay(obj.LeaveDate.Value);
 				}
@@ -292,14 +292,14 @@ namespace LeaveCore
                     DaySince = IsSinceDay ? RoundedSince : obj.BeginTime.Value;
                     DayUntil = IsUntilDay ? RoundedUntil : obj.UntilTime.Value;
 
-                    obj.TotalHours = Convert.ToDecimal(Leave.CalcTotalLeaveMinutes(
+                    obj.TotalMinutes = Convert.ToInt32(Leave.CalcTotalLeaveMinutes(
                         shifts[0].TimeBegin,
                         shifts[0].TimeUntil,
                         shifts[1].TimeBegin,
                         shifts[1].TimeUntil,
-                        ref DaySince, ref DayUntil, ref ErrorMessage) / 60d
+                        ref DaySince, ref DayUntil, ref ErrorMessage)
                     );
-                    obj.ApproveMinutes = this.AutoGranted ? Convert.ToInt32(obj.TotalHours * 60) : 0;
+                    obj.ApproveMinutes = this.AutoGranted ? obj.TotalMinutes : 0;
 
                     if (ErrorMessage == null)
                     {
@@ -376,37 +376,10 @@ namespace LeaveCore
 				 );
 			}
 
-			#region Old Query
-			//string Query = "SELECT	{0},b.[Request ID], b.[Type Sub ID], c.[TH Name] AS [Type Sub Name], " // remove c.[Type No]
-			//            + "			b.[Reason], a.[Person No], b.[Contact], "
-			//            + "			b.[Since], "
-			//            + "			b.[Until], "
-			//            + "			b.[Apply Date], "
-			//            + "			b.[Apply By HR], "
-			//            + "			SUM(a.[Total Days]) AS [Total Days], "
-			//            + "			SUM(a.[Total Hours]) AS [Total Hours], "
-			//            + "			MAX(a.[Status ID]) AS [Status ID], "
-			//            + "			COUNT(DISTINCT a.[Status ID]) AS [Status Count] "
-			//            + "FROM		[LV Leave] a INNER JOIN "
-			//            + "			[LV Request] b ON a.[Request ID] = b.[Request ID] INNER JOIN "
-			//            + "			[LV Type Sub] c ON b.[Type Sub ID] = c.[Type Sub ID] "
-			//            + "WHERE	a.[Person No] = @perno AND "
-			//            + "			( (" + string.Join(") OR (", filters) + ") ) AND "
-			//            //+ "			DATEPART(w,a.[Leave Date]) NOT IN ('.implode(',', $weekends).') " // but not a weekend
-			//            //+ "			(empty($holidays) ? '' AND "
-			//            //+ "			AND a.leave_date NOT IN ('.implode(',', $holidays).') ') AND "    // and not a holiday
-			//            + "			a.[Status ID] IN (" + ACTIVE_STATUSES + ") "
-			//            + "GROUP BY b.[Request ID], b.[Type Sub ID], c.[TH Name], a.[Person No], " // remove c.[Type No]
-			//            + "			b.[Reason], b.[Contact], "
-			//            + "			b.[Since], "
-			//            + "			b.[Until], "
-			//            + "			b.[Apply Date], "
-			//            + "			b.[Apply By HR]";
-			#endregion
             string Query = "SELECT	{0},b.[Request ID], b.[Type Sub ID], c.[TH Name] AS [Type Sub Name], "
                         + "			b.[Reason], b.[Contact], b.[Since], b.[Until], b.[Apply Date], b.[Apply By HR], "
                         + "			a.[Leave ID], a.[Status ID], a.[Person No], a.[Leave Date], a.[Begin Time], "
-                        + "			a.[Until Time], a.[Total Hours], a.[Total Days], a.[Approve Minutes], a.[Comment] "
+                        + "			a.[Total Minutes], a.[Until Time], a.[Approve Minutes], a.[Comment], a.[Hours Per Day] "
                         + "FROM		[LV Leave] a INNER JOIN "
                         + "			[LV Request] b ON a.[Request ID] = b.[Request ID] INNER JOIN "
                         + "			[LV Type Sub] c ON b.[Type Sub ID] = c.[Type Sub ID] "
@@ -450,7 +423,7 @@ namespace LeaveCore
 				bool SkipCalHours = this.Person.Holidays.IsHoliday(rec.LeaveDate.Value) || 
 									this.Person.Weekends.IsWeekend(rec.LeaveDate.Value);
 				//if (rec.TotalHours == 0)
-				if (rec.TotalHours == 0 && !SkipCalHours)
+				if (rec.TotalMinutes == 0 && !SkipCalHours)
                 {
                     throw new LeaveRequestException(this.PersonNo, 0, new LeaveException("Leave 0 hour", null));
                 }
@@ -465,16 +438,16 @@ namespace LeaveCore
 			}
 
 			// 2.
-			Dictionary<int, decimal> DaysOfLeave = new Dictionary<int, decimal>();
+            Dictionary<int, int> DaysOfLeave = new Dictionary<int, int>();
 			foreach (var rec in this.Lines)
 			{
 				if (rec.TypeSubID == this.TypeSubID)
 				{
 					int Year = rec.LeaveDate.Value.Year;
 					if (DaysOfLeave.ContainsKey(Year))
-						DaysOfLeave[Year] += rec.TotalDays;
+						DaysOfLeave[Year] += rec.TotalMinutes;
 					else
-						DaysOfLeave.Add(Year, rec.TotalDays);
+                        DaysOfLeave.Add(Year, rec.TotalMinutes);
 				}
 			}
             // ถ้าเป็นลากิจแบบพิเศษให้ลาได้ไม่ต้องเช็คโควต้า
@@ -571,7 +544,7 @@ namespace LeaveCore
 			// 5.
 			if (this.TypeNo == Const.TYPE_NO_SICK || this.TypeNo == Const.TYPE_NO_SICKATWORK)
 			{
-				if (!this.AutoGranted && this.Lines.Sum(d => d.TotalHours) >= Const.REQUEST_SICK_CONTINUALLY_HOURS)
+				if (!this.AutoGranted && this.Lines.Sum(d => d.TotalMinutes) >= Const.REQUEST_SICK_CONTINUALLY_HOURS * 60)
 				{
 					#region Continually
 					//bool Continually = true;
@@ -720,11 +693,11 @@ namespace LeaveCore
 							  "INSERT INTO [LV Leave] ( "
                             + "		[Leave ID], [Request ID], [Status ID], [Type Sub ID], [Hours Per Day], "
 							+ "		[Person No], [Leave Date], [Begin Time], [Until Time], "
-							+ "		[Total Hours], [Total Days], [Approve Minutes], [Comment], [Modify Date], [Modify Person] "
+							+ "		[Total Minutes], [Approve Minutes], [Comment], [Modify Date], [Modify Person] "
 							+ ") VALUES ( "
 							+ "		@LeaveID, @RequestID, @StatusID, @TypeSubID, @HoursADay, "
 							+ "		@PersonNo, @LeaveDate, @BeginTime, @UntilTime, "
-                            + "		@TotalHours, @TotalDays, @ApproveMins, @Comment, @ModifyDate, @ModifyPerson "
+                            + "		@TotalMins, @ApproveMins, @Comment, @ModifyDate, @ModifyPerson "
 							+ ")";
 						cmd.Parameters.Clear();
 						cmd.Parameters.Add("@LeaveID", SqlDbType.BigInt).Value = LeaveID;
@@ -735,8 +708,7 @@ namespace LeaveCore
 						cmd.Parameters.Add("@LeaveDate", SqlDbType.DateTime).Value = rec.LeaveDate;
 						cmd.Parameters.Add("@BeginTime", SqlDbType.DateTime).Value = rec.BeginTime;
 						cmd.Parameters.Add("@UntilTime", SqlDbType.DateTime).Value = rec.UntilTime;
-						cmd.Parameters.Add("@TotalHours", SqlDbType.Decimal).Value = rec.TotalHours;
-						cmd.Parameters.Add("@TotalDays", SqlDbType.Decimal).Value = rec.TotalDays;
+                        cmd.Parameters.Add("@TotalMins", SqlDbType.Decimal).Value = rec.TotalMinutes;
                         cmd.Parameters.Add("@ApproveMins", SqlDbType.Int).Value = rec.ApproveMinutes;
                         cmd.Parameters.Add("@HoursADay", SqlDbType.Decimal).Value = Const.DEFAULT_WORKHOURS_OF_DAY;
 						cmd.Parameters.Add("@Comment", SqlDbType.VarChar).Value = rec.Comment;
@@ -979,8 +951,9 @@ namespace LeaveCore
                             if (cols.ContainsKey("LEAVEDATE")) line.LeaveDate = rs.GetValue<DateTime?>(cols["LEAVEDATE"]);
                             if (cols.ContainsKey("BEGINTIME")) line.BeginTime = rs.GetValue<DateTime?>(cols["BEGINTIME"]);
                             if (cols.ContainsKey("UNTILTIME")) line.UntilTime = rs.GetValue<DateTime?>(cols["UNTILTIME"]);
-                            if (cols.ContainsKey("TOTALHOURS")) line.TotalHours = rs.GetValue<decimal>(cols["TOTALHOURS"]);
+                            if (cols.ContainsKey("TOTALMINUTES")) line.TotalMinutes = rs.GetValue<int>(cols["TOTALMINUTES"]);
                             if (cols.ContainsKey("APPROVEMINUTES")) line.ApproveMinutes = rs.GetValue<int>(cols["APPROVEMINUTES"]);
+                            if (cols.ContainsKey("HOURSPERDAY")) line.HoursPerDay = rs.GetValue<decimal>(cols["HOURSPERDAY"]);
                             if (cols.ContainsKey("COMMENT")) line.Comment = rs.GetValue<string>(cols["COMMENT"]);
 
 							if (cols.ContainsKey("DISPLAYSTATUSNAME"))
@@ -1002,8 +975,8 @@ namespace LeaveCore
 
 								if (cols.ContainsKey("TOTALAPPROVEMINUTES"))
                                     line.LeaveRequested.TotalApproveMinutes = rs.GetValue<int>(cols["TOTALAPPROVEMINUTES"]);
-                                if (cols.ContainsKey("TOTALLEAVEHOURS"))
-                                    line.LeaveRequested.TotalLeaveHours = rs.GetValue<decimal>(cols["TOTALLEAVEHOURS"]);
+                                if (cols.ContainsKey("TOTALLEAVEMINUTES"))
+                                    line.LeaveRequested.TotalLeaveMinutes = rs.GetValue<int>(cols["TOTALLEAVEMINUTES"]);
 								if (cols.ContainsKey("DISPLAYSTATUSNAME"))
 									line.LeaveRequested.DisplayStatusName = rs.GetValue<string>(cols["DISPLAYSTATUSNAME"]);
                                 line.LeaveRequested.StatusID = line.StatusID;
@@ -1126,8 +1099,8 @@ namespace LeaveCore
 
                             if (cols.ContainsKey("TOTALAPPROVEMINUTES"))
                                 head.TotalApproveMinutes = rs.GetValue<int>(cols["TOTALAPPROVEMINUTES"]);
-                            if (cols.ContainsKey("TOTALLEAVEHOURS"))
-                                head.TotalLeaveHours = rs.GetValue<decimal>(cols["TOTALLEAVEHOURS"]);
+                            if (cols.ContainsKey("TOTALLEAVEMINUTES"))
+                                head.TotalLeaveMinutes = rs.GetValue<int>(cols["TOTALLEAVEMINUTES"]);
 							if (cols.ContainsKey("DISPLAYSTATUSNAME"))
                                 head.DisplayStatusName = rs.GetValue<string>(cols["DISPLAYSTATUSNAME"]);
                             if (cols.ContainsKey("STATUSID"))
@@ -1394,7 +1367,7 @@ namespace LeaveCore
                                     {
                                         cmd.Transaction = t;
                                         cmd.CommandType = CommandType.Text;
-                                        cmd.CommandText = "UPDATE [LV Leave] SET [Approve Minutes]=[Total Hours]*60 WHERE [Leave ID]=@leaveid";
+                                        cmd.CommandText = "UPDATE [LV Leave] SET [Approve Minutes]=[Total Minutes] WHERE [Leave ID]=@leaveid";
                                         cmd.Parameters.Add("@leaveid", SqlDbType.BigInt).Value = line.LeaveID;
                                         cmd.ExecuteNonQuery();
                                     }
@@ -2004,9 +1977,9 @@ namespace LeaveCore
 		/// <summary>
 		/// เปลี่ยนชั่วโมงลาในตาราง Leave
 		/// </summary>
-		/// <param name="NewTotalHours"></param>
+        /// <param name="NewTotalMinutes"></param>
 		/// <returns>จำนวน Line ที่ update</returns>
-        public int ChangeAmount(decimal NewTotalHours)
+        public int ChangeAmount(decimal NewTotalMinutes)
         {
             // HR เปลี่ยนได้คนเดียว
             if (User == null || !User.Identity.IsAuthenticated || !User.IsInRole(Const.ROLE_HR))
@@ -2050,10 +2023,8 @@ namespace LeaveCore
                             cmd.Transaction = t;
                             cmd.CommandType = CommandType.Text;
                             #region Perform DB Execution Preparation
-                            cmd.CommandText = "UPDATE [LV Leave] SET [Total Hours]=@hours,[Total Days]=@days,[Approve Minutes]=(CASE WHEN [Approve Minutes]=0 THEN 0 ELSE @appmins END),[Modify Date]=@now,[Modify Person]=@user WHERE [Leave ID]=@id";
-                            cmd.Parameters.Add("@hours", SqlDbType.Decimal).Value = NewTotalHours;
-                            cmd.Parameters.Add("@days", SqlDbType.Decimal).Value = NewTotalHours / Const.DEFAULT_WORKHOURS_OF_DAY;
-                            cmd.Parameters.Add("@appmins", SqlDbType.Int).Value = NewTotalHours * 60;
+                            cmd.CommandText = "UPDATE [LV Leave] SET [Total Minutes]=@mins,[Approve Minutes]=(CASE WHEN [Approve Minutes]=0 THEN 0 ELSE @mins END),[Modify Date]=@now,[Modify Person]=@user WHERE [Leave ID]=@id";
+                            cmd.Parameters.Add("@mins", SqlDbType.Decimal).Value = NewTotalMinutes;
 							cmd.Parameters.Add("@now", SqlDbType.DateTime).Value = DateTime.Now;
                             cmd.Parameters.Add("@user", SqlDbType.VarChar).Value = User.Identity.Name;
                             cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = line.LeaveID;
@@ -2418,7 +2389,7 @@ namespace LeaveCore
                   ",head.[Type Sub ID],head.[Type Sub Name],head.[Person No],head.[Reason] " +
                   ",head.[Since],head.[Until],head.[Contact],head.[Apply Date],head.[Apply By HR] " +
                   ",line.[Leave ID],line.[Leave Date],line.[Begin Time],line.[Until Time] " +
-                  ",line.[Total Hours],line.[Total Days],line.[Approve Minutes],line.[Comment],line.[Modify Date],line.[Modify Person] " +
+                  ",line.[Total Minutes],line.[Approve Minutes],line.[Comment],line.[Modify Date],line.[Modify Person] " +
                   ",person.[TH Prefix],person.[TH First Name],person.[TH Last Name] " +
                   ",person.[EN First Name],person.[EN Last Name],person.[EN Prefix],person.[Mobile No],person.[E-Mail] " +
                   ",emp.[Employee No],emp.[Starting Date],emp.[Until Date],emp.[Company Code],emp.Department,emp.Section" +
@@ -2446,7 +2417,7 @@ namespace LeaveCore
                         QueryStatusName = obj.ExecuteScalar<string>("SELECT [TH Name] FROM [LV Status] WHERE [Status ID]=" + Const.STATUS_LEAVE_INTERRUPTED, null);
                     line.DisplayStatusName = QueryStatusName;
                 }
-				if (line.TotalHours == 0)
+				if (line.TotalMinutes == 0)
 					line.DisplayStatusName = StatusLeaveZero;
             }
 
@@ -2525,7 +2496,7 @@ namespace LeaveCore
             string WhereHeadPersonNo = "";
             if (!string.IsNullOrEmpty(HeadPersonNo))
             {
-                WhereHeadPersonNo = "AND line.[Total Hours] > 0 " + WhereApprovingBy("AND", HeadPersonNo, "head", "line", out Params2);
+                WhereHeadPersonNo = "AND line.[Total Minutes] > 0 " + WhereApprovingBy("AND", HeadPersonNo, "head", "line", out Params2);
                 Params.AddRange(Params2);
             }
 
@@ -2579,7 +2550,7 @@ namespace LeaveCore
                 + "				CASE WHEN COUNT(DISTINCT line.[Status ID])=1 THEN MIN(lvst.[TH Name]) ELSE @multistsname END AS [Display Status Name], "
 				//+ "				CASE WHEN (SELECT COUNT(DISTINCT (CASE WHEN b.[Action Status]=" + Const.VETO_INTERRUPTED + " THEN " + Const.STATUS_LEAVE_INTERRUPTED + " ELSE a.[Status ID] END)) FROM [LV Leave] AS a LEFT OUTER JOIN [LV Veto] AS b ON a.[Leave ID]=b.[Leave ID] WHERE a.[Request ID]=head.[Request ID] GROUP BY a.[Request ID]) = 1 THEN ISNULL((SELECT TOP 1 " + Const.STATUS_LEAVE_INTERRUPTED + " FROM [LV Veto] WHERE [Leave ID]=MIN(line.[Leave ID]) AND [Action Status]=" + Const.VETO_INTERRUPTED + "),MIN(line.[Status ID])) ELSE " + Const.STATUS_MULTIPLE_STATUSES + " END AS [Status ID], "
 				//+ "				CASE WHEN (SELECT COUNT(DISTINCT (CASE WHEN b.[Action Status]=" + Const.VETO_INTERRUPTED + " THEN " + Const.STATUS_LEAVE_INTERRUPTED +" ELSE a.[Status ID] END)) FROM [LV Leave] AS a LEFT OUTER JOIN [LV Veto] AS b ON a.[Leave ID]=b.[Leave ID] WHERE a.[Request ID]=head.[Request ID] GROUP BY a.[Request ID]) = 1 THEN MIN(lvst.[TH Name]) ELSE @multistsname END AS [Display Status Name], "
-                + "				SUM(ISNULL(line.[Total Hours], 0)) AS [Total Leave Hours], "
+                + "				SUM(ISNULL(line.[Total Minutes], 0)) AS [Total Leave Minutes], "
                 + "				SUM(ISNULL(line.[Approve Minutes], 0)) AS [Total Approve Minutes] "
                 + "FROM			[LV Request] AS head WITH(READUNCOMMITTED) "
                 + "				INNER JOIN [LV Leave] AS line WITH(READUNCOMMITTED) ON head.[Request ID]=line.[Request ID] "
@@ -2608,7 +2579,7 @@ namespace LeaveCore
 			{
 				if (rec.StatusID == Const.STATUS_LEAVE_INTERRUPTED)
 					rec.DisplayStatusName = InterruptStatusName;
-				if (rec.TotalLeaveHours == 0)
+				if (rec.TotalLeaveMinutes == 0)
 					rec.DisplayStatusName = StatusLeaveZero;
 			}
 
@@ -2984,12 +2955,12 @@ namespace LeaveCore
                 }
             }
             // ลาแต่ละครั้ง ต่ำสุดครั้งละ 30 นาที และปัดขึ้นลงครั้งละ 3 นาที (ตามระเบียบบริษัทฯ)
-            const double MinMinutes = 30d;
-            const double UnitMinutes = 3d;
+            const double MinMinutes = 0d;
+            const double UnitMinutes = 1d;
 
             if (Minutes < MinMinutes)
             {
-                Error = "ลาได้อย่างน้อย 30 นาที/1 ใบลา และเพิ่ม/ลดได้ทีละ 3 นาที";
+                Error = "ลาได้อย่างน้อย " + MinMinutes + " นาที/1 ใบลา และเพิ่ม/ลดได้ทีละ " + UnitMinutes + " นาที";
                 return Minutes;
             }
 
@@ -2999,6 +2970,7 @@ namespace LeaveCore
             double CalcMinutes = Minutes;
             if (Mod != 0d)
             {
+                // ตัวอย่าง UnitMinutes = 3
                 // ปัดขึ้น ปัดลง เช่น ลา 44 นาที ... 43/3 = 14.3 ปัดลงเป็น 14 ... 14x3 = 42 นาที
                 // หรือ          ลา 34 นาที ... 35/3 = 11.67 ปัดขึ้นเป็น 12 ... 12x3 = 36 นาที เป็นต้น
                 CalcMinutes = (UnitMinutes * Devide);

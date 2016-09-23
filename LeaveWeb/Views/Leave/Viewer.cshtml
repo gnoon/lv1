@@ -90,11 +90,11 @@
 				,width: "auto"
 				,height: 90
 				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
-				,colNames: ["D1","D2","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ชม. ลา","สถานะ","เหตุผลการลา"]
+				,colNames: ["D1","D2","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ลา(ชั่วโมง)","สถานะ","เหตุผลการลา"]
 				,colModel: [
 					{name:"LeaveID",index:"LeaveID",hidden:true},
 					{name:"StatusID",index:"StatusID",hidden:true},
-					{name:"LeaveDays",index:"LeaveDays",hidden:true},
+					{name:"LeaveMinutes",index:"LeaveMinutes",hidden:true},
 					{name:"ApplyDate",index:"ApplyDate",width:110,align:"center",sortable:true,resizable:true},
 					{name:"LeaveType",index:"LeaveType",width:250,sortable:true,resizable:true},
 					{name:"LeaveDate",index:"LeaveDate",width:110,align:"center",sortable:true,resizable:true},
@@ -138,7 +138,7 @@
 							var aLeaveType = rec.LeaveType;
 							var aLeaveAmount = rec.LeaveAmount;
 							var aLeaveStatus = rec.LeaveStatus;
-							var IsLeaveZero = parseFloat(rec.LeaveDays) == 0;
+							var IsLeaveZero = parseInt(rec.LeaveMinutes) == 0;
 							if(IsLeaveZero) {
 								aLeaveAmount = "<span style=\"color:red;\">"+aLeaveAmount+"</span>";
 								aLeaveStatus = "<span style=\"color:red;\">"+aLeaveStatus+"</span>";

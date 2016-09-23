@@ -91,7 +91,7 @@
 				,width: "auto"
 				,height: 90
 				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
-				,colNames: ["D1","D2","I1","I2","I3","I4","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ชม. ลา","สถานะ","เหตุผลการลา",""]
+				,colNames: ["D1","D2","I1","I2","I3","I4","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ลา(ชั่วโมง)","สถานะ","เหตุผลการลา",""]
 				,colModel: [
 					{name:"LeaveID",index:"LeaveID",hidden:true},
 					{name:"StatusID",index:"StatusID",hidden:true},
@@ -99,7 +99,7 @@
 					{name:"IsPending",index:"IsPending",hidden:true},
 					{name:"IsAwaiting",index:"IsAwaiting",hidden:true},
 					{name:"IsApproved",index:"IsApproved",hidden:true},
-					{name:"LeaveDays",index:"LeaveDays",hidden:true},
+					{name:"LeaveMinutes",index:"LeaveMinutes",hidden:true},
 					{name:"ApplyDate",index:"ApplyDate",width:110,align:"center",sortable:true,resizable:true},
 					{name:"LeaveType",index:"LeaveType",width:200,sortable:true,resizable:true},
 					{name:"LeaveDate",index:"LeaveDate",width:110,align:"center",sortable:true,resizable:true},
@@ -150,7 +150,7 @@
 							var aLeaveAmount = rec.LeaveAmount;
 							var aLeaveStatus = rec.LeaveStatus;
 							var IsValidChange = false;
-							var IsLeaveZero = parseFloat(rec.LeaveDays) == 0;
+							var IsLeaveZero = parseInt(rec.LeaveMinutes) == 0;
 							var newStatusID = "@LeaveCore.Const.STATUS_LEAVE_CANCELLED";
 							if(IsLeaveZero) {
 								aLeaveAmount = "<span style=\"color:red;\">"+aLeaveAmount+"</span>";

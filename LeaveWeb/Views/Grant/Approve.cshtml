@@ -93,7 +93,7 @@
 				,width: "auto"
 				,height: 90
 				,caption: "<em>รายการลาของ { @ViewBag.PersonName }</em>"
-				,colNames: ["D1","D2","D3","I1","I2","I3","I4","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ชม. ลา","สถานะ","เหตุผลการลา","พิจารณา","ลงความเห็น"]
+				,colNames: ["D1","D2","D3","I1","I2","I3","I4","Q1","วันที่ยื่นลา","ประเภทการลา","วันที่ลา","ช่วงเวลา","ลา(ชั่วโมง)","สถานะ","เหตุผลการลา","พิจารณา","ลงความเห็น"]
 				,colModel: [
 					{name:"LeaveID",index:"LeaveID",hidden:true},
 					{name:"StatusID",index:"StatusID",hidden:true},
@@ -102,7 +102,7 @@
 					{name:"IsPending",index:"IsPending",hidden:true},
 					{name:"IsAwaiting",index:"IsAwaiting",hidden:true},
 					{name:"IsCancelRequest",index:"IsCancelRequest",hidden:true},
-					{name:"LeaveDays",index:"LeaveDays",hidden:true},
+					{name:"LeaveMinutes",index:"LeaveMinutes",hidden:true},
 					{name:"ApplyDate",index:"ApplyDate",width:80,align:"center",sortable:true,resizable:true},
 					{name:"LeaveType",index:"LeaveType",width:160,sortable:true,resizable:true},
 					{name:"LeaveDate",index:"LeaveDate",width:80,align:"center",sortable:true,resizable:true},
@@ -130,7 +130,7 @@
 					try {
 						var cm = $(this).getGridParam("colModel");
 						var rec = $(this).getRowData(rowid);
-						if(cm[iCol].name == "HeadComment" && eval(rec.IsAction) && parseFloat(rec.LeaveDays) > 0 &&
+						if(cm[iCol].name == "HeadComment" && eval(rec.IsAction) && parseInt(rec.LeaveMinutes) > 0 &&
 							(eval(rec.IsPending) || eval(rec.IsAwaiting) || eval(rec.IsCancelRequest))) $(this).editRow(rowid, true);
 					} catch(e) {}
 				}
@@ -164,7 +164,7 @@
 							var IsValidApproved = false;
 							var IsValidRejected = false;
 							var IsValidAwaiting = false;
-							var IsLeaveZero = parseFloat(rec.LeaveDays) == 0;
+							var IsLeaveZero = parseInt(rec.LeaveMinutes) == 0;
 							var aApprovedStatusId = "@LeaveCore.Const.STATUS_LEAVE_APPROVED";
 							var aRejectedStatusId = "@LeaveCore.Const.STATUS_LEAVE_REJECTED";
 							var aAwaitingStatusId = "@LeaveCore.Const.STATUS_LEAVE_AWAITING";

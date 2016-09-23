@@ -31,7 +31,7 @@
         @(Environment.NewLine)           <strong>ถึง</strong>@(" : ")@Model.LeaveRequest.Until.Value.ToString("วันdddd ที่ d MMMM yyyy  เวลา HH:mm น.", @Model.DisplayCultureInfo);
                                  }
 
-<strong>คิดเป็นจำนวนวัน (วัน:ชั่วโมง:นาที)</strong> : @LeaveCore.Tool.ConvertDaysToString(Model.LeaveRequest.TotalLeaveDays)
+<strong>คิดเป็นจำนวนวัน (วัน:ชั่วโมง:นาที)</strong> : @LeaveCore.Tool.ConvertMinutesToString(Model.LeaveRequest.TotalLeaveMinutes)
 <strong>ประเภทการลา</strong> : @Model.LeaveRequest.TypeSubName @(string.IsNullOrEmpty(Model.LeaveRequest.Reason) ? "" : string.Format("({0})", Model.LeaveRequest.Reason))
 <strong>สถานะใบลา</strong> : @Model.LeaveRequest.DisplayStatusName
 <strong>ยื่นใบลาเมื่อ</strong> : @Model.LeaveRequest.ApplyDate.Value.ToString("วันdddd ที่ d MMMM yyyy  เวลา HH:mm น.", @Model.DisplayCultureInfo)

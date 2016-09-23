@@ -1,0 +1,13 @@
+﻿[1.1.0.0]
++ เปลี่ยนฟิลด์เพื่อเก็บในหน่วยนาทีแทนชั่วโมง
+EXEC sp_RENAME '[LV Leave].[Total Days]', 'Total Minutes', 'COLUMN'
+go
+alter table [LV Leave] alter column [Total Minutes] int not null
+go
+update [LV Leave] set [Total Minutes]=[Total Hours]*60
+go
+alter table [LV Leave] drop column [Total Hours]
+go
+
+[1.0.0.0]
++ first release

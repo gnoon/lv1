@@ -276,6 +276,7 @@
     <Content Include="bin\System.Web.Razor.dll" />
     <Content Include="bin\Trirand.Web.Mvc.dll" />
     <Content Include="bin\Xipton.Razor.dll" />
+    <Content Include="CHANGES.txt" />
     <Content Include="Content\css\base.css" />
     <Content Include="Content\css\font-awesome-ie7.min.css" />
     <Content Include="Content\css\font.css" />

@@ -114,7 +114,7 @@
 										<td style="text-align:center;">@rec.LeaveDate.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-US"))</td>
 										<td style="text-align:center;">@rec.BeginTime.Value.ToString("HH:mm")</td>
 										<td style="text-align:center;">@rec.UntilTime.Value.ToString("HH:mm")</td>
-										<td id="Display-Amount" style="text-align:center;">@Html.Raw(rec.TotalHours > 0 ? rec.DisplayTotalHours : "<span style=\"color:red;\">0</span>")</td>
+										<td id="Display-Amount" style="text-align:center;">@Html.Raw(rec.TotalMinutes > 0 ? rec.DisplayTotalHours : "<span style=\"color:red;\">0</span>")</td>
 										<td style="color:Red;">@Html.Raw(rec.DisplayExactlyDays)</td>
 									</tr>
 								}}

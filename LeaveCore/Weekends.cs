@@ -42,8 +42,21 @@ namespace LeaveCore
 
                 if (_Rules == null || _Rules.Count == 0)
                     _Rules = DefaultDays;
+                //else
+                //    _Rules = Merge(_Rules, DefaultDays);
             }
         }
+
+        //protected List<WeekendRecord>  Merge(List<WeekendRecord> A, List<WeekendRecord> B)
+        //{
+        //    var C = new List<WeekendRecord>(A);
+        //    foreach (var r in B)
+        //    {
+        //        if (!A.Exists(x => x.DayOfWeek == r.DayOfWeek))
+        //            C.Add(r);
+        //    }
+        //    return C;
+        //}
 
         public List<WeekendRecord> Query(string PersonNo)
         {

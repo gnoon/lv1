@@ -61,7 +61,7 @@ namespace Leave.Controllers
 					IsAction = DateTime.Now.Subtract(rec.LeaveRequested.Since.Value).TotalDays < 3,
 					IsInterrupted = rec.StatusID == Const.STATUS_LEAVE_INTERRUPTED,
 					IsStatusActive = Const.LEAVE_STATUS_ACTIVE().Contains(rec.StatusID),
-					LeaveDays = rec.TotalDays,
+					LeaveMinutes = rec.TotalMinutes,
 					ApplyDate = rec.LeaveRequested.ApplyDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),
 					LeaveType = rec.LeaveRequested.TypeSubName,
 					LeaveDate = rec.LeaveDate.Value.ToString("dd/MM/yyyy", Thread.CurrentThread.CurrentCulture),

@@ -13,34 +13,38 @@ namespace LeaveCore
         public TypeRecord LeaveType { get; set; }
         public decimal QuotaAmount { get; set; }
         public decimal QuotaPrevAmount { get; set; }
-        public decimal TakenHours { get; set; }
-        public decimal TakenAmount { get { var d = TakenHours / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        public int TakenMinutes { get; set; }
+        //public decimal TakenAmount { get { var d = TakenHours / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
         public int ApproveMinutes { get; set; }
-        public decimal ApproveAmount { get { var d = (ApproveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        //public decimal ApproveAmount { get { var d = (ApproveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
         public int Days30Minutes { get; set; }
-        public decimal Days30Amount { get { var d = (Days30Minutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        //public decimal Days30Amount { get { var d = (Days30Minutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
         public DateTime? ModifyDate { get; set; }
         public string ModifyPerson { get; set; }
 
         /// <summary>
-        /// สำหรับมุมมองพนักงาน - BalanceAmount คือ ยอดที่ลาได้อีก
+        /// สำหรับมุมมองพนักงาน - BalanceMinutes คือ ยอดที่ลาได้อีก
         /// </summary>
-		public decimal BalanceAmount
+		public int BalanceMinutes
 		{
 			get
 			{
-				return QuotaAmount + QuotaPrevAmount - TakenAmount;
+                return Convert.ToInt32(QuotaAmount * 60 * Const.DEFAULT_WORKHOURS_OF_DAY) +
+                       Convert.ToInt32(QuotaPrevAmount * 60 * Const.DEFAULT_WORKHOURS_OF_DAY) -
+                       TakenMinutes;
 			}
 		}
 
         /// <summary>
         /// สำหรับมุมมองหัวหน้า - RemainAmount คือ ยอดที่เหลือจากอนุมัติแล้ว
         /// </summary>
-        public decimal RemainAmount
+        public int RemainMinutes
         {
             get
             {
-                return QuotaAmount + QuotaPrevAmount - ApproveAmount;
+                return Convert.ToInt32(QuotaAmount * 60 * Const.DEFAULT_WORKHOURS_OF_DAY) +
+                       Convert.ToInt32(QuotaPrevAmount * 60 * Const.DEFAULT_WORKHOURS_OF_DAY) -
+                       ApproveMinutes;
             }
         }
     }
@@ -178,17 +182,21 @@ namespace LeaveCore
 		public DateTime? ApplyDate { get; set; }
 		public int ApplyByHR { get; set; }
 
-        public decimal TotalLeaveDays { get { return TotalLeaveHours / Const.DEFAULT_WORKHOURS_OF_DAY; } }
-        public decimal TotalLeaveHours { get; set; }
+        //public decimal TotalLeaveDays { get { return (TotalLeaveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; } }
+        public int TotalLeaveMinutes { get; set; }
         public int TotalApproveMinutes { get; set; }
-        public decimal TotalApproveDays { get { var d = (TotalApproveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        //public decimal TotalApproveDays { get { var d = (TotalApproveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
         public string DisplayPeriod
         {
             get
             {
-                decimal Hours = TotalLeaveHours;
                 if (!Since.HasValue || !Until.HasValue)
-                    return string.Format("{0}h", Hours);
+                {
+                    var ds = new TimeSpan(0, TotalLeaveMinutes, 0);
+                    var str = ds.TotalHours.ToString();
+                    if (ds.Minutes > 0) str = Math.Floor(ds.TotalHours) + ds.ToString("':'mm");
+                    return (TotalLeaveMinutes < 0 ? "-" : "") + str + "h";
+                }
                 return string.Format("{0} - {1}", Since.Value.ToString("HH:mm"), Until.Value.ToString("HH:mm"));
             }
         }
@@ -196,15 +204,18 @@ namespace LeaveCore
         {
             get
             {
-                return string.Format("{0} ({1}h)", TotalLeaveDays.ToString("0.#####"), TotalLeaveHours.ToString("0.#####"));
+                return Tool.ConvertMinutesToString(TotalLeaveMinutes);
+                //return string.Format("{0} ({1}h)", TotalLeaveDays.ToString("0.#####"), TotalLeaveHours.ToString("0.#####"));
             }
         }
         public string DisplayTotalHours
         {
             get
             {
-                var s = Tool.ConvertHoursToString(TotalLeaveHours);
-                return s;
+                var ds = new TimeSpan(0, TotalLeaveMinutes, 0);
+                return (TotalLeaveMinutes < 0 ? "-" : "") + Math.Floor(ds.TotalHours) + ds.ToString("':'mm");
+                //var s = Tool.ConvertHoursToString(TotalLeaveHours);
+                //return s;
             }
         }
         public string DisplayStatusName { get; set; }
@@ -221,11 +232,13 @@ namespace LeaveCore
 		public RequestRecord LeaveRequested { get; set; }
 		public DateTime? LeaveDate { get; set; }
 		public DateTime? BeginTime { get; set; }
-		public DateTime? UntilTime { get; set; }
-		public decimal TotalHours { get; set; }
-        public decimal TotalDays { get { var d = (TotalHours / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        public DateTime? UntilTime { get; set; }
+        public int TotalMinutes { get; set; }
+        //public decimal TotalHours { get { var h = (TotalMinutes / 60m); return h; } }
+        //public decimal TotalDays { get { var d = TotalHours / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
         public int ApproveMinutes { get; set; }
-        public decimal ApproveDays { get { var d = (ApproveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        //public decimal ApproveDays { get { var d = (ApproveMinutes / 60m) / Const.DEFAULT_WORKHOURS_OF_DAY; return d; } }
+        public decimal HoursPerDay { get; set; }
 		public string Comment { get; set; }
 		public List<GrantRecord> Approvals { get; set; }
 		public List<VetoRecord> Vetoes { get; set; }
@@ -236,9 +249,13 @@ namespace LeaveCore
         {
             get
             {
-                decimal Hours = TotalHours;
                 if (!BeginTime.HasValue || !UntilTime.HasValue)
-                    return string.Format("{0}h", Hours);
+                {
+                    var ds = new TimeSpan(0, TotalMinutes, 0);
+                    var str = ds.TotalHours.ToString();
+                    if (ds.Minutes > 0) str = Math.Floor(ds.TotalHours) + ds.ToString("':'mm");
+                    return (TotalMinutes < 0 ? "-" : "") + str + "h";
+                }
                 return string.Format("{0} - {1}", BeginTime.Value.ToString("HH:mm"), UntilTime.Value.ToString("HH:mm"));
             }
         }
@@ -246,15 +263,18 @@ namespace LeaveCore
         {
             get
             {
-                return string.Format("{0} ({1}h)", TotalDays.ToString("0.#####"), TotalHours.ToString("0.#####"));
+                return Tool.ConvertMinutesToString(TotalMinutes, HoursPerDay);
+                //return string.Format("{0} ({1}h)", TotalDays.ToString("0.#####"), TotalHours.ToString("0.#####"));
             }
         }
         public string DisplayTotalHours
         {
             get
             {
-                var s = Tool.ConvertHoursToString(TotalHours);
-                return s;
+                var ds = new TimeSpan(0, TotalMinutes, 0);
+                return (TotalMinutes < 0 ? "-" : "") + Math.Floor(ds.TotalHours) + ds.ToString("':'mm");
+                //var s = Tool.ConvertHoursToString(TotalHours);
+                //return s;
             }
         }
 	}

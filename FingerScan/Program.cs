@@ -131,6 +131,11 @@ namespace FingerScan
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            int m = 8000;
+            var ds = new TimeSpan(0, m, 0);
+            var str = ds.ToString("d':'hh':'mm");
+            Console.WriteLine(str);
+
             string s = "surapon" + "e02f9fa754ae2c8448ce47ca5cdc7090a5276e788e528e8f96fb99e26aad644c";
             byte[] b = System.Security.Cryptography.SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(s));
             StringBuilder sPassword = new StringBuilder();

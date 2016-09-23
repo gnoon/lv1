@@ -61,10 +61,11 @@ namespace LeaveCore
             get
             {
                 if (this._OfLeaveType == null) return 0;
-                decimal days = 0;
+                int mins = 0;
                 foreach (QuotaRecord rec in this._OfLeaveType)
-                    days += rec.Days30Amount;
-                return days;
+                    mins += rec.Days30Minutes;
+                var ds = TimeSpan.FromMinutes(mins);
+                return Convert.ToDecimal(ds.TotalDays);
             }
         }
 
@@ -166,9 +167,9 @@ namespace LeaveCore
         /// </summary>
         /// <param name="TypeNo"></param>
         /// <param name="Year"></param>
-        /// <param name="days"></param>
+        /// <param name="Minutes"></param>
         /// <returns></returns>
-        public bool IsQuotaExceeded(string TypeNo, int Year, decimal days)
+        public bool IsQuotaExceeded(string TypeNo, int Year, int Minutes)
         {
             bool isExceeded = false;
             List<QuotaRecord> list = this.OfLeaveType;
@@ -178,7 +179,10 @@ namespace LeaveCore
             {
                 if (rec.LeaveType.TypeNo.Equals(TypeNo))
                 {
-                    isExceeded = (days > rec.QuotaAmount + rec.QuotaPrevAmount - rec.TakenAmount);
+                    var RemainMinutes = (rec.QuotaAmount * Const.DEFAULT_WORKHOURS_OF_DAY * 60)
+                                      + (rec.QuotaPrevAmount * Const.DEFAULT_WORKHOURS_OF_DAY * 60)
+                                      - rec.TakenMinutes;
+                    isExceeded = (Minutes > RemainMinutes);
                     break;
                 }
             }
@@ -220,54 +224,13 @@ namespace LeaveCore
                         throw new Exception("Starting date is empty.");
 
                     #region Getting Quota
-
-                    
-                    //
-                    // Comment ออกให้เป็น Query สำรองไว้ก่อนเพราะระบบโควต้าของบริษัทไม่ซับซ้อน ไม่มีการสะสมข้ามปี เป็นแบบ Fixed
-                    // เพราะฉะนั้นก็ยังไม่จำเป็นต้องมีการเซ็ตโควต้าให้กับพนักงวานใหม่ทุกคน แต่ให้ Fixed ต่อปีไปเลย
-                    //
-                    // อนาคตหากมีการเปลี่ยนนโยบาย ค่อยมาดู Query อีกที
-                    //
-                    //string SubQueryForData =
-                    //      " SELECT     typesub.[Type No], typesub.[Reference No], "
-                    //    + "			   typesub.[Type Sub ID], period.[Period ID], typesub.[TH Name], typesub.[EN Name], lvtype.Category, "
-                    //    + "            CONVERT(DECIMAL(8,3),SUM(ISNULL(lvquota.[Current Amount], typesub.[Max Days Per Year]))) AS lvt_quota,  "
-                    //    + "            CONVERT(DECIMAL(8,3),SUM(ISNULL(lvquota.[Previous Amount], 0))) AS lvt_quotaex, "
-                    //    + "            CONVERT(DECIMAL(8,3),SUM(ISNULL(lvtk.taken_days, 0))) AS lvt_taken, "
-                    //    + "			   CONVERT(DECIMAL(8,3),SUM(ISNULL(lvtk.approve_days, 0))) AS lvt_approve, typesub.[Display Order], "
-                    //    + "            CONVERT(DECIMAL(8,3),SUM(ISNULL(lvtk.taken_days_for30, 0))) AS lvt_taken_for30 "
-                    //    + "  FROM      [LV Period] AS lvplan with(readuncommitted) INNER JOIN "
-                    //    + "            [LV Quota] AS lvquota with(readuncommitted) ON lvplan.[Period ID] = lvquota.[Period ID] "
-                    //    + "              AND lvquota.Active = 1 "
-                    //    + "              AND @curyear BETWEEN YEAR(lvplan.[Starting Date]) AND YEAR(lvplan.[Until Date]) "
-                    //    + "              AND lvquota.[Person No]=@perno RIGHT OUTER JOIN "
-                    //    + "            [LV Type] AS lvtype with(readuncommitted) ON lvquota.[Type No] = lvtype.[Type No] "
-                    //    + "              AND lvplan.Category = lvtype.Category INNER JOIN "
-                    //    + "            [LV Type Sub] AS typesub with(readuncommitted) ON lvtype.[Type No] = typesub.[Type No] INNER JOIN "
-                    //    + "            [LV Period] AS period with(readuncommitted) ON lvtype.Category = period.Category "
-                    //    + "        AND @curyear BETWEEN YEAR(period.[Starting Date]) AND YEAR(period.[Until Date]) "
-                    //    + "            LEFT OUTER JOIN "
-                    //    + "            ( "
-                    //    + "             SELECT @curyear AS taken_year,[Type Sub ID], "
-                    //    + "				 SUM([Total Days]) AS taken_days, SUM([Approve Days]) AS approve_days, "
-                    //    + "              SUM(CASE WHEN DATEADD(dd,30,[Leave Date])>=DATEADD(dd,0,DATEDIFF(dd,0,GETDATE())) THEN [Approve Days] ELSE 0 END) AS taken_days_for30 "
-                    //    + "             FROM [LV Leave] with(readuncommitted) WHERE [Person No]=@perno "
-                    //    + "              AND YEAR([Leave Date])=@curyear "
-                    //    + "              AND [Status ID] IN (" + (TakenOnly ? TAKEN_STATUSES : ACTIVE_STATUSES) + ")  "
-                    //    + "              AND NOT EXISTS(SELECT 1 FROM [LV Veto] with(readuncommitted) WHERE [Leave ID]=[LV Leave].[Leave ID] AND [Action Status]=" + Const.VETO_INTERRUPTED + ") "
-                    //    + "             GROUP BY [Type Sub ID] "
-                    //    + "            ) lvtk ON typesub.[Type Sub ID] = lvtk.[Type Sub ID] "
-                    //    + "  WHERE     (lvtype.Active = 1) AND (typesub.Active = 1) "
-                    //    + "  GROUP BY  typesub.[Type No], typesub.[Reference No], typesub.[Type Sub ID], period.[Period ID], "
-                    //    + "			   typesub.[TH Name], typesub.[EN Name], lvtype.Category, lvquota.[Person No], typesub.[Display Order] ";
-					
 					DateTime EffectiveDate = new LeaveRequestEffectiveVacationException(PersonNo, (DateTime)StartingDate, Const.QUOTA_MINMONTHS4VACATION).EffectiveDate;
 					string SubQueryForData =
                           " SELECT     typesub.[Type No], typesub.[Reference No], typesub.[Display Order], "
                         + "			   typesub.[Type Sub ID], 0 AS [Period ID], typesub.[TH Name], typesub.[EN Name], lvtype.Category, "
                         + "            SUM(typesub.[Max Days Per Year]) AS lvt_quota,  "
                         + "            0 AS lvt_quotaex, "
-                        + "            SUM(ISNULL(lvtk.takenhours, 0)) AS lvt_takenhours, "
+                        + "            SUM(ISNULL(lvtk.takenmins, 0)) AS lvt_takenmins, "
                         + "			   SUM(ISNULL(lvtk.approvemins, 0)) AS lvt_approvemins, "
                         + "            SUM(ISNULL(lvtk.approvemins_for30, 0)) AS lvt_approvemins_for30 "
                         + "  FROM      [LV Type] AS lvtype with(readuncommitted) INNER JOIN "
@@ -275,7 +238,7 @@ namespace LeaveCore
                         + "            LEFT OUTER JOIN "
                         + "            ( "
                         + "             SELECT @year AS taken_year,l.[Type Sub ID], "
-                        + "				 SUM(l.[Total Hours]) AS takenhours, SUM(l.[Approve Minutes]) AS approvemins, "
+                        + "				 SUM(l.[Total Minutes]) AS takenmins, SUM(l.[Approve Minutes]) AS approvemins, "
                         + "              SUM(CASE WHEN DATEADD(dd,30,l.[Leave Date])>=@sysdate THEN l.[Approve Minutes] ELSE 0 END) AS approvemins_for30 "
                         + "             FROM [LV Leave] l with(readuncommitted) INNER JOIN [LV Type Sub] t with(readuncommitted) ON l.[Type Sub ID]=t.[Type Sub ID] WHERE l.[Person No]=@perno "
                         + "              AND ((t.[Reference No]='" + Const.TYPE_NO_VACATION + "' AND l.[Leave Date] between @qtvcbegin and @qtvcuntil) "
@@ -291,7 +254,7 @@ namespace LeaveCore
                     cmd.CommandText =
                          "SELECT t.[Reference No] AS [Type No], "
 						+ "		 t.[Type Sub ID], t.[Period ID], t.[TH Name], t.[EN Name], "
-						+ "      t.Category, t.[Display Order], t.lvt_takenhours, t.lvt_approvemins, t.lvt_approvemins_for30, "
+                        + "      t.Category, t.[Display Order], t.lvt_takenmins, t.lvt_approvemins, t.lvt_approvemins_for30, "
                         + "      CASE  "
                         + "        WHEN @year<@stayear "
                         + "          THEN 0 "
@@ -347,8 +310,8 @@ namespace LeaveCore
                             rec.PersonNo = PersonNo;
                             i = rs.GetOrdinal("Period ID");
                             rec.PeriodID = rs.IsDBNull(i) ? 0 : Convert.ToInt32(rs.GetValue(i));
-                            i = rs.GetOrdinal("lvt_takenhours");
-							rec.TakenHours = rs.IsDBNull(i) ? 0 : Convert.ToDecimal(rs.GetValue(i));
+                            i = rs.GetOrdinal("lvt_takenmins");
+							rec.TakenMinutes = rs.IsDBNull(i) ? 0 : Convert.ToInt32(rs.GetValue(i));
 							i = rs.GetOrdinal("lvt_approvemins");
 							rec.ApproveMinutes = rs.IsDBNull(i) ? 0 : Convert.ToInt32(rs.GetValue(i));
                             i = rs.GetOrdinal("lvt_approvemins_for30");
