@@ -573,7 +573,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Total_Days.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Total_Minutes.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>Angsana New</FontFamily>
                       <FontSize>14pt</FontSize>
@@ -1175,7 +1175,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Quota_Vacation.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Quota_Vacation.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -1276,11 +1276,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Vacation.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Taken_Vacation.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
-                      <Color>=iif(Sum(Fields!Taken_Vacation.Value, "DataSet1")=0, "White", "Black")</Color>
+                      <Color>=iif(First(Fields!Taken_Vacation.Value, "DataSet1")=0, "White", "Black")</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1374,11 +1374,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Business.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Taken_Business.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
-                      <Color>=iif(Sum(Fields!Taken_Business.Value, "DataSet1")=0, "White", "Black")</Color>
+                      <Color>=iif(First(Fields!Taken_Business.Value, "DataSet1")=0, "White", "Black")</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1472,11 +1472,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Sick.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Taken_Sick.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
-                      <Color>=iif(Sum(Fields!Taken_Sick.Value, "DataSet1")=0, "White", "Black")</Color>
+                      <Color>=iif(First(Fields!Taken_Sick.Value, "DataSet1")=0, "White", "Black")</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1570,11 +1570,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Military.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Taken_Military.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
-                      <Color>=iif(Sum(Fields!Taken_Military.Value, "DataSet1")=0, "White", "Black")</Color>
+                      <Color>=iif(First(Fields!Taken_Military.Value, "DataSet1")=0, "White", "Black")</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1668,11 +1668,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Maternity.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Taken_Maternity.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
-                      <Color>=iif(Sum(Fields!Taken_Maternity.Value, "DataSet1")=0, "White", "Black")</Color>
+                      <Color>=iif(First(Fields!Taken_Maternity.Value, "DataSet1")=0, "White", "Black")</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1702,7 +1702,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>ลาประเภทอื่นๆ</Value>
+                    <Value>ลาหักเงิน</Value>
                     <Style>
                       <FontFamily>Angsana New</FontFamily>
                       <FontSize>14pt</FontSize>
@@ -1716,7 +1716,7 @@
             <Top>14.28413cm</Top>
             <Left>12.93792cm</Left>
             <Height>0.8cm</Height>
-            <Width>2.19555cm</Width>
+            <Width>1.70027cm</Width>
             <ZIndex>51</ZIndex>
             <Style>
               <Border>
@@ -1746,7 +1746,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>14.28413cm</Top>
-            <Left>16.89666cm</Left>
+            <Left>16.35917cm</Left>
             <Height>0.8cm</Height>
             <Width>0.71455cm</Width>
             <ZIndex>52</ZIndex>
@@ -1766,11 +1766,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Code.ConvertDaysToString(First(Fields!Taken_Others.Value, "DataSet1"), Parameters!QTUnlimited.Value, Sum(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
+                    <Value>=Code.ConvertMinutesToString(First(Fields!Taken_Others.Value, "DataSet1"), Parameters!QTUnlimited.Value, First(Fields!Hours_Per_Day.Value, "DataSet1"))</Value>
                     <Style>
                       <FontFamily>arial</FontFamily>
                       <FontSize>8pt</FontSize>
-                      <Color>=iif(Sum(Fields!Taken_Others.Value, "DataSet1")=0, "White", "Black")</Color>
+                      <Color>=iif(First(Fields!Taken_Others.Value, "DataSet1")=0, "White", "Black")</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1781,9 +1781,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>14.18888cm</Top>
-            <Left>15.23931cm</Left>
+            <Left>14.74402cm</Left>
             <Height>0.8cm</Height>
-            <Width>1.55152cm</Width>
+            <Width>1.43876cm</Width>
             <ZIndex>53</ZIndex>
             <Style>
               <Border />
@@ -2445,9 +2445,9 @@
           </Line>
           <Line Name="Line16">
             <Top>15.02063cm</Top>
-            <Left>15.2536cm</Left>
+            <Left>14.66722cm</Left>
             <Height>0cm</Height>
-            <Width>1.57639cm</Width>
+            <Width>1.57168cm</Width>
             <ZIndex>82</ZIndex>
             <Style>
               <Border>
@@ -3283,7 +3283,7 @@
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
-    <LeftMargin>0cm</LeftMargin>
+    <LeftMargin>1cm</LeftMargin>
     <RightMargin>0cm</RightMargin>
     <TopMargin>0cm</TopMargin>
     <BottomMargin>0cm</BottomMargin>
@@ -3311,15 +3311,38 @@
             <Value>=Parameters!RequestID.Value</Value>
             <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
-          <QueryParameter Name="@QTMonthStart">
-            <Value>=Parameters!QTMonthStart.Value</Value>
+          <QueryParameter Name="@QTMStart">
+            <Value>=Parameters!QTMStart.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@QTMVStart">
+            <Value>=Parameters!QTMVStart.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@HOURSPerDay">
+            <Value>=Parameters!HOURSPerDay.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@MinWorkMonths">
+            <Value>=Parameters!MinWorkMonths.Value</Value>
             <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>WITH leave AS (
+        <CommandText>WITH policy AS (SELECT
+	DATEADD(second, 0, DATEADD(minute, 0, DATEADD(hour, 0, DATEADD(day, 0, DATEADD(month, @QTMStart - 1,
+	DATEADD(Year, YEAR(GETDATE())-1900, 0)))))) AS QTMBeginDate,
+	DATEADD(day, -1, DATEADD(month, 13,
+	DATEADD(second, 0, DATEADD(minute, 0, DATEADD(hour, 0, DATEADD(day, 0, DATEADD(month, @QTMStart - 1,
+	DATEADD(Year, YEAR(GETDATE())-1900, 0)))))))) AS QTMUntilDate,
+	DATEADD(second, 0, DATEADD(minute, 0, DATEADD(hour, 0, DATEADD(day, 0, DATEADD(month, @QTMVStart - 1,
+	DATEADD(Year, YEAR(GETDATE())-1900, 0)))))) AS QTMVBeginDate,
+	DATEADD(day, -1, DATEADD(month, 13,
+	DATEADD(second, 0, DATEADD(minute, 0, DATEADD(hour, 0, DATEADD(day, 0, DATEADD(month, @QTMVStart - 1,
+	DATEADD(Year, YEAR(GETDATE())-1900, 0)))))))) AS QTMVUntilDate
+)
 SELECT emp.[Company Code],
 	CONVERT(VARCHAR(10),head.[Apply Date],103) AS [Apply Date],
-	(SELECT TOP 1 'คุณ'+p.[TH First Name]+'  '+p.[TH Last Name]
+	(SELECT TOP 1 'คุณ '+p.[TH First Name]+'  '+p.[TH Last Name]
 		FROM [LV Profile Grantor] g WITH(READUNCOMMITTED)
 		INNER JOIN [HR Person] p WITH(READUNCOMMITTED) ON g.[Head Person No]=p.[Person No]
 		WHERE g.[Person No]=head.[Person No]
@@ -3338,11 +3361,8 @@ SELECT emp.[Company Code],
 	emp.Section,
 	emp.[TH Position],
 	emp.[Employee No],
-	CONVERT(DECIMAL(10,5), SUM(
-		ISNULL(CASE line.[Approve Minutes] WHEN 0 THEN line.[Total Days] ELSE (line.[Approve Minutes]/60.0)
-		/(CASE line.[Hours Per Day] WHEN 0 THEN 8 ELSE line.[Hours Per Day] END) END, 0)
-	)) AS [Total Days],
-	MAX(line.[Hours Per Day]) as [Hours Per Day],
+	SUM(ISNULL(CASE line.[Approve Minutes] WHEN 0 THEN line.[Total Minutes] ELSE line.[Approve Minutes] END, 0)) AS [Total Minutes],
+	ISNULL(MAX(line.[Hours Per Day]),@HOURSPerDay) as [Hours Per Day],
 	head.[Since],
 	head.[Until],
 	typesub.[Reference No],
@@ -3359,61 +3379,59 @@ FROM [LV Request] AS head WITH(READUNCOMMITTED)
   INNER JOIN [LV Leave] AS line WITH(READUNCOMMITTED) ON head.[Request ID]=line.[Request ID]
   INNER JOIN [HR Person] AS person WITH(READUNCOMMITTED) ON head.[Person No]=person.[Person No]
   INNER JOIN [LV Type Sub] AS typesub WITH(READUNCOMMITTED) ON head.[Type Sub ID] = typesub.[Type Sub ID]
-      LEFT OUTER JOIN [HR Employee] AS emp WITH(READUNCOMMITTED) INNER JOIN (
-               SELECT [Person No], MAX([Starting Date]) AS [Starting Date] 
-               FROM [HR Employee] WITH(READUNCOMMITTED) WHERE [Person No] = ISNULL(NULL, [Person No]) 
-               GROUP BY [Person No] 
-           ) latest ON emp.[Person No]=latest.[Person No] AND emp.[Starting Date]=latest.[Starting Date] 
-       ON person.[Person No] = emp.[Person No]
+  LEFT OUTER JOIN [HR Employee] AS emp WITH(READUNCOMMITTED) INNER JOIN (
+		SELECT [Person No], MAX([Starting Date]) AS [Starting Date] 
+		FROM [HR Employee] WITH(READUNCOMMITTED)
+		GROUP BY [Person No] 
+	) latest ON emp.[Person No]=latest.[Person No] AND emp.[Starting Date]=latest.[Starting Date] 
+	ON person.[Person No] = emp.[Person No]
   INNER JOIN (
 	  SELECT
 		SUM(CASE WHEN t.[Reference No]='VACATION' THEN (CASE
 				WHEN t.Today&lt;t.[Effective Date] THEN 0
-				WHEN t.Today&gt;=t.[Effective Date] AND YEAR(t.[Effective Date])=YEAR(t.Today) THEN (CASE t.lvt_quota
-					WHEN 0 THEN 0 ELSE CEILING(t.lvt_quota-(datediff(month,
-						DATEADD(second, 0, 
-						DATEADD(minute, 0, 
-						DATEADD(hour, 0,
-						DATEADD(day, 0, 
-						DATEADD(month, @QTMonthStart - 1, 
-						DATEADD(Year, YEAR(t.Today)-1900, 0)))))),t.[Effective Date])/12.0)) END)+t.lvt_quotaex
-				ELSE t.lvt_quota+t.lvt_quotaex END)
+				WHEN t.Today&gt;=t.[Effective Date] AND YEAR(t.[Effective Date])=YEAR(t.Today) THEN (CASE t.lvt_quotamins
+					WHEN 0 THEN 0 ELSE CEILING(t.lvt_quotamins
+					-(t.lvt_quotamins*datediff(month,policy.QTMVBeginDate,t.[Effective Date])/12.0)) END)+t.lvt_quotaexmins
+				ELSE t.lvt_quotamins+t.lvt_quotaexmins END)
 			ELSE 0 END) AS Quota_Vacation,
-		SUM(CASE WHEN t.[Reference No]='VACATION' THEN t.lvt_taken ELSE 0 END) AS Taken_Vacation,
-		SUM(CASE WHEN t.[Reference No]='BUSINESS' THEN t.lvt_taken ELSE 0 END) AS Taken_Business,
-		SUM(CASE WHEN t.[Reference No]='SICK' THEN t.lvt_taken ELSE 0 END) AS Taken_Sick,
-		SUM(CASE WHEN t.[Reference No]='MILITARY' THEN t.lvt_taken ELSE 0 END) AS Taken_Military,
-		SUM(CASE WHEN t.[Reference No]='MATERNITY' THEN t.lvt_taken ELSE 0 END) AS Taken_Maternity,
-		SUM(CASE WHEN t.[Reference No] NOT IN ('VACATION','BUSINESS','SICK','MILITARY','MATERNITY') THEN t.lvt_taken ELSE 0 END) AS Taken_Others
+		SUM(CASE WHEN t.[Reference No]='VACATION' THEN t.lvt_takenmins ELSE 0 END) AS Taken_Vacation,
+		SUM(CASE WHEN t.[Reference No]='BUSINESS' THEN t.lvt_takenmins ELSE 0 END) AS Taken_Business,
+		SUM(CASE WHEN t.[Reference No]='SICK' THEN t.lvt_takenmins ELSE 0 END) AS Taken_Sick,
+		SUM(CASE WHEN t.[Reference No]='MILITARY' THEN t.lvt_takenmins ELSE 0 END) AS Taken_Military,
+		SUM(CASE WHEN t.[Reference No]='MATERNITY' THEN t.lvt_takenmins ELSE 0 END) AS Taken_Maternity,
+		SUM(CASE WHEN t.[Reference No] NOT IN ('VACATION','BUSINESS','SICK','MILITARY','MATERNITY') THEN t.lvt_takenmins ELSE 0 END) AS Taken_Others
 	FROM (
 		SELECT typesub.[Reference No], pfile.[Starting Date], pfile.[Effective Date],
 			DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE())) AS Today,
 			typesub.[Type Sub ID], 0 AS [Period ID], typesub.[TH Name],
-			CONVERT(DECIMAL(10,5),SUM(typesub.[Max Days Per Year])) AS lvt_quota,
-			CONVERT(DECIMAL(10,5),0) AS lvt_quotaex,
-			CONVERT(DECIMAL(10,5),SUM(ISNULL(lvtk.taken_days, 0))) AS lvt_taken,
-			CONVERT(DECIMAL(10,5),SUM(ISNULL(lvtk.approve_days, 0))) AS lvt_approve
-		FROM      [LV Type] AS lvtype with(readuncommitted)
+			SUM(typesub.[Max Days Per Year]*@HOURSPerDay*60) AS lvt_quotamins,
+			0 AS lvt_quotaexmins,
+			SUM(ISNULL(lvtk.taken_mins, 0)) AS lvt_takenmins,
+			SUM(ISNULL(lvtk.approve_mins, 0)) AS lvt_approvemins
+		FROM   policy INNER JOIN   [LV Type] AS lvtype with(readuncommitted) ON 1=1
 		INNER JOIN [LV Type Sub] AS typesub with(readuncommitted) ON lvtype.[Type No] = typesub.[Type No]
-		INNER JOIN (SELECT TOP 1 [Starting Date], DATEADD(YEAR,1,[Starting Date]) AS [Effective Date] FROM [HR Employee] a with(readuncommitted)
+		INNER JOIN (SELECT TOP 1 [Starting Date], DATEADD(MONTH,CAST(@MinWorkMonths AS INT),[Starting Date]) AS [Effective Date]
+			FROM [HR Employee] a with(readuncommitted)
 			WHERE EXISTS(SELECT TOP 1 1 FROM [LV Request] with(readuncommitted) WHERE [Request ID]=@RequestID AND [Person No]=a.[Person No])
 			ORDER BY [Starting Date] DESC) AS pfile ON 1=1
 		LEFT OUTER JOIN (
-			SELECT YEAR(MIN([Leave Date])) AS taken_year,[Type Sub ID],
-			SUM([Total Hours] * [Hours Per Day]) AS taken_days,
-			SUM(([Approve Minutes]/60.0)/(CASE ln.[Hours Per Day] WHEN 0 THEN 8 ELSE ln.[Hours Per Day] END)) AS approve_days
-			FROM [LV Leave] AS ln with(readuncommitted)
-				INNER JOIN (SELECT TOP 1 CAST(YEAR([Since]) AS VARCHAR(4)) AS N, [Person No]
-				FROM [LV Request] with(readuncommitted) WHERE [Request ID]=@RequestID) AS y ON ln.[Person No]=y.[Person No]
-			WHERE [Status ID] IN (12,11,17,14,103) AND [Leave Date] BETWEEN y.N+'-01-01' AND y.N+'-12-31'
+			SELECT YEAR(MIN([Leave Date])) AS taken_year,ln.[Type Sub ID],
+			SUM([Total Minutes]) AS taken_mins,
+			SUM([Approve Minutes]) AS approve_mins
+			FROM [LV Leave] AS ln with(readuncommitted) INNER JOIN policy ON 1=1
+				INNER JOIN [LV Type Sub] t with(readuncommitted) ON ln.[Type Sub ID]=t.[Type Sub ID]
+			WHERE [Status ID] IN (12,11,17,14,103) AND (
+				t.[Reference No]='VACATION' AND ln.[Leave Date] BETWEEN policy.QTMVBeginDate AND policy.QTMVUntilDate OR
+				t.[Reference No]&lt;&gt;'VACATION' AND ln.[Leave Date] BETWEEN policy.QTMBeginDate AND policy.QTMUntilDate
+			)
 			AND ln.[Request ID] &lt;&gt; @RequestID
+			AND EXISTS(SELECT TOP 1 1 FROM [LV Request] with(readuncommitted) WHERE [Request ID]=@RequestID AND ln.[Person No]=[Person No])
 			AND NOT EXISTS(SELECT 1 FROM [LV Veto] with(readuncommitted) WHERE [Leave ID]=ln.[Leave ID] AND [Action Status]=1)
-			GROUP BY [Type Sub ID]
+			GROUP BY ln.[Type Sub ID]
 		) lvtk ON typesub.[Type Sub ID] = lvtk.[Type Sub ID]
 		WHERE     (lvtype.Active = 1)
-		GROUP BY  typesub.[Reference No], pfile.[Starting Date],
-			pfile.[Effective Date], typesub.[Type Sub ID], typesub.[TH Name]
-	) t
+		GROUP BY  typesub.[Reference No], pfile.[Starting Date], pfile.[Effective Date], typesub.[Type Sub ID], typesub.[TH Name]
+	) t INNER JOIN policy ON 1=1
   ) stat ON 1=1
 WHERE head.[Request ID]=@RequestID
 GROUP BY emp.[Company Code],
@@ -3437,9 +3455,7 @@ GROUP BY emp.[Company Code],
 	stat.Taken_Military,
 	stat.Taken_Others,
 	stat.Taken_Sick,
-	stat.Taken_Vacation
-)
-SELECT * FROM leave</CommandText>
+	stat.Taken_Vacation</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -3487,9 +3503,9 @@ SELECT * FROM leave</CommandText>
           <DataField>Employee No</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Total_Days">
-          <DataField>Total Days</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Total_Minutes">
+          <DataField>Total Minutes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Hours_Per_Day">
           <DataField>Hours Per Day</DataField>
@@ -3521,27 +3537,27 @@ SELECT * FROM leave</CommandText>
         </Field>
         <Field Name="Taken_Business">
           <DataField>Taken_Business</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Taken_Maternity">
           <DataField>Taken_Maternity</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Taken_Military">
           <DataField>Taken_Military</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Taken_Others">
           <DataField>Taken_Others</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Taken_Sick">
           <DataField>Taken_Sick</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Taken_Vacation">
           <DataField>Taken_Vacation</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -3557,7 +3573,7 @@ SELECT * FROM leave</CommandText>
       <Prompt>เลขที่ใบลา</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
-    <ReportParameter Name="QTMonthStart">
+    <ReportParameter Name="QTMStart">
       <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
@@ -3565,6 +3581,15 @@ SELECT * FROM leave</CommandText>
         </Values>
       </DefaultValue>
       <Prompt>QuotaMonthStart</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="QTMVStart">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Quota Month Start of Vacation</Prompt>
     </ReportParameter>
     <ReportParameter Name="QTUnlimited">
       <DataType>Integer</DataType>
@@ -3575,24 +3600,44 @@ SELECT * FROM leave</CommandText>
       </DefaultValue>
       <Prompt>Quota Unlimited</Prompt>
     </ReportParameter>
+    <ReportParameter Name="HOURSPerDay">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>8</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>HOURSPerDay</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="MinWorkMonths">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>MinWorkMonths</Prompt>
+    </ReportParameter>
   </ReportParameters>
-  <Code>Public Function ConvertDaysToString(ByVal Days As Double, ByVal QUOTA_UNLIMITED As Integer, ByVal HOURSPERDAY As Double) As String
-  If (Days=0 Or Days = QUOTA_UNLIMITED) Then Return "-"
+  <Code>Public Function ConvertMinutesToString(ByVal minutes As Integer, ByVal QUOTA_UNLIMITED As Integer, ByVal HOURSPERDAY As Double) As String
+  If (Minutes=0 Or Minutes = QUOTA_UNLIMITED) Then Return "-"
 
   Dim ahmins As Integer = 60
   Dim admins As Double = ahmins * HOURSPERDAY
-  Dim tomins As Double = Days * admins
-  Dim d As Integer = Floor(Days)
+  Dim tomins As Double = Abs(minutes)
+  Dim f As Integer = 1
+  If minutes &lt; 0 Then f = -1
+  Dim d As Integer = Floor(Abs(minutes / admins))
   Dim h As Integer = Floor((tomins Mod admins) / ahmins)
   Dim m As Integer = Floor((tomins Mod admins) Mod ahmins)
 
-  Dim s As String = CStr(d)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
+  Dim s As String = CStr(d*f)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
   If m=0 Then
-    s = CStr(d)+":"+Right("0"+CStr(h),2)
-  ElseIf h=0 Then
-    s = CStr(d)
+    s = CStr(d*f)+":"+Right("0"+CStr(h),2)
+  ElseIf h=0 And m=0 Then
+    s = CStr(d*f)
   Else
-    s = CStr(d)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
+    s = CStr(d*f)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
   End If
   Return s
 End Function</Code>
