@@ -6,22 +6,19 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.72917in</Width>
+              <Width>2in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.73958in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1in</Width>
+              <Width>0.60392in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.89583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.53125in</Width>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.98425in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.79167in</Width>
@@ -30,83 +27,13 @@
               <Width>0.6875in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.625in</Width>
+              <Width>1.94234in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.22in</Height>
+              <Height>0.3in</Height>
               <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox2">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>รหัสพนง.</Value>
-                              <Style>
-                                <FontFamily>Verdana</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox2</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox3">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>คำนำหน้า</Value>
-                              <Style>
-                                <FontFamily>Verdana</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox3</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="textbox4">
@@ -116,11 +43,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ชื่อ</Value>
+                              <Value>ชื่อ - สกุล</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -133,7 +60,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -144,31 +71,33 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox5">
+                    <Textbox Name="Textbox16">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>สกุล</Value>
+                              <Value>#</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <rd:DefaultName>Textbox16</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -188,13 +117,15 @@
                             <TextRun>
                               <Value>วันที่ลา</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>textbox6</rd:DefaultName>
@@ -203,7 +134,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -214,18 +145,18 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox7">
+                    <Textbox Name="Textbox2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ชั่วโมง</Value>
+                              <Value>วัน:ชั่วโมง:นาที</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -234,15 +165,52 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>คิดเป็นนาที</Value>
+                              <Style>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>5pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
@@ -260,13 +228,15 @@
                             <TextRun>
                               <Value>ประเภทลา</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>textbox8</rd:DefaultName>
@@ -275,7 +245,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -295,13 +265,15 @@
                             <TextRun>
                               <Value>สถานะ</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>textbox9</rd:DefaultName>
@@ -310,7 +282,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -330,9 +302,9 @@
                             <TextRun>
                               <Value>เหตุผล</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -345,7 +317,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>#4e0000</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -357,74 +329,8 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21in</Height>
+              <Height>0.3in</Height>
               <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Employee_No">
-                      <CanGrow>true</CanGrow>
-                      <HideDuplicates>DataSet1</HideDuplicates>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Employee_No.Value</Value>
-                              <Style>
-                                <FontFamily>Verdana</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Employee_No</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="TH_Prefix">
-                      <CanGrow>true</CanGrow>
-                      <HideDuplicates>DataSet1</HideDuplicates>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!TH_Prefix.Value</Value>
-                              <Style>
-                                <FontFamily>Verdana</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>TH_Prefix</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="TH_First_Name">
@@ -435,9 +341,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TH_First_Name.Value</Value>
+                              <Value>=Fields!TH_First_Name.Value + " " + Fields!TH_Last_Name.Value</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -460,24 +367,27 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TH_Last_Name">
+                    <Textbox Name="Textbox17">
                       <CanGrow>true</CanGrow>
-                      <HideDuplicates>DataSet1</HideDuplicates>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TH_Last_Name.Value</Value>
+                              <Value>=RowNumber("Employee_No")</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                                <Format>0</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TH_Last_Name</rd:DefaultName>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -502,12 +412,15 @@
                             <TextRun>
                               <Value>=Fields!Leave_Date.Value</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                                 <Format>dd/MM/yyyy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Leave_Date</rd:DefaultName>
@@ -526,24 +439,26 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Total_Hours">
+                    <Textbox Name="Textbox11">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Total_Hours.Value=0,0,Fields!Total_Hours.Value)</Value>
+                              <Value>=Code.ConvertMinutesToString(Fields!Total_Minutes.Value, Parameters!QTUnlimited.Value, Fields!Hours_Per_Day.Value)</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
-                                <Format>n2</Format>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Total_Hours</rd:DefaultName>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -551,6 +466,42 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Total_Minutes">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Total_Minutes.Value</Value>
+                              <Style>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                                <Format>#,0;(#,0)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Total_Minutes</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>5pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
@@ -568,11 +519,14 @@
                             <TextRun>
                               <Value>=Fields!Leave_Type.Value</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Leave_Type</rd:DefaultName>
@@ -600,11 +554,14 @@
                             <TextRun>
                               <Value>=Fields!Status.Value</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Status</rd:DefaultName>
@@ -632,7 +589,8 @@
                             <TextRun>
                               <Value>=Fields!Reason.Value</Value>
                               <Style>
-                                <FontFamily>Verdana</FontFamily>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -655,11 +613,166 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
+            <TablixRow>
+              <Height>0.3in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox31">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>รวม</Value>
+                              <Style>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox31</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox41">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.ConvertMinutesToString(Sum(Fields!Total_Minutes.Value), Parameters!QTUnlimited.Value, Fields!Hours_Per_Day.Value)</Value>
+                              <Style>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox35">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Total_Minutes.Value)</Value>
+                              <Style>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                                <Format>#,0;(#,0)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox35</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>5pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox36">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Browallia New</FontFamily>
+                                <FontSize>14pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox36</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
-            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -674,7 +787,7 @@
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>1.61967in</Size>
+                <Size>1in</Size>
                 <CellContents>
                   <Textbox Name="Textbox25">
                     <CanGrow>true</CanGrow>
@@ -685,9 +798,9 @@
                           <TextRun>
                             <Value>บริษัท</Value>
                             <Style>
-                              <FontFamily>Verdana</FontFamily>
+                              <FontFamily>Browallia New</FontFamily>
+                              <FontSize>14pt</FontSize>
                               <FontWeight>Bold</FontWeight>
-                              <Color>White</Color>
                             </Style>
                           </TextRun>
                         </TextRuns>
@@ -700,7 +813,7 @@
                         <Color>LightGrey</Color>
                         <Style>Solid</Style>
                       </Border>
-                      <BackgroundColor>#4e0000</BackgroundColor>
+                      <BackgroundColor>LightGrey</BackgroundColor>
                       <PaddingLeft>2pt</PaddingLeft>
                       <PaddingRight>2pt</PaddingRight>
                       <PaddingTop>2pt</PaddingTop>
@@ -712,7 +825,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.98425in</Size>
+                    <Size>1in</Size>
                     <CellContents>
                       <Textbox Name="Textbox13">
                         <CanGrow>true</CanGrow>
@@ -723,9 +836,9 @@
                               <TextRun>
                                 <Value>แผนก</Value>
                                 <Style>
-                                  <FontFamily>Verdana</FontFamily>
+                                  <FontFamily>Browallia New</FontFamily>
+                                  <FontSize>14pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
-                                  <Color>White</Color>
                                 </Style>
                               </TextRun>
                             </TextRuns>
@@ -738,7 +851,7 @@
                             <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
-                          <BackgroundColor>#4e0000</BackgroundColor>
+                          <BackgroundColor>LightGrey</BackgroundColor>
                           <PaddingLeft>2pt</PaddingLeft>
                           <PaddingRight>2pt</PaddingRight>
                           <PaddingTop>2pt</PaddingTop>
@@ -754,6 +867,8 @@
                   </TablixMembers>
                 </TablixMember>
               </TablixMembers>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
             <TablixMember>
               <Group Name="Company_Code">
@@ -767,7 +882,7 @@
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>1.61967in</Size>
+                <Size>1in</Size>
                 <CellContents>
                   <Textbox Name="Company_Code">
                     <CanGrow>true</CanGrow>
@@ -778,7 +893,8 @@
                           <TextRun>
                             <Value>=Fields!Company_Code.Value</Value>
                             <Style>
-                              <FontFamily>Verdana</FontFamily>
+                              <FontFamily>Browallia New</FontFamily>
+                              <FontSize>14pt</FontSize>
                             </Style>
                           </TextRun>
                         </TextRuns>
@@ -812,7 +928,7 @@
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>0.98425in</Size>
+                    <Size>1in</Size>
                     <CellContents>
                       <Textbox Name="Department">
                         <CanGrow>true</CanGrow>
@@ -823,7 +939,8 @@
                               <TextRun>
                                 <Value>=Fields!Department.Value</Value>
                                 <Style>
-                                  <FontFamily>Verdana</FontFamily>
+                                  <FontFamily>Browallia New</FontFamily>
+                                  <FontSize>14pt</FontSize>
                                 </Style>
                               </TextRun>
                             </TextRuns>
@@ -846,7 +963,7 @@
                   </TablixHeader>
                   <TablixMembers>
                     <TablixMember>
-                      <Group Name="table1_Employee_No">
+                      <Group Name="Employee_No">
                         <GroupExpressions>
                           <GroupExpression>=Fields!Employee_No.Value</GroupExpression>
                         </GroupExpressions>
@@ -858,57 +975,18 @@
                       </SortExpressions>
                       <TablixMembers>
                         <TablixMember>
-                          <Group Name="table1_TH_Prefix">
-                            <GroupExpressions>
-                              <GroupExpression>=Fields!TH_Prefix.Value</GroupExpression>
-                            </GroupExpressions>
+                          <Group Name="table1_Details_Group">
+                            <DataElementName>Detail</DataElementName>
                           </Group>
-                          <SortExpressions>
-                            <SortExpression>
-                              <Value>=Fields!TH_Prefix.Value</Value>
-                            </SortExpression>
-                          </SortExpressions>
                           <TablixMembers>
-                            <TablixMember>
-                              <Group Name="table1_TH_First_Name">
-                                <GroupExpressions>
-                                  <GroupExpression>=Fields!TH_First_Name.Value</GroupExpression>
-                                </GroupExpressions>
-                              </Group>
-                              <SortExpressions>
-                                <SortExpression>
-                                  <Value>=Fields!TH_First_Name.Value</Value>
-                                </SortExpression>
-                              </SortExpressions>
-                              <TablixMembers>
-                                <TablixMember>
-                                  <Group Name="table1_TH_Last_Name">
-                                    <GroupExpressions>
-                                      <GroupExpression>=Fields!TH_Last_Name.Value</GroupExpression>
-                                    </GroupExpressions>
-                                  </Group>
-                                  <SortExpressions>
-                                    <SortExpression>
-                                      <Value>=Fields!TH_Last_Name.Value</Value>
-                                    </SortExpression>
-                                  </SortExpressions>
-                                  <TablixMembers>
-                                    <TablixMember>
-                                      <Group Name="table1_Details_Group">
-                                        <DataElementName>Detail</DataElementName>
-                                      </Group>
-                                      <TablixMembers>
-                                        <TablixMember />
-                                      </TablixMembers>
-                                      <DataElementName>Detail_Collection</DataElementName>
-                                      <DataElementOutput>Output</DataElementOutput>
-                                      <KeepTogether>true</KeepTogether>
-                                    </TablixMember>
-                                  </TablixMembers>
-                                </TablixMember>
-                              </TablixMembers>
-                            </TablixMember>
+                            <TablixMember />
                           </TablixMembers>
+                          <DataElementName>Detail_Collection</DataElementName>
+                          <DataElementOutput>Output</DataElementOutput>
+                          <KeepTogether>true</KeepTogether>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>Before</KeepWithGroup>
                         </TablixMember>
                       </TablixMembers>
                     </TablixMember>
@@ -920,161 +998,227 @@
         </TablixRowHierarchy>
         <FixedRowHeaders>true</FixedRowHeaders>
         <DataSetName>DataSet1</DataSetName>
-        <Top>1.05in</Top>
-        <Height>0.43in</Height>
-        <Width>11.60392in</Width>
-        <Style />
-      </Tablix>
-      <Textbox Name="textbox1">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Export ใบลาในช่วงวันที่ </Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>16pt</FontSize>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=DateAdd("d",0,Parameters!StartDate.Value)</Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>16pt</FontSize>
-                  <Format>dd/MM/yyyy</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value> ถึง </Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>16pt</FontSize>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=DateAdd("d",0,Parameters!EndDate.Value)</Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>16pt</FontSize>
-                  <Format>dd/MM/yyyy</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>ณ วันที่ </Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=Globals!ExecutionTime</Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>เงื่อนไข</Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>สถานะ = </Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>="[" + Join(Parameters!Status.Value, "], [") + "]"</Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>บริษัท = </Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>="[" + Join(Parameters!Company.Value, "], [") + "]"</Value>
-                <Style>
-                  <FontFamily>Verdana</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <Format>dd/MM/yyyy HH:mm</Format>
-                  <Color>DarkRed</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>textbox1</rd:DefaultName>
-        <Height>1.03611in</Height>
-        <Width>10.61967in</Width>
-        <ZIndex>1</ZIndex>
+        <Top>0cm</Top>
+        <Height>0.9in</Height>
+        <Width>10.90551in</Width>
         <Style>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Browallia New</FontFamily>
         </Style>
-      </Textbox>
+      </Tablix>
     </ReportItems>
-    <Height>4.3592cm</Height>
+    <Height>2.286cm</Height>
     <Style />
   </Body>
-  <Width>29.47396cm</Width>
+  <Width>27.7cm</Width>
   <Page>
-    <PageHeight>29.7cm</PageHeight>
-    <PageWidth>21cm</PageWidth>
-    <LeftMargin>2.54cm</LeftMargin>
-    <RightMargin>2.54cm</RightMargin>
-    <TopMargin>2.54cm</TopMargin>
-    <BottomMargin>2.54cm</BottomMargin>
+    <PageHeader>
+      <Height>1.1in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Export ใบลาในช่วงวันที่ </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>20pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=DateAdd("d",0,Parameters!StartDate.Value)</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>20pt</FontSize>
+                    <Format>dd/MM/yyyy</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> ถึง </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>20pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=DateAdd("d",0,Parameters!EndDate.Value)</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>20pt</FontSize>
+                    <Format>dd/MM/yyyy</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>เงื่อนไขกรองข้อมูล</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>14pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>บริษัท = </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>14pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>="[" + Join(Parameters!Company.Value, "], [") + "]"</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>14pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>สถานะ = </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>14pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Code.JoinWithStatusName(Join(Parameters!Status.Value,","), LookupSet(1,1,CStr(Fields!Status_ID.Value)+"|"+Fields!TH_Name.Value,"DSLeaveStatus"))</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>14pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox1</rd:DefaultName>
+          <Height>1.1in</Height>
+          <Width>8.96317in</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox15">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ExecutionTime</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>13pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Page </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>13pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>13pt</FontSize>
+                    <Format>0</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> / </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>13pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Globals!TotalPages</Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>13pt</FontSize>
+                    <Format>0</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value xml:space="preserve"> </Value>
+                  <Style>
+                    <FontFamily>Browallia New</FontFamily>
+                    <FontSize>13pt</FontSize>
+                    <Format>dd/MM/yyyy HH:mm</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox15</rd:DefaultName>
+          <Top>0cm</Top>
+          <Left>22.76646cm</Left>
+          <Height>2.794cm</Height>
+          <Width>4.93354cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <PageHeight>21cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
+    <InteractiveHeight>19cm</InteractiveHeight>
+    <InteractiveWidth>27.7cm</InteractiveWidth>
+    <LeftMargin>1cm</LeftMargin>
+    <RightMargin>1cm</RightMargin>
+    <TopMargin>1cm</TopMargin>
+    <BottomMargin>1cm</BottomMargin>
     <ColumnSpacing>1.27cm</ColumnSpacing>
     <Style />
   </Page>
@@ -1083,7 +1227,7 @@
     <DataSource Name="LEAVE">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=(local);Initial Catalog=LEAVE</ConnectString>
+        <ConnectString>Data Source=(local);Initial Catalog=PROJEQTOR-LEAVE</ConnectString>
         <IntegratedSecurity>true</IntegratedSecurity>
       </ConnectionProperties>
       <rd:SecurityType>Integrated</rd:SecurityType>
@@ -1111,6 +1255,10 @@
             <Value>=Parameters!EndDate.Value</Value>
             <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
+          <QueryParameter Name="@Type">
+            <Value>=Parameters!Type.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>select emp.[Company Code]
 ,emp.[Department]
@@ -1119,17 +1267,18 @@
 ,per.[TH First Name]
 ,per.[TH Last Name]
 ,lin.[Leave Date]
-,sum(lin.[Total Hours]) as [Total Hours]
+,sum(lin.[Total Minutes]) as [Total Minutes]
+,max(lin.[Hours Per Day]) as [Hours Per Day]
 ,typ.[TH Name] as [Leave Type]
 ,sts.[TH Name] as [Status]
 ,lin.Comment as Reason
 from (
-	select a.[Leave ID],a.Comment,a.[Leave Date],a.[Type Sub ID],a.[Person No],a.[Total Hours]
+	select a.[Leave ID],a.Comment,a.[Leave Date],a.[Type Sub ID],a.[Person No],a.[Total Minutes],a.[Hours Per Day]
 	,case when v.[Leave ID] is null then a.[Status ID] else 20 end as [Status ID]
 	from [LV Leave] a with(readuncommitted)
 	left outer join [LV Veto] v with(readuncommitted) on a.[Leave ID]=v.[Leave ID]
 		and v.[Action Status]=2
-	where a.[Leave Date] between @StartDate and @EndDate
+	where a.[Leave Date] between @StartDate and @EndDate and a.[Type Sub ID] in (@Type)
 ) lin
 inner join [LV Status] sts with(readuncommitted) on lin.[Status ID]=sts.[Status ID]
 inner join [LV Type Sub] typ with(readuncommitted) on lin.[Type Sub ID]=typ.[Type Sub ID]
@@ -1162,16 +1311,16 @@ order by emp.[Company Code]
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
-        <Field Name="Employee_No">
-          <DataField>Employee No</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Company_Code">
           <DataField>Company Code</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Department">
           <DataField>Department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Employee_No">
+          <DataField>Employee No</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TH_Prefix">
@@ -1190,13 +1339,17 @@ order by emp.[Company Code]
           <DataField>Leave Date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Total_Hours">
-          <DataField>Total Hours</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Total_Minutes">
+          <DataField>Total Minutes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Leave_Type">
           <DataField>Leave Type</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Hours_Per_Day">
+          <DataField>Hours Per Day</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Status">
           <DataField>Status</DataField>
@@ -1273,6 +1426,22 @@ order by [Company Code]</CommandText>
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="DSLeaveType">
+      <Query>
+        <DataSourceName>LEAVE</DataSourceName>
+        <CommandText>select [Type Sub ID],[TH Name] from [LV Type Sub] where Active=1 order by [Type Sub ID]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Type_Sub_ID">
+          <DataField>Type Sub ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TH_Name">
+          <DataField>TH Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportParameters>
     <ReportParameter Name="Company">
@@ -1332,7 +1501,84 @@ order by [Company Code]</CommandText>
       </DefaultValue>
       <Prompt>กรองวันลา ถึง</Prompt>
     </ReportParameter>
+    <ReportParameter Name="QTUnlimited">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>366</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>QTUnlimited</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Type">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DSLeaveType</DataSetName>
+          <ValueField>Type_Sub_ID</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>ประเภทการลา</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DSLeaveType</DataSetName>
+          <ValueField>Type_Sub_ID</ValueField>
+          <LabelField>TH_Name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
   </ReportParameters>
+  <Code>Public Function ConvertMinutesToString(ByVal minutes As Integer, ByVal QUOTA_UNLIMITED As Integer, ByVal HOURSPERDAY As Double) As String
+  If (Minutes=0 Or Minutes = QUOTA_UNLIMITED) Then Return "-"
+
+  Dim ahmins As Integer = 60
+  Dim admins As Double = ahmins * HOURSPERDAY
+  Dim tomins As Double = Abs(minutes)
+  Dim f As Integer = 1
+  If minutes &lt; 0 Then f = -1
+  Dim d As Integer = Floor(Abs(minutes / admins))
+  Dim h As Integer = Floor((tomins Mod admins) / ahmins)
+  Dim m As Integer = Floor((tomins Mod admins) Mod ahmins)
+
+  Dim s As String = CStr(d*f)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
+'  If m=0 Then
+'    s = CStr(d*f)+":"+Right("0"+CStr(h),2)
+'  ElseIf h=0 And m=0 Then
+'    s = CStr(d*f)
+'  Else
+'    s = CStr(d*f)+":"+Right("0"+CStr(h),2)+":"+Right("0"+CStr(m),2)
+'  End If
+  Return s
+End Function
+
+Public Function JoinWithStatusName(ByVal statuses As String, ByVal dsStatuses As Object()) As String
+  Dim i As Integer
+  Dim statusID As String
+  Dim statusName As String
+  Dim arrIn() As String = Split(statuses, ",")
+  Dim l As Integer = arrIn.Length
+  Dim arrOut() As String
+  Dim arrStr(2) As String
+  For i = 0 To arrIn.Length - 1
+    statusID = arrIn(i)
+    statusName = ""
+    If Not dsStatuses Is Nothing Then
+      For Each txt As Object In dsStatuses
+        arrStr = Split(CStr(txt),"|")
+        If statusID = arrStr(LBound(arrStr)) Then
+          statusName = arrStr(UBound(arrStr))
+          Exit For
+        End If
+      Next
+    End If
+    ReDim Preserve arrOut(i)
+    arrOut(i) = CStr(statusID) + " - " + CStr(statusName)
+  Next
+  Dim s As String = "[" + Join(arrOut, "], [") + "]"
+  Return s
+End Function</Code>
   <Language>en-US</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
