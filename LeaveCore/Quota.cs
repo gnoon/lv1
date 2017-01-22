@@ -29,10 +29,16 @@ namespace LeaveCore
 
         void _ComputeDates()
         {
-            _QuotaBegin = _ComputeQuotaBeginDate(_Year, _MonthStart);
+            if (DateTime.Now.Month >= _MonthStart)
+                _QuotaBegin = _ComputeQuotaBeginDate(_Year, _MonthStart);
+            else
+                _QuotaBegin = _ComputeQuotaBeginDate(_Year - 1, _MonthStart);
             _QuotaUntil = _QuotaBegin.AddMonths(12).AddDays(-1);
 
-            _QuotaVacationBegin = _ComputeQuotaBeginDate(_Year, _MonthVacationStart);
+            if (DateTime.Now.Month >= _MonthVacationStart)
+                _QuotaVacationBegin = _ComputeQuotaBeginDate(_Year, _MonthVacationStart);
+            else
+                _QuotaVacationBegin = _ComputeQuotaBeginDate(_Year - 1, _MonthVacationStart);
             _QuotaVacationUntil = _QuotaVacationBegin.AddMonths(12).AddDays(-1);
         }
 
