@@ -250,7 +250,7 @@ namespace Leave.Controllers
 							}
 						},
 						#endregion
-						#region 4. ออกรายงาน (HR)
+						#region 4. ออกรายงาน (HR, ASST HR)
 						new ItemRecord()
 						{
 							NameTH = "ออกรายงาน",
@@ -259,6 +259,7 @@ namespace Leave.Controllers
 							Roles = new List<RoleRecord>()
 							{
 								new RoleRecord { NameTH = Const.ROLE_HR },
+								new RoleRecord { NameTH = Const.ROLE_ASSTHR },
 								new RoleRecord { NameTH = Const.ROLE_IMPERSONATE }
 							},
 							ExcludeRoles = new List<RoleRecord>(),
