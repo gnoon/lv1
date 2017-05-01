@@ -452,5 +452,25 @@ namespace LeaveCore.Email.Services
             }
             return m;
         }
+
+        public void SendTestEmail(string to, string cc, string bcc, string from, string host, int port, string user, string password, bool enableSsl)
+        {
+            var message = BuildMessage(to, cc, bcc, "ทดสอบส่งเมลล์จากระบบลาออนไลน์", "ส่งเมลล์สำเร็จ");
+            using (var client = new SmtpClient())
+            {
+                if (!string.IsNullOrEmpty(from))
+                {
+                    client.UseDefaultCredentials = false;
+                    message.From = new MailAddress(from);
+                    client.Host = host;
+                    client.Port = port;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.Credentials = new NetworkCredential(user, password);
+                    client.EnableSsl = enableSsl;
+                }
+
+                client.Send(message);
+            }
+        }
     }
 }

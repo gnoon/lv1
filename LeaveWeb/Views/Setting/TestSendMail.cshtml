@@ -1,0 +1,141 @@
+﻿@section StylesContents {
+	<style type="text/css">
+	    input { width:300px; }
+	</style>
+}
+@section ScriptsContents {
+	@{
+		var ContentsRequired = new ViewDataDictionary
+		{
+				{"jquery.ui.menu",true},
+				{"jquery.alphanum",true},
+				{"jquery.ui.autocomplete",true}
+		};
+		Html.RenderPartial("~/Views/Shared/_Core.cshtml", ContentsRequired);
+	}
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	        $("#tabs").tabs({active:@ViewBag.tabIndex});
+	    });
+	    function checkForm(form) {
+            var to = $(form).find('input[name="to"]');
+            if (to.val() == '') {
+                to.focus();
+                alert('ระบุข้อมูลให้ครบก่อน');
+	            return false;
+	        }
+	        return true;
+	    }
+	</script>
+	@{Html.RenderPartial("~/Views/Shared/_Scripts.cshtml");}
+}
+<div class="m-ui-tabs">
+  <div id="tabs" role="adjust-height">
+	  <ul>
+		  <li><a href="#tabs-1"><span>ส่งเมลล์ตามที่ Setup ไว้</span></a></li>
+		  <li><a href="#tabs-2"><span>ส่งเมลล์แบบ Custom</span></a></li>
+	  </ul>
+    <div id="tabs-1">
+        <form method="post" action="@Url.Content("~/Setting/TestSendMail")" onsubmit="return checkForm(this)">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:200px;">From</td>
+                    <td><input type="text" name="from" value="@ViewBag.smtpfrom" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td>To<font color="red">*</font></td>
+                    <td><input type="text" name="to" value="@Request["to"]" /></td>
+                </tr>
+                <tr>
+                    <td>Cc</td>
+                    <td><input type="text" name="cc" value="@Request["cc"]" /></td>
+                </tr>
+                <tr>
+                    <td>Bcc</td>
+                    <td><input type="text" name="bcc" value="@Request["bcc"]" /></td>
+                </tr>
+                <tr>
+                    <td>Host</td>
+                    <td><input type="text" name="host" value="@ViewBag.smtphost" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td>Port</td>
+                    <td><input type="text" name="port" value="@ViewBag.smtpport" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td>SSL</td>
+                    <td><input type="checkbox" name="enableSsl" value="1" @("1".Equals(ViewBag.smtpssl) ? "checked='checked'" : "") disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td>SMTP User</td>
+                    <td><input type="text" name="user" value="@ViewBag.smtpusername" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td>SMTP Password</td>
+                    <td><input type="password" name="pass" value="@ViewBag.smtppassword" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Send Test E-Mail"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <pre style="color:Red;">@ViewBag.error1</pre>
+                        <pre style="color:Green;">@ViewBag.success1</pre>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="tabs-2">
+        <form method="post" action="@Url.Content("~/Setting/TestSendMail")" onsubmit="return checkForm(this)">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:200px;">From</td>
+                    <td><input type="text" name="from" value="@ViewBag.smtpfrom" /></td>
+                </tr>
+                <tr>
+                    <td>To<font color="red">*</font></td>
+                    <td><input type="text" name="to" value="@Request["to"]" /></td>
+                </tr>
+                <tr>
+                    <td>Cc</td>
+                    <td><input type="text" name="cc" value="@Request["cc"]" /></td>
+                </tr>
+                <tr>
+                    <td>Bcc</td>
+                    <td><input type="text" name="bcc" value="@Request["bcc"]" /></td>
+                </tr>
+                <tr>
+                    <td>Host</td>
+                    <td><input type="text" name="host" value="@ViewBag.smtphost" /></td>
+                </tr>
+                <tr>
+                    <td>Port</td>
+                    <td><input type="text" name="port" value="@ViewBag.smtpport" /></td>
+                </tr>
+                <tr>
+                    <td>SSL</td>
+                    <td><input type="checkbox" name="enableSsl" value="1" @("1".Equals(ViewBag.smtpssl) ? "checked='checked'" : "") /></td>
+                </tr>
+                <tr>
+                    <td>SMTP User</td>
+                    <td><input type="text" name="user" value="@ViewBag.smtpusername" /></td>
+                </tr>
+                <tr>
+                    <td>SMTP Password</td>
+                    <td><input type="password" name="pass" value="@ViewBag.smtppassword" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Send Test E-Mail"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <pre style="color:Red;">@ViewBag.error2</pre>
+                        <pre style="color:Green;">@ViewBag.success2</pre>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </div>
+</div>

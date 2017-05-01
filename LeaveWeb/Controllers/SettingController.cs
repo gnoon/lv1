@@ -9,6 +9,7 @@ using LeaveCore;
 using Leave.Models;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
+using LeaveCore.Email.Services;
 
 namespace Leave.Controllers
 {
@@ -1452,6 +1453,95 @@ namespace Leave.Controllers
 		}
 		
 		#endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="cc"></param>
+        /// <param name="bcc"></param>
+        /// <param name="from"></param>
+        /// <param name="host"></param>
+        /// <param name="port"></param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <param name="enableSsl"></param>
+        /// <returns></returns>
+        public ActionResult TestSendMail(string to, string cc, string bcc, string from, string host, string port, string user, string pass, string enableSsl)
+        {
+            var encoding = System.Text.Encoding.GetEncoding(874);
+            if ("POST".Equals(Request.HttpMethod, StringComparison.InvariantCultureIgnoreCase))
+            {
+                string error = "";
+                string success = "";
+                try
+                {
+                    int iport = 0;
+                    int.TryParse(port, out iport);
+                    var mailSender = new EmailService(User);
+                    mailSender.SendTestEmail(to, cc, bcc, from, host, iport, user, pass, "1".Equals(enableSsl));
+                    success = Convert.ToBase64String(encoding.GetBytes("ส่งเมลล์ไปที่ " + to + " แล้ว"));
+                }
+                catch (Exception e)
+                {
+                    var s = e.ToString();
+                    s = s.Length > 400 ? s.Substring(0, 400) : s;
+                    error = Convert.ToBase64String(encoding.GetBytes(s));
+                }
+                return RedirectToAction("TestSendMail", new
+                {
+                    to = to,
+                    cc = cc,
+                    bcc = bcc,
+                    from = from,
+                    host = host,
+                    port = port,
+                    user = user,
+                    pass = pass,
+                    enableSsl = enableSsl,
+                    error = error,
+                    success = success
+                });
+            }
+
+            var smtp = new System.Net.Mail.SmtpClient();
+            ViewBag.smtphost = host ?? smtp.Host;
+            ViewBag.smtpssl = string.IsNullOrEmpty(from) ? (smtp.EnableSsl ? "1" : "") : enableSsl;
+            ViewBag.smtpport = port ?? smtp.Port.ToString();
+
+            var messageSettings = new System.Net.Mail.MailMessage();
+            ViewBag.smtpfrom = from ?? messageSettings.From.Address;
+
+            if (smtp.Credentials != null && smtp.Credentials is System.Net.NetworkCredential)
+            {
+                var credential = (System.Net.NetworkCredential)smtp.Credentials;
+                ViewBag.smtpusername = user ?? credential.UserName;
+                ViewBag.smtppassword = pass ?? credential.Password;
+            }
+
+            if (Request["error"] != null)
+            {
+                if (string.IsNullOrEmpty(from))
+                    ViewBag.error1 = encoding.GetString(Convert.FromBase64String(Request["error"]));
+                else
+                    ViewBag.error2 = encoding.GetString(Convert.FromBase64String(Request["error"]));
+            }
+            if (Request["success"] != null)
+            {
+                if (string.IsNullOrEmpty(from))
+                    ViewBag.success1 = encoding.GetString(Convert.FromBase64String(Request["success"]));
+                else
+                    ViewBag.success2 = encoding.GetString(Convert.FromBase64String(Request["success"]));
+            }
+
+
+            if (string.IsNullOrEmpty(from))
+                ViewBag.tabIndex = 0;
+            else
+                ViewBag.tabIndex = 1;
+
+            return View("TestSendMail");
+        }
 
 	}
 }

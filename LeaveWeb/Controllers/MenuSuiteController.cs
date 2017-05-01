@@ -324,7 +324,31 @@ namespace Leave.Controllers
 									Url = Url.Content("~/Content/User Manual.pdf")
 								}*/
 							}
-						}
+						},
+						#endregion
+						#region 6. Test E-Mail (HR, ASST HR)
+						new ItemRecord()
+						{
+							NameTH = "ทดสอบ SMTP",
+							Sorting = 6,
+							Active = 1,
+							Roles = new List<RoleRecord>()
+							{
+								new RoleRecord { NameTH = Const.ROLE_HR },
+								new RoleRecord { NameTH = Const.ROLE_ASSTHR }
+							},
+							ExcludeRoles = new List<RoleRecord>(),
+							ItemsSub = new List<ItemSubRecord>()
+							{
+								new ItemSubRecord()
+								{
+									NameTH = "ทดสอบส่งเมลล์",
+									Sorting = 1,
+									Active = 1,
+									Url = Url.Content("~/Setting/TestSendMail")
+								}
+							}
+						},
 						#endregion
 					}
 					#endregion

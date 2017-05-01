@@ -1,4 +1,7 @@
-﻿[1.1.0.0]
+﻿[1.2.0.0]
++ เพิ่มฟังก์ชัน Send Test E-Mail
+
+[1.1.0.0]
 + เปลี่ยนฟิลด์เพื่อเก็บในหน่วยนาทีแทนชั่วโมง
 EXEC sp_RENAME '[LV Leave].[Total Days]', 'Total Minutes', 'COLUMN'
 go

@@ -1116,6 +1116,7 @@
     <Content Include="Views\Finger\Exception.cshtml" />
     <Content Include="Views\Attendance\Daily.cshtml" />
     <Content Include="Views\Leave\Calendar.cshtml" />
+    <Content Include="Views\Setting\TestSendMail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LeaveCore\LeaveCore.csproj">
